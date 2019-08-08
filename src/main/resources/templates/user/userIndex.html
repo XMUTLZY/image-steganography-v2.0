@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>图像隐写在线服务平台</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <link rel="shortcut icon" href="#" />
+    <script src="/js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="/js/jquery.session.js"></script>
+    <script src="/js/getUrlParams.js"></script>
+    <script src="template.js-master/template.js-master/template.js"></script>
+</head>
+<body style="text-align: center;">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">图像隐写在线服务平台</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a onclick="show1();">图像隐写</a></li>
+            <li class="layui-nav-item"><a onclick="show2();">信息提取</a></li>
+            <li class="layui-nav-item"><a onclick="show3();">算法描述</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">系统设置</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">主题设置</a></dd>
+                    <dd><a href="">用户须知</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a th:text="${user.accountName}"></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                    <dd><a href="">我的订单</a></dd>
+                    <dd><a href="">我的空间</a></dd>
+                    <dd><a href="/userView/login">退出登录</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 条目中可以是任意内容，如：<img src=""> -->
+<div class="layui-carousel" id="test">
+    <div carousel-item>
+        <div>条目1</div>
+        <div>条目2</div>
+        <div>条目3</div>
+    </div>
+</div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>图像隐写在线服务平台</legend>
+</fieldset>
+
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <!-- 图像隐写 -->
+    <div class="layui-row layui-col-space30 layui-show" id="menu1">
+        <div class="layui-col-md5 layui-col-md-offset1">
+            <div class="left" style="width: 100%;height: 1000px;background: white;" method="post" enctype="multipart/form-data">
+                <div class="left-btn1" style="width: 100%;height: 10%;border-bottom: 1px solid darkgray;">
+                    <input type="file" class="layui-btn" name="test1" id="test1" style="margin: 33px auto;">点击上传您需要处理的图片</input>
+                </div>
+                <div class="left-show" style="width: 100%;height: 50%;border-bottom: 1px solid darkgray;">
+                    <img id="demo1" class="layui-upload-img" style="width: 80%;height: 80%;margin: 50px;float: left">
+                </div>
+                <div class="left-message" style="width: 100%;height: 30%;border-bottom: 1px solid darkgray;">
+                    <label class="1" style="font-size: 30px;background: gray;color:darkgray;width: 100%;height: 20%">你希望做什么</label>
+                    <div class="layui-form-item layui-form-text" style="margin-top: 60px;">
+                        <label class="layui-form-label">藏入信息:</label>
+                        <div class="layui-input-block">
+                            <textarea placeholder="请输入您要藏入的信息" id="inputInfo" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-bnt2" style="width: 100%;height: 10%;">
+                    <button class="layui-btn" id="btn_generate" name="btn_generate" style="margin: 33px auto;">生成藏入信息后的图片</button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md5">
+            <div class="result" style="height: 1000px;width: 100%;background: white;">
+                <div class="right-result1" style="width: 100%;height: 45%;border-bottom: 1px solid darkgray;">
+                    <img id="resultImage1" oncontextmenu="return false;" onselectstart="return false;" style="width: 80%;height: 88%;margin: 25px 50px;float: left">
+                </div>
+                <div class="right-result2" style="width: 100%;height: 45%;border-bottom: 1px solid darkgray;">
+                    <img id="resultImage2" oncontextmenu="return false;" onselectstart="return false;" style="width: 80%;height: 88%;margin: 25px 50px;float: left">
+                </div>
+                <div class="right-btn2" style="width: 100%;height: 10%;">
+                    <button class="layui-btn layui-btn-normal" name="btn_buy" id="btn_buy" style="margin: 33px auto;">购买并下载</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 信息提取 -->
+    <div class="layui-row layui-col-space30 layui-hide" id="menu2">
+
+    </div>
+    <!-- 隐写算法 -->
+    <div class="layui-row layui-col-space30 layui-hide" id="menu3">
+        图像隐写算法描述
+    </div>
+    <!-- 底部 -->
+    <div class="layui-col-md10 layui-col-md-offset1">
+        <div class="layui-collapse" lay-filter="test">
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">注：PSNR指标</h2>
+                <div class="layui-colla-content">
+                    <p>psnr是“Peak Signal to Noise Ratio”的缩写，即峰值信噪比，是一种评价图像的客观标准，它具有局限性，一般是用于最大值信号和背景噪音之间的一个工程项目。PSNR是最普遍，最广泛使用的评鉴画质的客观量测法，不过许多实验结果都显示，PSNR的分数无法和人眼看到的视觉品质完全一致，有可能PSNR较高者看起来反而比PSNR较低者差。这是因为人眼的视觉对于误差的敏感度并不是绝对的，其感知结果会受到许多因素的影响而产生变化（例如：人眼对空间频率较低的对比差异敏感度较高，人眼对亮度对比差异的敏感度较色度高，人眼对一个区域的感知结果会受到其周围邻近区域的影响）。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 隐藏原始图片地址 -->
+    <input type="hidden" name="orginalImage" id="orginalImage">
+
+</div>
+
+<script id="name_temp" type="text/html">
+    <%=phone%>
+</script>
+<script id="logOrre_temp" type="text/html">
+    <a href=<%=link%> onclick="isLogout()"><%=logOrre%></a>
+</script>
+<script src="/layui/layui.all.js"></script>
+<script type="text/javascript" src="/js/userIndex.js"></script>
+<script>
+    /*
+* 图片上传功能
+* */
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,url:'imageUrl'
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+            ,done: function (res) {
+                $("#orginalImage").val(res.url);
+            }
+        });
+    });
+</script>
+</body>
+</html>
