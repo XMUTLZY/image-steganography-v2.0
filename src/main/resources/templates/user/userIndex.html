@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>图像隐写在线服务平台</title>
     <link rel="stylesheet" href="/layui/css/layui.css" media="all">
-    <link rel="shortcut icon" href="#" />
+    <link rel="shortcut icon" href="#"/>
     <script src="/js/jquery/2.0.0/jquery.min.js"></script>
     <script src="/js/jquery.session.js"></script>
     <script src="/js/getUrlParams.js"></script>
@@ -57,12 +57,16 @@
     <!-- 图像隐写 -->
     <div class="layui-row layui-col-space30 layui-show" id="menu1">
         <div class="layui-col-md5 layui-col-md-offset1">
-            <div class="left" style="width: 100%;height: 1000px;background: white;" method="post" enctype="multipart/form-data">
-                <div class="left-btn1" style="width: 100%;height: 10%;border-bottom: 1px solid darkgray;">
-                    <input type="file" class="layui-btn" name="test1" id="test1" style="margin: 33px auto;">点击上传您需要处理的图片</input>
-                </div>
+            <div class="left" style="width: 100%;height: 1000px;background: white;" method="post"
+                 enctype="multipart/form-data">
+                <!--<div class="left-btn1" style="width: 100%;height: 10%;border-bottom: 1px solid darkgray;">-->
+                <!--<input type="file" class="layui-btn" name="test1" id="test1" style="margin: 33px auto;">点击上传您需要处理的图片</input>-->
+                <!--</div>-->
+                <button type="button" class="layui-btn left-btn1" id="image-upload">
+                    <i class="layui-icon">&#xe67c;</i>点击上传您需要处理的图片
+                </button>
                 <div class="left-show" style="width: 100%;height: 50%;border-bottom: 1px solid darkgray;">
-                    <img id="demo1" class="layui-upload-img" style="width: 80%;height: 80%;margin: 50px;float: left">
+                    <img id="original-image" class="layui-upload-img" style="width: 80%;height: 80%;margin: 50px;float: left">
                 </div>
                 <div class="left-message" style="width: 100%;height: 30%;border-bottom: 1px solid darkgray;">
                     <label class="1" style="font-size: 30px;background: gray;color:darkgray;width: 100%;height: 20%">你希望做什么</label>
@@ -74,20 +78,26 @@
                     </div>
                 </div>
                 <div class="left-bnt2" style="width: 100%;height: 10%;">
-                    <button class="layui-btn" id="btn_generate" name="btn_generate" style="margin: 33px auto;">生成藏入信息后的图片</button>
+                    <button class="layui-btn" id="btn_generate" name="btn_generate" style="margin: 33px auto;">
+                        生成藏入信息后的图片
+                    </button>
                 </div>
             </div>
         </div>
         <div class="layui-col-md5">
             <div class="result" style="height: 1000px;width: 100%;background: white;">
                 <div class="right-result1" style="width: 100%;height: 45%;border-bottom: 1px solid darkgray;">
-                    <img id="resultImage1" oncontextmenu="return false;" onselectstart="return false;" style="width: 80%;height: 88%;margin: 25px 50px;float: left">
+                    <img id="resultImage1" oncontextmenu="return false;" onselectstart="return false;"
+                         style="width: 80%;height: 88%;margin: 25px 50px;float: left">
                 </div>
                 <div class="right-result2" style="width: 100%;height: 45%;border-bottom: 1px solid darkgray;">
-                    <img id="resultImage2" oncontextmenu="return false;" onselectstart="return false;" style="width: 80%;height: 88%;margin: 25px 50px;float: left">
+                    <img id="resultImage2" oncontextmenu="return false;" onselectstart="return false;"
+                         style="width: 80%;height: 88%;margin: 25px 50px;float: left">
                 </div>
                 <div class="right-btn2" style="width: 100%;height: 10%;">
-                    <button class="layui-btn layui-btn-normal" name="btn_buy" id="btn_buy" style="margin: 33px auto;">购买并下载</button>
+                    <button class="layui-btn layui-btn-normal" name="btn_buy" id="btn_buy" style="margin: 33px auto;">
+                        购买并下载
+                    </button>
                 </div>
             </div>
         </div>
@@ -106,7 +116,8 @@
             <div class="layui-colla-item">
                 <h2 class="layui-colla-title">注：PSNR指标</h2>
                 <div class="layui-colla-content">
-                    <p>psnr是“Peak Signal to Noise Ratio”的缩写，即峰值信噪比，是一种评价图像的客观标准，它具有局限性，一般是用于最大值信号和背景噪音之间的一个工程项目。PSNR是最普遍，最广泛使用的评鉴画质的客观量测法，不过许多实验结果都显示，PSNR的分数无法和人眼看到的视觉品质完全一致，有可能PSNR较高者看起来反而比PSNR较低者差。这是因为人眼的视觉对于误差的敏感度并不是绝对的，其感知结果会受到许多因素的影响而产生变化（例如：人眼对空间频率较低的对比差异敏感度较高，人眼对亮度对比差异的敏感度较色度高，人眼对一个区域的感知结果会受到其周围邻近区域的影响）。</p>
+                    <p>psnr是“Peak Signal to Noise
+                        Ratio”的缩写，即峰值信噪比，是一种评价图像的客观标准，它具有局限性，一般是用于最大值信号和背景噪音之间的一个工程项目。PSNR是最普遍，最广泛使用的评鉴画质的客观量测法，不过许多实验结果都显示，PSNR的分数无法和人眼看到的视觉品质完全一致，有可能PSNR较高者看起来反而比PSNR较低者差。这是因为人眼的视觉对于误差的敏感度并不是绝对的，其感知结果会受到许多因素的影响而产生变化（例如：人眼对空间频率较低的对比差异敏感度较高，人眼对亮度对比差异的敏感度较色度高，人眼对一个区域的感知结果会受到其周围邻近区域的影响）。</p>
                 </div>
             </div>
         </div>
@@ -125,24 +136,21 @@
 <script src="/layui/layui.all.js"></script>
 <script type="text/javascript" src="/js/userIndex.js"></script>
 <script>
-    /*
-* 图片上传功能
-* */
-    layui.use('upload', function(){
+    layui.use('upload', function () {
         var $ = layui.jquery
-            ,upload = layui.upload;
-
+            , upload = layui.upload;
         //普通图片上传
-        var uploadInst = upload.render({
-            elem: '#test1'
-            ,url:'imageUrl'
-            ,before: function(obj){
+        upload.render({
+            elem: '#image-upload'
+            , url: 'imageUrl'
+            , accept: 'images'
+            , before: function (obj) {
                 //预读本地文件示例，不支持ie8
-                obj.preview(function(index, file, result){
-                    $('#demo1').attr('src', result); //图片链接（base64）
+                obj.preview(function (index, file, result) {
+                    $('#original-image').attr('src', result); //图片链接（base64）
                 });
             }
-            ,done: function (res) {
+            , done: function (res) {
                 $("#orginalImage").val(res.url);
             }
         });

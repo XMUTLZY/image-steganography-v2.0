@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import qeeka.jake.imagesteganography.pojo.user.User;
 import qeeka.jake.imagesteganography.service.user.UserService;
 import redis.clients.jedis.Jedis;
-
 import javax.servlet.http.HttpServletRequest;
-
 
 @Controller
 @RequestMapping("/user")

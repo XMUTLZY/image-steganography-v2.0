@@ -1,6 +1,5 @@
 package qeeka.jake.imagesteganography.web.controller.admin;
 
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qeeka.jake.imagesteganography.pojo.admin.Admin;
 import qeeka.jake.imagesteganography.service.admin.AdminService;
-
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -27,8 +25,8 @@ public class AdminController {
     @ResponseBody
     public String login(@RequestBody Admin admin, HttpServletRequest request) {
         if (adminService.getAdmin(admin) != null) {
-            String encodePassword = new Md5Hash(admin.getPassword()).toString();
-            if (encodePassword.equals(adminService.getAdmin(admin).getPassword()) && adminService.getAdmin(admin).getStatus() == 1) {
+            //String encodePassword = new Md5Hash(admin.getPassword()).toString();
+            if (admin.getPassword().equals(adminService.getAdmin(admin).getPassword()) && adminService.getAdmin(admin).getStatus() == 1) {
                 request.getSession().setAttribute("admin", adminService.getAdmin(admin));
                 return "true";
             }
