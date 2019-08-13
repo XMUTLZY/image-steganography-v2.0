@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/layui/css/layui.css">
     <script src="/js/jquery/2.0.0/jquery.min.js"></script>
     <script src="/js/jquery.session.js"></script>
-    <script src="template.js-master/template.js-master/template.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -46,7 +45,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">用户服务</a>
                     <dl class="layui-nav-child">
-                        <dd><a onclick="user1();">用户列表</a></dd>
+                        <dd><a onclick="userList();">用户列表</a></dd>
                         <dd><a onclick="user2();">所有订单</a></dd>
                         <dd><a href="javascript:;">用户反馈</a></dd>
                     </dl>
@@ -67,7 +66,7 @@
 
     <div class="layui-body">
         <!-- 用户列表 -->
-        <div class="layui-hide" style="padding: 15px;" id="user1">
+        <div class="layui-hide" style="padding: 15px;" id="user-list">
             <div class="layui-form" action="userselect">
                 邮箱
                 <div class="layui-inline">
@@ -86,7 +85,7 @@
                     <i class="layui-icon">&#xe608;</i> 添加用户
                 </button>
             </div>
-            <table id="demo" lay-filter="user1"></table>
+            <table id="user-list-table"></table>
             <script type="text/html" id="operate">
                 <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
                 <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
@@ -152,19 +151,12 @@
             </script>
         </div>
     </div>
-
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         © xmut - 底部固定区域
     </div>
 </div>
-<script id="name_temp" type="text/html">
-    <%=phone%>
-</script>
-<script id="logOrre_temp" type="text/html">
-    <a href=<%=link%> onclick="isLogout()"><%=logOrre%></a>
-</script>
 <script src="/layui/layui.all.js"></script>
-<script type="text/javascript" src="/js/adminIndexJs.js"></script>
+<script type="text/javascript" src="/js/admin/adminIndexJs.js"></script>
 </body>
 </html>

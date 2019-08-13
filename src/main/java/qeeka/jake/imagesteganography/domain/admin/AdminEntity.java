@@ -1,7 +1,6 @@
 package qeeka.jake.imagesteganography.domain.admin;
 
 import qeeka.jake.imagesteganography.domain.admin.composite.AdminPrimaryKey;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +20,6 @@ public class AdminEntity implements Serializable {
     @GeneratedValue
     @Column(name = "id")
     private Integer id;
-    @Id
     @Column(name = "user_name")
     private String userName;
     @Id

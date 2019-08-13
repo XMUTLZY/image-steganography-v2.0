@@ -1,87 +1,22 @@
-//JavaScript代码区域
-layui.use('element', function () {
-    var element = layui.element;
-    /*
-     * 登录逻辑实现
-     * */
-    phone = '未登录';
-    // phone = window.location.href;
-    // var twodata = phone.split("="); //截取 url中的“=”,获得“=”后面的参数
-    // phone = decodeURI(twodata[1]); //decodeURI解码
-    phone = $.session.get("adminPhone");
-    if (phone == "undefined"||phone == null) {
-        logOrre = '登录';
-        phone = '未登录';
-        link = 'adminLogin.html';
-        layer.msg('您还未登录哦');
-    } else {
-        logOrre = '退出登录';
-        link = 'javascript:;';
-        //获取该管理员的用户名
-        $.ajax({
-            url: 'getName',
-            type: 'get',
-            data: {
-                phone: phone
-            },
-            async: false,
-            dataType: 'html',
-            success: function (result) {
-                phone = result;
-                layer.msg('欢迎您' + phone);
-            }
-        })
-    }
-    /*
-    * 修改登录之后的用户名
-    * */
-    var data1 = {
-        phone: phone
-    }
-    var html = template(document.getElementById('name_temp').innerHTML, data1);
-    document.getElementById('username').innerHTML = html;
-    /*
-    * 修改登录之后的"登录"按钮变更
-    * */
-    var data2 = {
-        logOrre: logOrre
-    }
-    var html = template(document.getElementById('logOrre_temp').innerHTML, data2);
-    document.getElementById('loginOrRegister').innerHTML = html;
-});
-
-/*
- * 退出登录
- * */
-function isLogout() {
-    if (logOrre == '退出登录') {
-        logOrre = '登录';
-        phone = '未登录';
-        link = 'adminLogin.html';
-        $.session.remove("adminPhone")
-        window.location.href = "adminLogin.html";
-    }
-}
-
 /*
  * 显示用户列表
  * */
-function user1() {
+function userList() {
     layui.use('table', function () {
         var table = layui.table;
-        $("#user1").removeClass('layui-hide');
+        $("#user-list").removeClass('layui-hide');
         $("#admin1").addClass('layui-hide');
         $("#user2").addClass('layui-hide');
         //第一个实例
         table.render({
-            elem: '#demo'
+            elem: '#user-list-table'
             , height: 500
-            , url: 'userList' //数据接口
+            , url: '/admin/user/getAllUserList'
             , page: true //开启分页
             , cols: [[ //表头
                 {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
-                , {field: 'phone', title: '手机号', width: 120}
-                , {field: 'code', title: '验证码', width: 100}
+                , {field: 'mobile', title: '手机号', width: 120}
+                , {field: 'accountName', title: '验证码', width: 100}
                 , {field: 'password', title: '密码', width: 150}
                 , {field: 'name', title: '用户名', width: 100}
                 , {field: 'sex', title: '性别', width: 70, sort: true}
@@ -224,7 +159,7 @@ function userSearch() {
                 , {field: 'company', title: '单位', width: 180, sort: true}
                 , {field: 'career', title: '职业', width: 80, sort: true}
                 , {field: 'wealth', title: '积分', width: 80, sort: true}
-                , {field: 'operate', title: '操作', width: 147, fixed: 'right',toolbar: "#operate"}
+                , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#operate"}
             ]]
         });
     });
@@ -304,12 +239,12 @@ function updateUser1() {
             password: $("#showpassword").val(),
             name: $("#showname").val(),
             city: $("#showcity").val(),
-            email:$("#showemail").val(),
-            company:$("#showcompany").val(),
-            career:$("#showcareer").val(),
-            sex:$("#showsex").val()
+            email: $("#showemail").val(),
+            company: $("#showcompany").val(),
+            career: $("#showcareer").val(),
+            sex: $("#showsex").val()
         },
-        success:function (result) {
+        success: function (result) {
             layer.msg("成功修改用户信息");
             user1();
         }
@@ -334,9 +269,11 @@ function user2() {
             , cols: [[ //表头
                 {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
                 , {field: 'phone', title: '手机号', width: 120}
-                , {field: 'orginalImage', title: '原始图片', width: 100,templet:function (d) {
-                        return '<div onclick="show_img(this)" ><img src="'+d.orginalImage+'" alt="" width="50px" height="50px"></a></div>';
-                    }}
+                , {
+                    field: 'orginalImage', title: '原始图片', width: 100, templet: function (d) {
+                        return '<div onclick="show_img(this)" ><img src="' + d.orginalImage + '" alt="" width="50px" height="50px"></a></div>';
+                    }
+                }
                 , {field: 'inputInfo', title: '藏入信息', width: 110}
                 , {field: 'money', title: '已付金额', width: 105}
                 , {field: 'pay_time', title: '订单号', width: 145}
@@ -376,6 +313,7 @@ function admin1() {
         });
     });
 }
+
 /*
 * 站长添加管理员信息
 * */

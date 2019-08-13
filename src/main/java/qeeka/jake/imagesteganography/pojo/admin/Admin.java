@@ -1,5 +1,7 @@
 package qeeka.jake.imagesteganography.pojo.admin;
 
+import qeeka.jake.imagesteganography.constants.AdminConstant;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,9 +12,9 @@ public class Admin implements Serializable {
     private String password;
     private String encrypt;
     private String realName;
-    private Integer roleId;
+    private Integer roleId = AdminConstant.ADMIN_ROLE_LOW_ID;
     private String email;
-    private Integer status;
+    private Integer status = AdminConstant.ADMIN_STATUS_PASS;
     private String portrait;
     private Date createTime;
     private Date updateTime;

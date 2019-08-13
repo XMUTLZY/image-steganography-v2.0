@@ -1,5 +1,7 @@
 package qeeka.jake.imagesteganography.pojo.user;
 
+import qeeka.jake.imagesteganography.constants.UserConstant;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,7 +15,7 @@ public class User implements Serializable {
     private String encrypt;
     private String realName;
     private String city;
-    private Integer status = 1;
+    private Integer status = UserConstant.USER_STATUS_PASS;
     private String email;
     private String company;
     private String career;

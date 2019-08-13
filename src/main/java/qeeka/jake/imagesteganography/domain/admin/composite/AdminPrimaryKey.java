@@ -4,6 +4,5 @@ import java.io.Serializable;
 
 public class AdminPrimaryKey implements Serializable {
     private Integer id;
-    private String userName;
     private String mobile;
 }

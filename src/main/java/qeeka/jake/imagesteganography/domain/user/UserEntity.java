@@ -1,5 +1,6 @@
 package qeeka.jake.imagesteganography.domain.user;
 
+import qeeka.jake.imagesteganography.constants.UserConstant;
 import qeeka.jake.imagesteganography.domain.user.composite.UserPrimaryKey;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +36,7 @@ public class UserEntity implements Serializable {
     @Column(name = "city")
     private String city;
     @Column(name = "status")
-    private Integer status = 1;
+    private Integer status;
     @Column(name = "email")
     private String email;
     @Column(name = "company")
