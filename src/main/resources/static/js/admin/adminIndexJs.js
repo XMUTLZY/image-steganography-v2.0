@@ -15,110 +15,101 @@ function userList() {
             , page: true //开启分页
             , cols: [[ //表头
                 {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
-                , {field: 'mobile', title: '手机号', width: 120}
-                , {field: 'accountName', title: '验证码', width: 100}
-                , {field: 'password', title: '密码', width: 150}
-                , {field: 'name', title: '用户名', width: 100}
-                , {field: 'sex', title: '性别', width: 70, sort: true}
-                , {field: 'city', title: '城市', width: 120}
-                , {field: 'email', title: '邮箱', width: 180}
-                , {field: 'company', title: '单位', width: 180, sort: true}
-                , {field: 'career', title: '职业', width: 80, sort: true}
-                , {field: 'wealth', title: '积分', width: 80, sort: true}
-                , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#operate"}
+                , {field: 'mobile', title: '手机', width: 120}
+                , {field: 'accountName', title: '用户名', width: 100}
+                , {field: 'realName', title: '姓名', width: 100}
+                , {field: 'city', title: '城市', width: 100}
+                , {field: 'status', title: '状态', width: 70, sort: true}
+                , {field: 'email', title: '邮箱', width: 130}
+                , {field: 'company', title: '单位', width: 180}
+                , {field: 'career', title: '职业', width: 110}
+                , {field: 'portrait', title: '头像', width: 100}
+                , {field: 'createTime', title: '创建时间', width: 180, sort: true}
+                , {field: 'updateTime', title: '更新时间', width: 180, sort: true}
+                , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#user-list-table-operate"}
             ]]
         });
-        /*
-        * 监听用户列表的编辑和删除按钮
-        * */
-        table.on('tool(user1)', function (obj) {
+        table.on('tool(user-list-table-fit)', function (obj) {
             if (obj.event === 'del') {
                 layer.confirm('确定删除该用户？', function (index) {
+                    var dataRequest = {};
+                    dataRequest.mobile = obj.data.mobile;
                     $.ajax({
-                        url: 'deleteUser',
-                        data: {
-                            id: obj.data.id
-                        },
-                        async: false,
+                        url: '/admin/user/deleteUser',
+                        data: JSON.stringify(dataRequest),
+                        contentType: 'application/json',
                         type: 'post',
                         success: function () {
                             layer.msg("删除成功");
-                            user1();
+                            userList();
                         }
                     })
                 })
             } else {
+                var data = {};
+                data.mobile = obj.data.mobile;
                 $.ajax({
-                    url: 'showUser',
-                    data: {
-                        phone: obj.data.phone,
-                    },
+                    url: '/admin/user/showUser',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
                     type: 'post',
-                    async: false,
                     success: function (result) {
-                        var string = JSON.stringify(result);//将json转化成字符串
-                        var jsonlist = eval('(' + string + ')');//解析json
+                        var jsonlist = eval('(' + result + ')');//解析json
                         layer.open({
                             type: 1,
                             title: '修改用户信息',
                             shift: 7,
                             area: 'auto',
-                            maxWidth: 600,
-                            maxHeight: 800,
+                            maxWidth: 800,
+                            maxHeight: 1200,
                             shadeClose: true,
                             content: "<div class='layui-form'>\n" +
-                                "<div class=\"layui-form-item\">\n" +
-                                "       <label class=\"layui-form-label\">手机号</label>\n" +
-                                "       <div class=\"layui-input-inline\">\n" +
-                                "           <input type=\"phone\" id=\"showphone\" disabled=\"disabled\" required lay-verify=\"required\" value=" + jsonlist.phone + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                "       </div>\n" +
-                                "       <div class=\"layui-form-mid layui-word-aux\" style='color: red;'>无法更改</div>\n" +
-                                "      </div>" +
                                 "  <div class=\"layui-form-item\">\n" +
-                                "    <label class=\"layui-form-label\">密码</label>\n" +
-                                "    <div class=\"layui-input-inline\">\n" +
-                                "      <input type=\"text\" id=\"showpassword\" required lay-verify=\"required\" value=" + jsonlist.password + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                "    </div>\n" +
-                                "  </div>" +
+                                "     <label class=\"layui-form-label\">手机</label>\n" +
+                                "     <div class=\"layui-input-inline\">\n" +
+                                "        <input type=\"phone\" id=\"show-mobile\" disabled=\"disabled\" required lay-verify=\"required\" value=" + jsonlist.mobile + " autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "     </div>\n" +
+                                "     <div class=\"layui-form-mid layui-word-aux\" style='color: red;'>无法更改</div>\n" +
+                                "   </div>" +
                                 "  <div class=\"layui-form-item\">\n" +
                                 "    <label class=\"layui-form-label\">用户名</label>\n" +
                                 "    <div class=\"layui-input-inline\">\n" +
-                                "      <input type=\"name\" id=\"showname\" required lay-verify=\"required\" value=" + jsonlist.name + " autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "      <input type=\"name\" id=\"show-account-name\" required lay-verify=\"required\" value=" + jsonlist.accountName + " autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "    </div>\n" +
+                                "  </div>" +
+                                "  <div class=\"layui-form-item\">\n" +
+                                "    <label class=\"layui-form-label\">姓名</label>\n" +
+                                "    <div class=\"layui-input-inline\">\n" +
+                                "      <input type=\"name\" id=\"show-real-name\" required lay-verify=\"required\" value=" + jsonlist.realName + " autocomplete=\"off\" class=\"layui-input\">\n" +
                                 "    </div>\n" +
                                 "  </div>" +
                                 "  <div class=\"layui-form-item\">\n" +
                                 "    <label class=\"layui-form-label\">城市</label>\n" +
                                 "    <div class=\"layui-input-inline\">\n" +
-                                "      <input type=\"name\" id=\"showcity\" required lay-verify=\"required\" value=" + jsonlist.city + " autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "      <input type=\"name\" id=\"show-city\" required lay-verify=\"required\" value=" + jsonlist.city + " autocomplete=\"off\" class=\"layui-input\">\n" +
                                 "    </div>\n" +
                                 "  </div>" +
                                 "  <div class=\"layui-form-item\">\n" +
                                 "    <label class=\"layui-form-label\">邮箱</label>\n" +
                                 "    <div class=\"layui-input-inline\">\n" +
-                                "      <input type=\"email\" id=\"showemail\" required lay-verify=\"required\" value=" + jsonlist.email + " autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "      <input type=\"email\" id=\"show-email\" required lay-verify=\"required\" value=" + jsonlist.email + " autocomplete=\"off\" class=\"layui-input\">\n" +
                                 "    </div>\n" +
                                 "  </div>" +
                                 "  <div class=\"layui-form-item\">\n" +
                                 "    <label class=\"layui-form-label\">单位</label>\n" +
                                 "    <div class=\"layui-input-inline\">\n" +
-                                "      <input type=\"name\" id=\"showcompany\" required lay-verify=\"required\" value=" + jsonlist.company + " autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "      <input type=\"name\" id=\"show-company\" required lay-verify=\"required\" value=" + jsonlist.company + " autocomplete=\"off\" class=\"layui-input\">\n" +
                                 "    </div>\n" +
                                 "  </div>" +
                                 "  <div class=\"layui-form-item\">\n" +
                                 "    <label class=\"layui-form-label\">职业</label>\n" +
                                 "    <div class=\"layui-input-inline\">\n" +
-                                "      <input type=\"name\" id=\"showcareer\" required lay-verify=\"required\" value=" + jsonlist.career + " autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "      <input type=\"name\" id=\"show-career\" required lay-verify=\"required\" value=" + jsonlist.career + " autocomplete=\"off\" class=\"layui-input\">\n" +
                                 "    </div>\n" +
                                 "  </div>" +
-                                "  <div class='layui-form-item'>\n" +
-                                "    <label class='layui-form-label'>性别</label>\n" +
-                                "    <div class='layui-inline'>\n" +
-                                "      <input type=\"name\" id=\"showsex\" required lay-verify=\"required\" value=" + jsonlist.sex + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                "    </div>\n" +
-                                "  </div>\n" +
                                 "  <div class=\"layui-form-item\">\n" +
                                 "    <div class=\"layui-input-inline\">\n" +
-                                "     <button style='margin-left: 150px;' type='button' class='layui-btn' onclick='updateUser1()'>提交</button></div>\n" +
+                                "     <button style='margin-left: 150px;' type='button' class='layui-btn' onclick='updateUserBtn()'>提交</button></div>\n" +
                                 "    </div>\n" +
                                 "  </div>\n" +
                                 "</div>\n"
@@ -128,6 +119,31 @@ function userList() {
             }
         })
     });
+}
+
+/*
+* 监听编辑提示框的提交按钮
+* */
+function updateUserBtn() {
+    layer.close(layer.index);
+    var data = {};
+    data.mobile = $("#show-mobile").val();
+    data.accountName = $("#show-account-name").val();
+    data.realName = $("#show-real-name").val();
+    data.city = $("#show-city").val();
+    data.email = $("#show-email").val();
+    data.company = $("#show-company").val();
+    data.career = $("#show-career").val();
+    $.ajax({
+        url: '/admin/user/updateUser',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        type: 'post',
+        success: function (result) {
+            layer.msg(result.msg);
+            userList();
+        }
+    })
 }
 
 /*
@@ -227,29 +243,6 @@ function subUser1() {
     })
 }
 
-/*
-* 监听编辑提示框的提交按钮
-* */
-function updateUser1() {
-    layer.close(layer.index);
-    $.ajax({
-        url: 'updateUser',
-        data: {
-            phone: $("#showphone").val(),
-            password: $("#showpassword").val(),
-            name: $("#showname").val(),
-            city: $("#showcity").val(),
-            email: $("#showemail").val(),
-            company: $("#showcompany").val(),
-            career: $("#showcareer").val(),
-            sex: $("#showsex").val()
-        },
-        success: function (result) {
-            layer.msg("成功修改用户信息");
-            user1();
-        }
-    })
-}
 
 /*
 * 显示所有订单信息

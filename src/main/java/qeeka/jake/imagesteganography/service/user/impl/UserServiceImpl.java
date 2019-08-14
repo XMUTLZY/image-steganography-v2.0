@@ -21,9 +21,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(User user) {
-        if (userRepository.findByMobile(user.getMobile()) != null) {
+        UserEntity userEntity = userRepository.findByMobile(user.getMobile());
+        if (userEntity != null) {
             User user1 = new User();
-            BeanUtils.copyProperties(userRepository.findByMobile(user.getMobile()), user1);
+            BeanUtils.copyProperties(userEntity, user1);
             return user1;
         }
         return null;
