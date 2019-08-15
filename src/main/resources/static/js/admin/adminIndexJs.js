@@ -160,7 +160,13 @@ function userSearch() {
         table.render({
             elem: '#user-list-table'
             , height: 500
-            , where: JSON.stringify(data)
+            , where: {
+                mobile:data.mobile,
+                company:data.company,
+                accountName:data.accountName
+            }
+            , method: 'post'
+            , contentType: 'application/json'
             , url: '/admin/user/findUser'
             , page: true //开启分页
             , cols: [[ //表头

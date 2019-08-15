@@ -27,7 +27,7 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse login(@RequestBody Admin admin, HttpServletRequest request) {
         BaseResponse response = new BaseResponse();
@@ -90,7 +90,7 @@ public class AdminController {
         return response;
     }
 
-    @RequestMapping(value = "/user/findUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/findUser", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse findUser(@RequestBody User user) {
         BaseResponse response = new BaseResponse();
