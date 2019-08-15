@@ -68,17 +68,17 @@
         <!-- 用户列表 -->
         <div class="layui-hide" style="padding: 15px;" id="user-list">
             <div class="layui-form" action="userselect">
-                邮箱
+                手机号
                 <div class="layui-inline">
-                    <input class="layui-input" name="user1email" id="user1email" autocomplete="off" onkeyup="userSearch();">
+                    <input class="layui-input" id="search-mobile" autocomplete="off" onkeyup="userSearch();">
+                </div>
+                单位
+                <div class="layui-inline">
+                    <input class="layui-input" id="search-company" autocomplete="off" onkeyup="userSearch();">
                 </div>
                 用户名
                 <div class="layui-inline">
-                    <input class="layui-input" name="user1name" id="user1name" autocomplete="off" onkeyup="userSearch();">
-                </div>
-                手机号
-                <div class="layui-inline">
-                    <input class="layui-input" name="user1phone" id="user1phone" autocomplete="off" onkeyup="userSearch();">
+                    <input class="layui-input" id="search-account-name" autocomplete="off" onkeyup="userSearch();">
                 </div>
                 <button class="layui-btn" data-type="reload" onclick="userSearch();">搜索</button>
                 <button class="layui-btn" onclick="addUser1();">

@@ -10,7 +10,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             type: 'post',
             success: function (result) {
-                if (result == "true") {
+                if (result.msg == "success") {
                     setTimeout(function () {
                         location.href = "/adminView/index";
                     },1000)

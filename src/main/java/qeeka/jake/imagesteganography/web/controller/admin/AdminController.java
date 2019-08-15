@@ -3,7 +3,6 @@ package qeeka.jake.imagesteganography.web.controller.admin;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,17 +29,19 @@ public class AdminController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    public String login(@RequestBody Admin admin, HttpServletRequest request) {
+    public BaseResponse login(@RequestBody Admin admin, HttpServletRequest request) {
         BaseResponse response = new BaseResponse();
         if (adminService.getAdmin(admin) != null) {
             String encrypt = adminService.getAdmin(admin).getEncrypt();//获取盐
             String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, admin.getPassword(), encrypt, AdminConstant.ENCRYPTION_TIMES).toString();
             if (encodePassword.equals(adminService.getAdmin(admin).getPassword()) && adminService.getAdmin(admin).getStatus() == AdminConstant.ADMIN_STATUS_PASS) {
                 request.getSession().setAttribute("admin", adminService.getAdmin(admin));
-                return "true";
+                response.setMsg("success");
+                return response;
             }
         }
-        return "false";
+        response.setMsg("failed");
+        return response;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -86,6 +87,15 @@ public class AdminController {
         BaseResponse response = new BaseResponse();
         userService.saveUser(setUser(user));
         response.setMsg("用户信息修改成功!");
+        return response;
+    }
+
+    @RequestMapping(value = "/user/findUser", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse findUser(@RequestBody User user) {
+        BaseResponse response = new BaseResponse();
+        response.setMsg("success");
+        response.setData(userService.findUser(user));
         return response;
     }
 

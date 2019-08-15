@@ -43,6 +43,12 @@ public class UserServiceImpl implements UserService {
         return convertToUserList(userRepository.findAll());
     }
 
+    @Override
+    public List<User> findUser(User user) {
+        List<UserEntity> userEntityList = userRepository.findUser(user.getMobile(), user.getCompany(), user.getAccountName());
+        return convertToUserList(userEntityList);
+    }
+
     private List<User> convertToUserList(List<UserEntity> userEntityList) {
         if (userEntityList == null || userEntityList.isEmpty())
             return null;

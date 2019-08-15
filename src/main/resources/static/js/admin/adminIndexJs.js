@@ -150,32 +150,33 @@ function updateUserBtn() {
 * 用户查询
 * */
 function userSearch() {
+    var data = {};
+    data.mobile = $("#search-mobile").val();
+    data.company = $("#search-company").val();
+    data.accountName = $("#search-account-name").val();
     layui.use('table', function () {
         var table = layui.table;
         //第一个实例
         table.render({
-            elem: '#demo'
+            elem: '#user-list-table'
             , height: 500
-            , where: {
-                email: $("#user1email").val(),
-                name: $("#user1name").val(),
-                phone: $("#user1phone").val()
-            }
-            , url: 'getUser' //数据接口
+            , where: JSON.stringify(data)
+            , url: '/admin/user/findUser'
             , page: true //开启分页
             , cols: [[ //表头
                 {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
-                , {field: 'phone', title: '手机号', width: 120}
-                , {field: 'code', title: '验证码', width: 100}
-                , {field: 'password', title: '密码', width: 150}
-                , {field: 'name', title: '用户名', width: 100}
-                , {field: 'sex', title: '性别', width: 70, sort: true}
-                , {field: 'city', title: '城市', width: 120}
-                , {field: 'email', title: '邮箱', width: 180}
-                , {field: 'company', title: '单位', width: 180, sort: true}
-                , {field: 'career', title: '职业', width: 80, sort: true}
-                , {field: 'wealth', title: '积分', width: 80, sort: true}
-                , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#operate"}
+                , {field: 'mobile', title: '手机', width: 120}
+                , {field: 'accountName', title: '用户名', width: 100}
+                , {field: 'realName', title: '姓名', width: 100}
+                , {field: 'city', title: '城市', width: 100}
+                , {field: 'status', title: '状态', width: 70, sort: true}
+                , {field: 'email', title: '邮箱', width: 130}
+                , {field: 'company', title: '单位', width: 180}
+                , {field: 'career', title: '职业', width: 110}
+                , {field: 'portrait', title: '头像', width: 100}
+                , {field: 'createTime', title: '创建时间', width: 180, sort: true}
+                , {field: 'updateTime', title: '更新时间', width: 180, sort: true}
+                , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#user-list-table-operate"}
             ]]
         });
     });
