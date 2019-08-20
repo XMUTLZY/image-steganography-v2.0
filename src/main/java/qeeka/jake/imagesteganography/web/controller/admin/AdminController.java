@@ -17,6 +17,7 @@ import qeeka.jake.imagesteganography.pojo.user.User;
 import qeeka.jake.imagesteganography.service.admin.AdminService;
 import qeeka.jake.imagesteganography.service.user.UserService;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -72,6 +73,7 @@ public class AdminController {
     public void deleteUser(@RequestBody User user) {
         User user1 = userService.getUser(user);
         user1.setStatus(UserConstant.USER_STATUS_NOPASS);
+        user1.setUpdateTime(new Date());
         userService.saveUser(user1);
     }
 
@@ -99,6 +101,14 @@ public class AdminController {
         return response;
     }
 
+    @RequestMapping(value = "/user/addUser", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse addUser(@RequestBody User user) {
+        BaseResponse response = userService.saveUser(user);
+        response.setMsg("SUCCESS");
+        return response;
+    }
+
     private User setUser(User user) {
         User user1 = userService.getUser(user);
         user1.setAccountName(user.getAccountName());
@@ -107,6 +117,7 @@ public class AdminController {
         user1.setEmail(user.getEmail());
         user1.setCompany(user.getCompany());
         user1.setCareer(user.getCareer());
+        user1.setUpdateTime(new Date());
         return user1;
     }
 }

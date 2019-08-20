@@ -1,14 +1,19 @@
 package qeeka.jake.imagesteganography.service.user.impl;
 
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import qeeka.jake.imagesteganography.constants.UserConstant;
 import qeeka.jake.imagesteganography.domain.user.UserEntity;
+import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.pojo.user.User;
 import qeeka.jake.imagesteganography.repository.user.UserRepository;
 import qeeka.jake.imagesteganography.service.user.UserService;
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,10 +36,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user) {
+    public BaseResponse saveUser(User user) {
+        BaseResponse response = new BaseResponse();
         UserEntity entity = new UserEntity();
         BeanUtils.copyProperties(user, entity);
+        String encrypt = new SecureRandomNumberGenerator().nextBytes().toString();//盐
+        String encodePassword = new SimpleHash(UserConstant.ENCRYPTION_TYPE, user.getPassword(), encrypt, UserConstant.ENCRYPTION_TIMES).toString();
+        entity.setPassword(encodePassword);
+        entity.setEncrypt(encrypt);
+        entity.setCreateTime(new Date());
         userRepository.save(entity);
+        return response;
         //userRedisService.put(user.getRedisKey(), entity, -1);
     }
 

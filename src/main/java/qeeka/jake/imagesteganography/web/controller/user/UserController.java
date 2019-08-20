@@ -1,6 +1,5 @@
 package qeeka.jake.imagesteganography.web.controller.user;
 
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qeeka.jake.imagesteganography.constants.UserConstant;
+import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.pojo.user.User;
 import qeeka.jake.imagesteganography.service.user.UserService;
 import redis.clients.jedis.Jedis;
@@ -45,16 +45,15 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public String registerUser(@RequestBody User user, HttpServletRequest request) {
+    public BaseResponse registerUser(@RequestBody User user, HttpServletRequest request) {
         Jedis jedis = new Jedis("localhost");
+        BaseResponse response = new BaseResponse();
         if(jedis.get("code").equals(String.valueOf(user.getCode()))) {
-            String encrypt = new SecureRandomNumberGenerator().nextBytes().toString();//盐
-            String encodePassword = new SimpleHash(UserConstant.ENCRYPTION_TYPE, user.getPassword(), encrypt, UserConstant.ENCRYPTION_TIMES).toString();
-            user.setPassword(encodePassword);
-            user.setEncrypt(encrypt);
-            userService.saveUser(user);
-            return "true";
+            response = userService.saveUser(user);
+            response.setMsg("SUCCESS");
+            return response;
         }
-        return "false";
+        response.setMsg("FAILED");
+        return response;
     }
 }

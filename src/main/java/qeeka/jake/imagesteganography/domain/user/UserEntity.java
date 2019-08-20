@@ -1,6 +1,5 @@
 package qeeka.jake.imagesteganography.domain.user;
 
-import qeeka.jake.imagesteganography.constants.UserConstant;
 import qeeka.jake.imagesteganography.domain.user.composite.UserPrimaryKey;
 import javax.persistence.Column;
 import javax.persistence.Entity;

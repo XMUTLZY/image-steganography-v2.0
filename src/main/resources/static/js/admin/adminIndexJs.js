@@ -161,9 +161,9 @@ function userSearch() {
             elem: '#user-list-table'
             , height: 500
             , where: {
-                mobile:data.mobile,
-                company:data.company,
-                accountName:data.accountName
+                mobile: $("#search-mobile").val(),
+                company: $("#search-company").val(),
+                accountName: $("#search-account-name").val()
             }
             , method: 'post'
             , contentType: 'application/json'
@@ -234,18 +234,25 @@ function addUser1() {
 * */
 function subUser1() {
     layer.close(layer.index);
+    var data = {};
+    data.mobile = $("#addphone").val();
+    data.password = $("#addpassword").val();
+    data.accountName = $("#addname").val()
     $.ajax({
-        url: 'subUser',
+        url: '/admin/user/addUser',
         type: 'post',
-        data: {
-            phone: $("#addphone").val(),
-            password: $("#addpassword").val(),
-            name: $("#addname").val()
-        },
-        dataType: 'html',
+        data: JSON.stringify(data) ,
+        contentType: 'application/json' ,
         success: function (result) {
-            layer.msg('添加用户成功');
-            user1();
+            if (result.msg == "SUCCESS"){
+                layer.msg('添加用户成功');
+                userList();
+                return;
+            }
+            layer.msg('添加用户失败');
+        },
+        error: function () {
+            layer.msg('数据异常');
         }
     })
 }

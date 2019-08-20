@@ -96,7 +96,7 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 type: 'post',
                 success:function (result) {
-                    if(result=="true"){
+                    if(result.msg == "SUCCESS"){
                         layer.msg('注册成功');
                         setTimeout(function () {
                             location.href = "/userView/login";
