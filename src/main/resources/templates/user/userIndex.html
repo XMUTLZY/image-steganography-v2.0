@@ -126,13 +126,6 @@
     <input type="hidden" name="orginalImage" id="orginalImage">
 
 </div>
-
-<script id="name_temp" type="text/html">
-    <%=phone%>
-</script>
-<script id="logOrre_temp" type="text/html">
-    <a href=<%=link%> onclick="isLogout()"><%=logOrre%></a>
-</script>
 <script src="/layui/layui.all.js"></script>
 <script type="text/javascript" src="/js/userIndex.js"></script>
 <script>
@@ -142,16 +135,18 @@
         //普通图片上传
         upload.render({
             elem: '#image-upload'
-            , url: 'imageUrl'
+            , url: '/upload/image'
             , accept: 'images'
             , before: function (obj) {
-                //预读本地文件示例，不支持ie8
-                obj.preview(function (index, file, result) {
-                    $('#original-image').attr('src', result); //图片链接（base64）
-                });
+                layer.load();
             }
             , done: function (res) {
-                $("#orginalImage").val(res.url);
+                console.log(res);
+                layer.closeAll('loading');
+                $("#original-image").attr('src', res.url);
+            }
+            , error: function (index, upload) {
+                layer.msg("错误");
             }
         });
     });

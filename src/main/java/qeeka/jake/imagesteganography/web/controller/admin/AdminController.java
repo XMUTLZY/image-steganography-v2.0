@@ -27,6 +27,7 @@ public class AdminController {
     @Autowired
     UserService userService;
 
+    //登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse login(@RequestBody Admin admin, HttpServletRequest request) {
@@ -44,6 +45,7 @@ public class AdminController {
         return response;
     }
 
+    //注册
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse registerAdmin(@RequestBody Admin admin, HttpServletRequest request) {
@@ -57,12 +59,14 @@ public class AdminController {
         return response;
     }
 
+    //获取所有用户
     @RequestMapping(value = "/user/getAllUserList", method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse getAllUserList(HttpServletRequest request) {
         return userService.getUserList();
     }
 
+    //删除指定用户
     @RequestMapping(value = "/user/deleteUser", method = RequestMethod.POST)
     @ResponseBody
     public void deleteUser(@RequestBody User user) {
@@ -74,12 +78,14 @@ public class AdminController {
         userService.saveUser(user1);
     }
 
+    //获取指定用户
     @RequestMapping(value = "/user/showUser", method = RequestMethod.POST)
     @ResponseBody
     public String showUser(@RequestBody User user) {
         return JSONObject.toJSONString(userService.getUser(user));
     }
 
+    //修改用户信息
     @RequestMapping(value = "/user/updateUser", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse updateUser(@RequestBody User user) {
@@ -89,6 +95,7 @@ public class AdminController {
         return response;
     }
 
+    //模糊查询用户
     @RequestMapping(value = "/user/findUser", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse findUser(@RequestBody User user) {
@@ -98,12 +105,20 @@ public class AdminController {
         return response;
     }
 
+    //增加用户
     @RequestMapping(value = "/user/addUser", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse addUser(@RequestBody User user) {
         BaseResponse response = userService.saveUser(user);
         response.setMsg("SUCCESS");
         return response;
+    }
+
+    //获取所有管理员
+    @RequestMapping(value = "/allAdminList", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse allAdminList() {
+        return adminService.getAllAdmin();
     }
 
     private User setUser(User user) {

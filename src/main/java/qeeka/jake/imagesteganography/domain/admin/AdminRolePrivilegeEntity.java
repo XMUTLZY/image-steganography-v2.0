@@ -3,7 +3,7 @@ package qeeka.jake.imagesteganography.domain.admin;
 import javax.persistence.Column;
 import java.io.Serializable;
 
-public class AdminRolePrivilege implements Serializable {
+public class AdminRolePrivilegeEntity implements Serializable {
     @Column(name = "role_id")
     private Integer roleId;
     @Column(name = "privilege_id")

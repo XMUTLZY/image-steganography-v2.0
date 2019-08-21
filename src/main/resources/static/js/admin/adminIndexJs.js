@@ -5,7 +5,7 @@ function userList() {
     layui.use('table', function () {
         var table = layui.table;
         $("#user-list").removeClass('layui-hide');
-        $("#admin1").addClass('layui-hide');
+        $("#admin-list").addClass('layui-hide');
         $("#user2").addClass('layui-hide');
         //第一个实例
         table.render({
@@ -296,26 +296,30 @@ function user2() {
 /*
 * 显示所有管理员信息
 * */
-function admin1() {
+function adminList() {
     layui.use('table', function () {
         var table = layui.table;
-        $("#admin1").removeClass('layui-hide');
-        $("#user1").addClass('layui-hide');
+        $("#admin-list").removeClass('layui-hide');
+        $("#user-list").addClass('layui-hide');
         $("#user2").addClass('layui-hide');
         //第一个实例
         table.render({
-            elem: '#demo2'
+            elem: '#admin-list-table'
             , height: 500
-            , url: 'adminList' //数据接口
+            , url: '/admin/allAdminList' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
                 {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
-                , {field: 'phone', title: '手机号', width: 190}
-                , {field: 'name', title: '用户名', width: 200}
-                , {field: 'password', title: '密码', width: 180}
-                , {field: 'role', title: '角色', width: 170}
-                , {field: 'jointime', title: '加入时间', width: 150, sort: true}
-                , {field: 'operate', title: '操作', width: 167, toolbar: "#operate2"}
+                , {field: 'userName', title: '用户名', width: 100}
+                , {field: 'mobile', title: '手机号', width: 120}
+                , {field: 'realName', title: '姓名', width: 100}
+                , {field: 'roleName', title: '角色', width: 140}
+                , {field: 'status', title: '状态', width: 70, sort: true}
+                , {field: 'email', title: '邮箱', width: 130}
+                , {field: 'portrait', title: '头像', width: 100}
+                , {field: 'createTime', title: '创建时间', width: 180, sort: true}
+                , {field: 'updateTime', title: '修改时间', width: 180, sort: true}
+                , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#admin-list-table-operate",}
             ]]
         });
     });

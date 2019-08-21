@@ -16,6 +16,7 @@ public class Admin implements Serializable {
     private String email;
     private Integer status = AdminConstant.ADMIN_STATUS_PASS;
     private String portrait;
+    private String roleName;
     private Date createTime;
     private Date updateTime;
 
@@ -113,5 +114,13 @@ public class Admin implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

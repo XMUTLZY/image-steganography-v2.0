@@ -53,7 +53,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">管理员中心</a>
                     <dl class="layui-nav-child">
-                        <dd><a onclick="admin1();">管理员列表</a></dd>
+                        <dd><a onclick="adminList();">管理员列表</a></dd>
                         <dd><a href="javascript:;">个人中心</a></dd>
                         <dd><a href="javascript:;">操作记录</a></dd>
                     </dl>
@@ -115,7 +115,7 @@
             </script>
         </div>
         <!-- 管理员列表 -->
-        <div class="layui-hide" style="padding: 15px;" id="admin1">
+        <div class="layui-hide" style="padding: 15px;" id="admin-list">
             <div class="layui-form">
                 ID
                 <div class="layui-inline">
@@ -144,8 +144,8 @@
                     <i class="layui-icon">&#xe608;</i> 添加管理员
                 </button>
             </div>
-            <table id="demo2" lay-filter="admin1"></table>
-            <script type="text/html" id="operate2">
+            <table id="admin-list-table" lay-filter="admin-list-table-fit"></table>
+            <script type="text/html" id="admin-list-table-operate">
                 <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
                 <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
             </script>

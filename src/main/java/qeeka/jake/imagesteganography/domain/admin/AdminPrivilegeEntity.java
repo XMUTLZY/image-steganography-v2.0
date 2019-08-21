@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "admin_privilege")
-public class AdminPrivilege implements Serializable {
+public class AdminPrivilegeEntity implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
