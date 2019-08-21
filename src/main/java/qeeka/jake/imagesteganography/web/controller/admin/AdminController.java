@@ -18,7 +18,6 @@ import qeeka.jake.imagesteganography.service.admin.AdminService;
 import qeeka.jake.imagesteganography.service.user.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -37,11 +36,11 @@ public class AdminController {
             String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, admin.getPassword(), encrypt, AdminConstant.ENCRYPTION_TIMES).toString();
             if (encodePassword.equals(adminService.getAdmin(admin).getPassword()) && adminService.getAdmin(admin).getStatus() == AdminConstant.ADMIN_STATUS_PASS) {
                 request.getSession().setAttribute("admin", adminService.getAdmin(admin));
-                response.setMsg("success");
+                response.setMsg("SUCCESS");
                 return response;
             }
         }
-        response.setMsg("failed");
+        response.setMsg("FAILED");
         return response;
     }
 
@@ -61,19 +60,17 @@ public class AdminController {
     @RequestMapping(value = "/user/getAllUserList", method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse getAllUserList(HttpServletRequest request) {
-        BaseResponse response = new BaseResponse();
-        List<User> list = userService.getUserList();
-        response.setData(list);
-        response.setCount(list.size());
-        return response;
+        return userService.getUserList();
     }
 
     @RequestMapping(value = "/user/deleteUser", method = RequestMethod.POST)
     @ResponseBody
     public void deleteUser(@RequestBody User user) {
         User user1 = userService.getUser(user);
-        user1.setStatus(UserConstant.USER_STATUS_NOPASS);
-        user1.setUpdateTime(new Date());
+        if (user1 != null) {
+            user1.setStatus(UserConstant.USER_STATUS_NOPASS);
+            user1.setUpdateTime(new Date());
+        }
         userService.saveUser(user1);
     }
 

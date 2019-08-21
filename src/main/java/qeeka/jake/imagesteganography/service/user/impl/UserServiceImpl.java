@@ -51,8 +51,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUserList() {
-        return convertToUserList(userRepository.findAll());
+    public BaseResponse getUserList() {
+        List<User> list = convertToUserList(userRepository.findAll());
+        BaseResponse response = new BaseResponse();
+        response.setData(list);
+        response.setMsg("SUCCESS");
+        response.setCount(list.size());
+        return response;
     }
 
     @Override

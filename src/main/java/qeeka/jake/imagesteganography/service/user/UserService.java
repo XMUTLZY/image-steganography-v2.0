@@ -7,6 +7,6 @@ import java.util.List;
 public interface UserService {
     User getUser(User user);
     BaseResponse saveUser(User user);
-    List<User> getUserList();
+    BaseResponse getUserList();
     List<User> findUser(User user);
 }
