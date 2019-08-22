@@ -66,7 +66,7 @@
                     <i class="layui-icon">&#xe67c;</i>点击上传您需要处理的图片
                 </button>
                 <div class="left-show" style="width: 100%;height: 50%;border-bottom: 1px solid darkgray;">
-                    <img id="original-image" class="layui-upload-img" style="width: 80%;height: 80%;margin: 50px;float: left">
+                    <img id="original-image" src="" class="layui-upload-img" style="width: 80%;height: 80%;margin: 50px;float: left">
                 </div>
                 <div class="left-message" style="width: 100%;height: 30%;border-bottom: 1px solid darkgray;">
                     <label class="1" style="font-size: 30px;background: gray;color:darkgray;width: 100%;height: 20%">你希望做什么</label>
@@ -135,15 +135,14 @@
         //普通图片上传
         upload.render({
             elem: '#image-upload'
-            , url: '/upload/image'
+            , url: '/upload/imageUrl'
             , accept: 'images'
             , before: function (obj) {
                 layer.load();
             }
             , done: function (res) {
-                console.log(res);
                 layer.closeAll('loading');
-                $("#original-image").attr('src', res.url);
+                $("#original-image").attr('src', res.msg);
             }
             , error: function (index, upload) {
                 layer.msg("错误");
