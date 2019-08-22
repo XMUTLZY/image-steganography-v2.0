@@ -7,6 +7,8 @@ import org.springframework.util.StringUtils;
 import qeeka.jake.imagesteganography.domain.admin.AdminEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.pojo.admin.Admin;
+import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRepository;
+import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRoleRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminRoleRepository;
 import qeeka.jake.imagesteganography.service.admin.AdminService;
@@ -21,6 +23,10 @@ public class AdminServiceImpl implements AdminService {
     private AdminRepository adminRepository;
     @Autowired
     private AdminRoleRepository adminRoleRepository;
+    @Autowired
+    private AdminPrivilegeRoleRepository adminPrivilegeRoleRepository;
+    @Autowired
+    private AdminPrivilegeRepository adminPrivilegeRepository;
 
     @Override
     public Admin getAdmin(Admin admin) {
@@ -44,6 +50,16 @@ public class AdminServiceImpl implements AdminService {
         List<Admin> list = convertToAdminList(adminRepository.findAll());
         response.setData(list);
         response.setCount(list.size());
+        return response;
+    }
+
+    @Override
+    public BaseResponse getAllAdminPrivilege(String mobile) {
+        AdminEntity adminEntity = adminRepository.findByMobile(mobile);
+        List<Integer> roleIdList = adminPrivilegeRoleRepository.findPrivilegeIdList(adminEntity.getRoleId());
+        List<String> privilegeList = adminPrivilegeRepository.getPrivilegeList(roleIdList);
+        BaseResponse response = new BaseResponse();
+        response.setData(privilegeList);
         return response;
     }
 

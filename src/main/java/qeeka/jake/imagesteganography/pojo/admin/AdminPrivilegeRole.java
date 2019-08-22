@@ -1,20 +1,26 @@
-package qeeka.jake.imagesteganography.domain.admin;
+package qeeka.jake.imagesteganography.pojo.admin;
 
-import javax.persistence.Column;
 import java.io.Serializable;
 
-public class AdminRolePrivilegeEntity implements Serializable {
-    @Column(name = "role_id")
-    private Integer roleId;
-    @Column(name = "privilege_id")
+public class AdminPrivilegeRole implements Serializable {
+    private Integer id;
+    private Integer RoleId;
     private Integer privilegeId;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getRoleId() {
-        return roleId;
+        return RoleId;
     }
 
     public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+        RoleId = roleId;
     }
 
     public Integer getPrivilegeId() {

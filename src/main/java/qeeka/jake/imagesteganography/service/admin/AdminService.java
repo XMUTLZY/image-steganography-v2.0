@@ -7,4 +7,5 @@ public interface AdminService {
     Admin getAdmin(Admin admin);
     void saveAdmin(Admin admin);
     BaseResponse getAllAdmin();
+    BaseResponse getAllAdminPrivilege(String mobile);
 }

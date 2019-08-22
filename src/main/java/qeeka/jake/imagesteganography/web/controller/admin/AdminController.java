@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.constants.UserConstant;
@@ -119,6 +120,13 @@ public class AdminController {
     @ResponseBody
     public BaseResponse allAdminList() {
         return adminService.getAllAdmin();
+    }
+
+    //根据管理员Mobile获取管理员权限
+    @RequestMapping(value = "/allAdminPrivilege", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse allAdminPrivilege(@RequestParam("mobile") String mobile) {
+        return adminService.getAllAdminPrivilege(mobile);
     }
 
     private User setUser(User user) {
