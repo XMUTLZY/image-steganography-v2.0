@@ -14,6 +14,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.pojo.admin.Admin;
 import qeeka.jake.imagesteganography.pojo.admin.AdminPrivilege;
@@ -60,10 +61,10 @@ public class MyShiroRealm extends AuthorizingRealm {
         Admin admin = new Admin();
         admin.setMobile(token.getUsername());
         Admin admin1 = adminService.getAdmin(admin);
-        String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, admin.getPassword(), admin1.getEncrypt(), AdminConstant.ENCRYPTION_TIMES).toString();
-        if (!encodePassword.equals(admin1.getPassword())) {
-            throw new AccountException("查询不到该管理");
+        String password = new String((char[]) token.getCredentials());
+        if (!password.equals(admin1.getPassword())) {
+            throw new AccountException("查询不到该管理员");
         }
-        return new SimpleAuthenticationInfo(token.getPrincipal(), admin1.getPassword(), getName());
+        return new SimpleAuthenticationInfo(token.getPrincipal(), password, getName());
     }
 }

@@ -1,10 +1,15 @@
 package qeeka.jake.imagesteganography.web.controller.admin;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,23 +33,42 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    //登录
+//    //登录
+//    @RequestMapping(value = "/login", method = RequestMethod.POST)
+//    @ResponseBody
+//    public BaseResponse login(@RequestBody Admin admin, HttpServletRequest request) {
+//        BaseResponse response = new BaseResponse();
+//        if (adminService.getAdmin(admin) != null) {
+//            String encrypt = adminService.getAdmin(admin).getEncrypt();//获取盐
+//            String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, admin.getPassword(), encrypt, AdminConstant.ENCRYPTION_TIMES).toString();
+//            if (encodePassword.equals(adminService.getAdmin(admin).getPassword()) && adminService.getAdmin(admin).getStatus() == AdminConstant.ADMIN_STATUS_PASS) {
+//                request.getSession().setAttribute("admin", adminService.getAdmin(admin));
+//                response.setMsg("SUCCESS");
+//                return response;
+//            }
+//        }
+//        response.setMsg("FAILED");
+//        return response;
+//    }
+
+    //登录逻辑 shiro管理
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse login(@RequestBody Admin admin, HttpServletRequest request) {
-        BaseResponse response = new BaseResponse();
-        if (adminService.getAdmin(admin) != null) {
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.isAuthenticated()) {
             String encrypt = adminService.getAdmin(admin).getEncrypt();//获取盐
             String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, admin.getPassword(), encrypt, AdminConstant.ENCRYPTION_TIMES).toString();
-            if (encodePassword.equals(adminService.getAdmin(admin).getPassword()) && adminService.getAdmin(admin).getStatus() == AdminConstant.ADMIN_STATUS_PASS) {
-                request.getSession().setAttribute("admin", adminService.getAdmin(admin));
-                response.setMsg("SUCCESS");
-                return response;
-            }
+            UsernamePasswordToken token = new UsernamePasswordToken(admin.getMobile(), encodePassword);
+            token.setRememberMe(true);
+            //执行登录
+            subject.login(token);
         }
-        response.setMsg("FAILED");
+        BaseResponse response = new BaseResponse();
+        response.setMsg("SUCCESS");
         return response;
     }
+
 
     //注册
     @RequestMapping(value = "/register", method = RequestMethod.POST)

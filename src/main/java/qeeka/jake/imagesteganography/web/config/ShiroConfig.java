@@ -1,6 +1,7 @@
 package qeeka.jake.imagesteganography.web.config;
 
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class ShiroConfig {
 //        }
 //        //设置值不拦截url
 //        filterMap.put("/**","authc");
-
+        filterMap.put("/admin/user/updateUser", "perms[编辑用户]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
     }
