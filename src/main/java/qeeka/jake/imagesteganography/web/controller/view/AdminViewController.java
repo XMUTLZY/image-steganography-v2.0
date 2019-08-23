@@ -20,4 +20,8 @@ public class AdminViewController {
         model.addAttribute("admin", admin);
         return "/admin/adminIndex";
     }
+    @RequestMapping("/unPrivilege")
+    public String unPrivilege() {
+        return "/admin/UnPrivilege";
+    }
 }

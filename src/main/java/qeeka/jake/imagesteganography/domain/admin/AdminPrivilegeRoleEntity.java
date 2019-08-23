@@ -1,10 +1,14 @@
 package qeeka.jake.imagesteganography.domain.admin;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "admin_privilege_role")
 public class AdminPrivilegeRoleEntity implements Serializable {
     @Id
     @GeneratedValue

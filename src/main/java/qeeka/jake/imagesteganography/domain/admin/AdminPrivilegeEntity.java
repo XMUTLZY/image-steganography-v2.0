@@ -17,6 +17,8 @@ public class AdminPrivilegeEntity implements Serializable {
     @GeneratedValue
     @Column(name = "id")
     private Integer id;
+    @Column(name = "privilege_url")
+    private String privilegeUrl;
     @Column(name = "privilege")
     private String privilege;
     @Temporal(TemporalType.TIMESTAMP)
@@ -56,5 +58,13 @@ public class AdminPrivilegeEntity implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getPrivilegeUrl() {
+        return privilegeUrl;
+    }
+
+    public void setPrivilegeUrl(String privilegeUrl) {
+        this.privilegeUrl = privilegeUrl;
     }
 }

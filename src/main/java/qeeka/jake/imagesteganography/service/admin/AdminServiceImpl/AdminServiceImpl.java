@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import qeeka.jake.imagesteganography.domain.admin.AdminEntity;
+import qeeka.jake.imagesteganography.domain.admin.AdminPrivilegeEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.pojo.admin.Admin;
+import qeeka.jake.imagesteganography.pojo.admin.AdminPrivilege;
+import qeeka.jake.imagesteganography.pojo.admin.AdminPrivilegeRole;
 import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRoleRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminRepository;
@@ -57,9 +60,9 @@ public class AdminServiceImpl implements AdminService {
     public BaseResponse getAllAdminPrivilege(String mobile) {
         AdminEntity adminEntity = adminRepository.findByMobile(mobile);
         List<Integer> roleIdList = adminPrivilegeRoleRepository.findPrivilegeIdList(adminEntity.getRoleId());
-        List<String> privilegeList = adminPrivilegeRepository.getPrivilegeList(roleIdList);
+        List<AdminPrivilege> entityList = convertToAdminPrivilegeList(adminPrivilegeRepository.getPrivilegeList(roleIdList));
         BaseResponse response = new BaseResponse();
-        response.setData(privilegeList);
+        response.setData(entityList);
         return response;
     }
 
@@ -76,5 +79,17 @@ public class AdminServiceImpl implements AdminService {
             list.add(admin);
         }
         return list;
+    }
+
+    private List<AdminPrivilege> convertToAdminPrivilegeList(List<AdminPrivilegeEntity> entityList) {
+        List<AdminPrivilege> adminPrivilegeList = new ArrayList<>();
+        if (entityList == null || entityList.isEmpty())
+            return null;
+        for (AdminPrivilegeEntity adminPrivilegeEntity : entityList ) {
+            AdminPrivilege adminPrivilege = new AdminPrivilege();
+            BeanUtils.copyProperties(adminPrivilegeEntity, adminPrivilege);
+            adminPrivilegeList.add(adminPrivilege);
+        }
+        return adminPrivilegeList;
     }
 }

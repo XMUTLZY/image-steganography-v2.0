@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class AdminPrivilege implements Serializable {
     private Integer id;
+    private String privilegeUrl;
     private String privilege;
     private Date createTime;
     private Date updateTime;
@@ -39,5 +40,13 @@ public class AdminPrivilege implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getPrivilegeUrl() {
+        return privilegeUrl;
+    }
+
+    public void setPrivilegeUrl(String privilegeUrl) {
+        this.privilegeUrl = privilegeUrl;
     }
 }
