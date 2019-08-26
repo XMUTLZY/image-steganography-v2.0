@@ -15,7 +15,7 @@ $(document).ready(function () {
                         location.href = "/adminView/index";
                     },1000)
                 } else {
-                    layer.msg('管理员账号密码有误');
+                    layer.msg(result.msg);
                 }
             },
             error: function () {

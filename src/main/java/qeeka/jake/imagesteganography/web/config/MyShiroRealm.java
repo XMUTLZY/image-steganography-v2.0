@@ -1,6 +1,5 @@
 package qeeka.jake.imagesteganography.web.config;
 
-import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
@@ -10,16 +9,12 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.pojo.admin.Admin;
 import qeeka.jake.imagesteganography.pojo.admin.AdminPrivilege;
 import qeeka.jake.imagesteganography.service.admin.AdminService;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -34,22 +29,19 @@ public class MyShiroRealm extends AuthorizingRealm {
         //获取管理员
         Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        //获取该管理员角色
-        Set<String> setRole = new HashSet<>();
-        setRole.add(admin.getRoleName());
-        info.setRoles(setRole);
-        //获取该管理员权限 url
-        List<AdminPrivilege> adminPrivilegeList = JSONObject.parseArray(adminService.getAllAdminPrivilege(admin.getMobile()).getData().toString(), AdminPrivilege.class);
+        //获取该管理员权限
+        List<AdminPrivilege> adminPrivilegeList = adminService.getAllAdminPrivilege(admin.getMobile());
         List<String> perUrlList = new ArrayList<>();
-        for (AdminPrivilege adminPrivilege : adminPrivilegeList) {
-            perUrlList.add(adminPrivilege.getPrivilegeUrl());
+        if (!adminPrivilegeList.isEmpty() && adminPrivilegeList != null) {
+            for (AdminPrivilege adminPrivilege : adminPrivilegeList) {
+                perUrlList.add(adminPrivilege.getPrivilege());
+            }
+            Set<String> setPerUrl = new HashSet<>();
+            for (String  s : perUrlList) {
+                setPerUrl.add(s);
+            }
+            info.setStringPermissions(setPerUrl);
         }
-
-        Set<String> setPerUrl = new HashSet<>();
-        for (String  s : perUrlList) {
-            setPerUrl.add(s);
-        }
-        info.setStringPermissions(setPerUrl);
         return info;
     }
 
@@ -65,6 +57,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (!password.equals(admin1.getPassword())) {
             throw new AccountException("查询不到该管理员");
         }
-        return new SimpleAuthenticationInfo(token.getPrincipal(), password, getName());
+        return new SimpleAuthenticationInfo(admin1, password, getName());
     }
 }

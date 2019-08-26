@@ -2,18 +2,22 @@ package qeeka.jake.imagesteganography.web.controller.admin;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.ExpiredCredentialsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.constants.UserConstant;
@@ -22,6 +26,7 @@ import qeeka.jake.imagesteganography.pojo.admin.Admin;
 import qeeka.jake.imagesteganography.pojo.user.User;
 import qeeka.jake.imagesteganography.service.admin.AdminService;
 import qeeka.jake.imagesteganography.service.user.UserService;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -33,39 +38,43 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-//    //登录
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    @ResponseBody
-//    public BaseResponse login(@RequestBody Admin admin, HttpServletRequest request) {
-//        BaseResponse response = new BaseResponse();
-//        if (adminService.getAdmin(admin) != null) {
-//            String encrypt = adminService.getAdmin(admin).getEncrypt();//获取盐
-//            String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, admin.getPassword(), encrypt, AdminConstant.ENCRYPTION_TIMES).toString();
-//            if (encodePassword.equals(adminService.getAdmin(admin).getPassword()) && adminService.getAdmin(admin).getStatus() == AdminConstant.ADMIN_STATUS_PASS) {
-//                request.getSession().setAttribute("admin", adminService.getAdmin(admin));
-//                response.setMsg("SUCCESS");
-//                return response;
-//            }
-//        }
-//        response.setMsg("FAILED");
-//        return response;
-//    }
-
     //登录逻辑 shiro管理
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse login(@RequestBody Admin admin, HttpServletRequest request) {
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.isAuthenticated()) {
-            String encrypt = adminService.getAdmin(admin).getEncrypt();//获取盐
-            String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, admin.getPassword(), encrypt, AdminConstant.ENCRYPTION_TIMES).toString();
-            UsernamePasswordToken token = new UsernamePasswordToken(admin.getMobile(), encodePassword);
-            token.setRememberMe(true);
-            //执行登录
-            subject.login(token);
-        }
+        Subject subject = SecurityUtils.getSubject();//获得当前subject 即用户信息
         BaseResponse response = new BaseResponse();
-        response.setMsg("SUCCESS");
+        Admin admin1 = adminService.getAdmin(admin);
+        if (admin1 == null) {
+            response.setMsg("账号不存在");
+            return response;
+        }
+        String encrypt = admin1.getEncrypt();//获取盐
+        String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, admin.getPassword(), encrypt, AdminConstant.ENCRYPTION_TIMES).toString();
+        UsernamePasswordToken token = new UsernamePasswordToken(admin.getMobile(), encodePassword);//认证
+        //执行登录
+        try {
+            subject.login(token);
+            token.setRememberMe(true);
+            request.getSession().setAttribute("admin", adminService.getAdmin(admin));//登录成功，在缓存中设置session
+            response.setMsg("SUCCESS");
+        } catch (IncorrectCredentialsException e) {
+            response.setMsg("登录密码错误");
+        } catch (ExcessiveAttemptsException e) {
+            response.setMsg("登录失败次数过多");
+        } catch (LockedAccountException e) {
+            response.setMsg("账号已被锁定");
+        } catch (DisabledAccountException e) {
+            response.setMsg("账号已被禁用");
+        } catch (ExpiredCredentialsException e) {
+            response.setMsg("账号已过期");
+        } catch (UnknownAccountException e) {
+            response.setMsg("账号不存在");
+        } catch (UnauthorizedException e) {
+            response.setMsg("您没有得到相应的授权");
+        } catch (Exception e) {
+            response.setMsg("用户名或密码错误");
+        }
         return response;
     }
 
@@ -144,13 +153,6 @@ public class AdminController {
     @ResponseBody
     public BaseResponse allAdminList() {
         return adminService.getAllAdmin();
-    }
-
-    //根据管理员Mobile获取管理员权限
-    @RequestMapping(value = "/allAdminPrivilege", method = RequestMethod.GET)
-    @ResponseBody
-    public BaseResponse allAdminPrivilege(@RequestParam("mobile") String mobile) {
-        return adminService.getAllAdminPrivilege(mobile);
     }
 
     private User setUser(User user) {

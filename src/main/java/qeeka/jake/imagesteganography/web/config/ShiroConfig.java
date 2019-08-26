@@ -1,7 +1,6 @@
 package qeeka.jake.imagesteganography.web.config;
 
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import qeeka.jake.imagesteganography.domain.admin.AdminPrivilegeEntity;
 import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRepository;
-
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,14 +28,13 @@ public class ShiroConfig {
         //未授权界面
         shiroFilterFactoryBean.setUnauthorizedUrl("/adminView/unPrivilege");
         //拦截器
-        Map<String, String> filterMap = new LinkedHashMap<>();
-//        List<AdminPrivilegeEntity> adminPrivilegeEntityList = adminPrivilegeRepository.findAll();//动态设置所有权限
-//        for (AdminPrivilegeEntity adminPrivilegeEntity : adminPrivilegeEntityList) {
-//            filterMap.put(adminPrivilegeEntity.getPrivilegeUrl(), adminPrivilegeEntity.getPrivilege());
-//        }
+        Map<String, String> filterMap = new HashMap<>();
+        List<AdminPrivilegeEntity> adminPrivilegeEntityList = adminPrivilegeRepository.findAll();//动态设置所有权限
+        for (AdminPrivilegeEntity adminPrivilegeEntity : adminPrivilegeEntityList) {
+            filterMap.put(adminPrivilegeEntity.getPrivilegeUrl(), "perms[\"" + adminPrivilegeEntity.getPrivilege() + "\"]");
+        }
 //        //设置值不拦截url
-//        filterMap.put("/**","authc");
-        filterMap.put("/admin/user/updateUser", "perms[编辑用户]");
+        filterMap.put("/**","anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
     }

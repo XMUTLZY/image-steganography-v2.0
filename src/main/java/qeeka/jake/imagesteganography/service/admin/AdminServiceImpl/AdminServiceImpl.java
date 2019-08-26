@@ -9,7 +9,6 @@ import qeeka.jake.imagesteganography.domain.admin.AdminPrivilegeEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.pojo.admin.Admin;
 import qeeka.jake.imagesteganography.pojo.admin.AdminPrivilege;
-import qeeka.jake.imagesteganography.pojo.admin.AdminPrivilegeRole;
 import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRoleRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminRepository;
@@ -57,13 +56,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public BaseResponse getAllAdminPrivilege(String mobile) {
+    public List<AdminPrivilege> getAllAdminPrivilege(String mobile) {
         AdminEntity adminEntity = adminRepository.findByMobile(mobile);
         List<Integer> roleIdList = adminPrivilegeRoleRepository.findPrivilegeIdList(adminEntity.getRoleId());
         List<AdminPrivilege> entityList = convertToAdminPrivilegeList(adminPrivilegeRepository.getPrivilegeList(roleIdList));
-        BaseResponse response = new BaseResponse();
-        response.setData(entityList);
-        return response;
+        return entityList;
     }
 
     private List<Admin> convertToAdminList(List<AdminEntity> adminEntityList) {
