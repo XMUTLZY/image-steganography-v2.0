@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -81,14 +81,20 @@
                     <input class="layui-input" id="search-account-name" autocomplete="off" onkeyup="userSearch();">
                 </div>
                 <button class="layui-btn" data-type="reload" onclick="userSearch();">搜索</button>
-                <button class="layui-btn" onclick="addUser1();">
-                    <i class="layui-icon">&#xe608;</i> 添加用户
-                </button>
+                <div shiro:hasPermission="添加用户" class="layui-inline">
+                    <button class="layui-btn" onclick="addUser1();">
+                        <i class="layui-icon">&#xe608;</i> 添加用户
+                    </button>
+                </div>
             </div>
             <table id="user-list-table" lay-filter="user-list-table-fit"></table>
             <script type="text/html" id="user-list-table-operate">
-                <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
-                <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                <div shiro:hasPermission="编辑用户" class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
+                </div>
+                <div shiro:hasPermission="删除用户" class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                </div>
             </script>
         </div>
         <!-- 订单列表 -->
@@ -110,8 +116,12 @@
             </div>
             <table id="demo3" lay-filter="user1"></table>
             <script type="text/html" id="operate3">
-                <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
-                <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                <div shiro:hasPermission="编辑订单">
+                    <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
+                </div>
+                <div shiro:hasPermission="删除订单">
+                    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                </div>
             </script>
         </div>
         <!-- 管理员列表 -->
@@ -133,21 +143,26 @@
                 <div class="layui-inline">
                     <select name="admin1role" lay-verify="required" autocomplete="off">
                         <option value=""></option>
-                        <option value="0">站长</option>
-                        <option value="1">副站长</option>
-                        <option value="2">超级管理员</option>
-                        <option value="3">管理员</option>
-                        <option value="4">游客</option>
+                        <option value="0">超级管理员</option>
+                        <option value="1">中级管理员</option>
+                        <option value="2">低级管理员</option>
                     </select>
                 </div>
-                <button class="layui-btn" onclick="addAdmin1();">
-                    <i class="layui-icon">&#xe608;</i> 添加管理员
-                </button>
+                <button class="layui-btn" data-type="reload" onclick="">搜索</button>
+                <div shiro:hasPermission="添加管理员" class="layui-inline">
+                    <button class="layui-btn" onclick="addAdmin1();">
+                        <i class="layui-icon">&#xe608;</i> 添加管理员
+                    </button>
+                </div>
             </div>
             <table id="admin-list-table" lay-filter="admin-list-table-fit"></table>
             <script type="text/html" id="admin-list-table-operate">
-                <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
-                <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                <div shiro:hasPermission="编辑管理员" class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
+                </div>
+                <div shiro:hasPermission="删除管理员">
+                    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                </div>
             </script>
         </div>
     </div>

@@ -1,5 +1,6 @@
 package qeeka.jake.imagesteganography.web.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -21,19 +22,13 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        //设置登录的url
-        shiroFilterFactoryBean.setLoginUrl("/adminView/login");
-        //设置登录成功跳转的url
-        shiroFilterFactoryBean.setSuccessUrl("/adminView/index");
-        //未授权界面
-        shiroFilterFactoryBean.setUnauthorizedUrl("/adminView/unPrivilege");
         //拦截器
         Map<String, String> filterMap = new HashMap<>();
         List<AdminPrivilegeEntity> adminPrivilegeEntityList = adminPrivilegeRepository.findAll();//动态设置所有权限
         for (AdminPrivilegeEntity adminPrivilegeEntity : adminPrivilegeEntityList) {
             filterMap.put(adminPrivilegeEntity.getPrivilegeUrl(), "perms[\"" + adminPrivilegeEntity.getPrivilege() + "\"]");
         }
-//        //设置值不拦截url
+        //设置值不拦截url
         filterMap.put("/**","anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
@@ -56,5 +51,11 @@ public class ShiroConfig {
     @Bean
     public MyShiroRealm myShiroRealm() {
         return new MyShiroRealm();
+    }
+
+    //扩展标签控制权限
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 }

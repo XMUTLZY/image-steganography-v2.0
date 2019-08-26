@@ -319,7 +319,7 @@ function adminList() {
                 , {field: 'portrait', title: '头像', width: 100}
                 , {field: 'createTime', title: '创建时间', width: 180, sort: true}
                 , {field: 'updateTime', title: '修改时间', width: 180, sort: true}
-                , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#admin-list-table-operate",}
+                , {field: 'operate', title: '操作', width: 147, toolbar: "#admin-list-table-operate",}
             ]]
         });
     });
