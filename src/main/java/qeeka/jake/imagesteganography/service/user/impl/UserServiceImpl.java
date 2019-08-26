@@ -5,6 +5,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import qeeka.jake.imagesteganography.constants.UserConstant;
 import qeeka.jake.imagesteganography.domain.user.UserEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
@@ -44,7 +45,9 @@ public class UserServiceImpl implements UserService {
         String encodePassword = new SimpleHash(UserConstant.ENCRYPTION_TYPE, user.getPassword(), encrypt, UserConstant.ENCRYPTION_TIMES).toString();
         entity.setPassword(encodePassword);
         entity.setEncrypt(encrypt);
+        entity.setCompany("");
         entity.setCreateTime(new Date());
+        entity.setUpdateTime(new Date());
         userRepository.save(entity);
         return response;
         //userRedisService.put(user.getRedisKey(), entity, -1);

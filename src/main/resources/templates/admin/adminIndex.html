@@ -45,15 +45,15 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">用户服务</a>
                     <dl class="layui-nav-child">
-                        <dd><a onclick="userList();">用户列表</a></dd>
-                        <dd><a onclick="user2();">所有订单</a></dd>
+                        <dd><a onclick="adminIndexJs.event.userList();">用户列表</a></dd>
+                        <dd><a onclick="adminIndexJs.method.orderList();">所有订单</a></dd>
                         <dd><a href="javascript:;">用户反馈</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">管理员中心</a>
                     <dl class="layui-nav-child">
-                        <dd><a onclick="adminList();">管理员列表</a></dd>
+                        <dd><a onclick="adminIndexJs.method.adminList();">管理员列表</a></dd>
                         <dd><a href="javascript:;">个人中心</a></dd>
                         <dd><a href="javascript:;">操作记录</a></dd>
                     </dl>
@@ -70,19 +70,19 @@
             <div class="layui-form" action="userselect">
                 手机号
                 <div class="layui-inline">
-                    <input class="layui-input" id="search-mobile" autocomplete="off" onkeyup="userSearch();">
+                    <input class="layui-input" id="search-mobile" autocomplete="off" onkeyup="adminIndexJs.method.userSearch();">
                 </div>
                 单位
                 <div class="layui-inline">
-                    <input class="layui-input" id="search-company" autocomplete="off" onkeyup="userSearch();">
+                    <input class="layui-input" id="search-company" autocomplete="off" onkeyup="adminIndexJs.method.userSearch();">
                 </div>
                 用户名
                 <div class="layui-inline">
-                    <input class="layui-input" id="search-account-name" autocomplete="off" onkeyup="userSearch();">
+                    <input class="layui-input" id="search-account-name" autocomplete="off" onkeyup="adminIndexJs.method.userSearch();">
                 </div>
-                <button class="layui-btn" data-type="reload" onclick="userSearch();">搜索</button>
+                <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.userSearch();">搜索</button>
                 <div shiro:hasPermission="添加用户" class="layui-inline">
-                    <button class="layui-btn" onclick="addUser1();">
+                    <button class="layui-btn" onclick="adminIndexJs.method.addUser1();">
                         <i class="layui-icon">&#xe608;</i> 添加用户
                     </button>
                 </div>
@@ -148,9 +148,8 @@
                         <option value="2">低级管理员</option>
                     </select>
                 </div>
-                <button class="layui-btn" data-type="reload" onclick="">搜索</button>
                 <div shiro:hasPermission="添加管理员" class="layui-inline">
-                    <button class="layui-btn" onclick="addAdmin1();">
+                    <button class="layui-btn" onclick="adminIndexJs.method.addAdmin();">
                         <i class="layui-icon">&#xe608;</i> 添加管理员
                     </button>
                 </div>
