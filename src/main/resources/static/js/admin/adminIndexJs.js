@@ -15,9 +15,11 @@ var adminIndexJs = {
                 //第一个实例
                 table.render({
                     elem: '#user-list-table'
-                    , height: 500
+                    , height: 600
                     , url: '/admin/user/getAllUserList'
                     , page: true //开启分页
+                    , limits: [5,10,20]
+                    , limit: 10
                     , cols: [[ //表头
                         {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
                         , {field: 'mobile', title: '手机', width: 120}
@@ -26,9 +28,11 @@ var adminIndexJs = {
                         , {field: 'city', title: '城市', width: 100}
                         , {field: 'status', title: '状态', width: 70, sort: true}
                         , {field: 'email', title: '邮箱', width: 130}
-                        , {field: 'company', title: '单位', width: 180}
+                        , {field: 'company', title: '单位', width: 150}
                         , {field: 'career', title: '职业', width: 110}
-                        , {field: 'portrait', title: '头像', width: 100}
+                        , {field: 'portrait', title: '头像', width: 100, templet: function (d) {
+                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
+                            }}
                         , {field: 'createTime', title: '创建时间', width: 180, sort: true}
                         , {field: 'updateTime', title: '更新时间', width: 180, sort: true}
                         , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#user-list-table-operate"}
@@ -158,7 +162,7 @@ var adminIndexJs = {
                 //第一个实例
                 table.render({
                     elem: '#user-list-table'
-                    , height: 500
+                    , height: 600
                     , where: {
                         mobile: $("#search-mobile").val(),
                         company: $("#search-company").val(),
@@ -168,6 +172,9 @@ var adminIndexJs = {
                     , contentType: 'application/json'
                     , url: '/admin/user/findUser'
                     , page: true //开启分页
+                    , limits: [5,10,20]
+                    , limit: 10
+                    , skin: 'line'
                     , cols: [[ //表头
                         {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
                         , {field: 'mobile', title: '手机', width: 120}
@@ -176,9 +183,11 @@ var adminIndexJs = {
                         , {field: 'city', title: '城市', width: 100}
                         , {field: 'status', title: '状态', width: 70, sort: true}
                         , {field: 'email', title: '邮箱', width: 130}
-                        , {field: 'company', title: '单位', width: 180}
+                        , {field: 'company', title: '单位', width: 150}
                         , {field: 'career', title: '职业', width: 110}
-                        , {field: 'portrait', title: '头像', width: 100}
+                        , {field: 'portrait', title: '头像', width: 100, templet: function (d) {
+                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
+                            }}
                         , {field: 'createTime', title: '创建时间', width: 180, sort: true}
                         , {field: 'updateTime', title: '更新时间', width: 180, sort: true}
                         , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#user-list-table-operate"}
@@ -256,15 +265,17 @@ var adminIndexJs = {
                 //第一个实例
                 table.render({
                     elem: '#demo3'
-                    , height: 500
+                    , height: 600
                     , url: 'payList' //数据接口
                     , page: true //开启分页
+                    , limits: [5,10,20]
+                    , limit: 10
                     , cols: [[ //表头
                         {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
                         , {field: 'phone', title: '手机号', width: 120}
                         , {
                             field: 'orginalImage', title: '原始图片', width: 100, templet: function (d) {
-                                return '<div onclick="this.method.show_img(this)" ><img src="' + d.orginalImage + '" alt="" width="50px" height="50px"></a></div>';
+                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.orginalImage + '" alt="" width="50px" height="50px"></a></div>';
                             }
                         }
                         , {field: 'inputInfo', title: '藏入信息', width: 110}
@@ -287,9 +298,11 @@ var adminIndexJs = {
                 //第一个实例
                 table.render({
                     elem: '#admin-list-table'
-                    , height: 500
+                    , height: 600
                     , url: '/admin/allAdminList' //数据接口
                     , page: true //开启分页
+                    , limits: [5,10,20]
+                    , limit: 10
                     , cols: [[ //表头
                         {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
                         , {field: 'userName', title: '用户名', width: 100}
@@ -298,7 +311,9 @@ var adminIndexJs = {
                         , {field: 'roleName', title: '角色', width: 140}
                         , {field: 'status', title: '状态', width: 70, sort: true}
                         , {field: 'email', title: '邮箱', width: 130}
-                        , {field: 'portrait', title: '头像', width: 100}
+                        , {field: 'portrait', title: '头像', width: 100, templet: function (d) {
+                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
+                            }}
                         , {field: 'createTime', title: '创建时间', width: 180, sort: true}
                         , {field: 'updateTime', title: '修改时间', width: 180, sort: true}
                         , {field: 'operate', title: '操作', width: 147, toolbar: "#admin-list-table-operate",}
@@ -319,25 +334,25 @@ var adminIndexJs = {
                     "<div class=\"layui-form-item\">\n" +
                     "       <label class=\"layui-form-label\">手机号</label>\n" +
                     "       <div class=\"layui-input-inline\">\n" +
-                    "           <input type=\"phone\" id=\"addphone\" required lay-verify=\"required\" placeholder=\"请输入手机号\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                    "           <input type=\"phone\" id=\"add-admin-mobile\" required lay-verify=\"required\" placeholder=\"请输入手机号\" autocomplete=\"off\" class=\"layui-input\">\n" +
                     "       </div>\n" +
-                    "       <div class=\"layui-form-mid layui-word-aux\">辅助文字</div>\n" +
+                    "       <div class=\"layui-form-mid layui-word-aux\">必填</div>\n" +
                     "      </div>" +
                     "  <div class=\"layui-form-item\">\n" +
                     "    <label class=\"layui-form-label\">密码</label>\n" +
                     "    <div class=\"layui-input-inline\">\n" +
-                    "      <input type=\"text\" id=\"addpassword\" required lay-verify=\"required\" placeholder=\"请输入密码\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                    "      <input type=\"text\" id=\"add-admin-password\" required lay-verify=\"required\" placeholder=\"请输入密码\" autocomplete=\"off\" class=\"layui-input\">\n" +
                     "    </div>\n" +
                     "  </div>" +
                     "  <div class=\"layui-form-item\">\n" +
                     "    <label class=\"layui-form-label\">用户名</label>\n" +
                     "    <div class=\"layui-input-inline\">\n" +
-                    "      <input type=\"name\" id=\"addname\" required lay-verify=\"required\" placeholder=\"请输入用户名\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                    "      <input type=\"name\" id=\"add-admin-userName\" required lay-verify=\"required\" placeholder=\"请输入用户名\" autocomplete=\"off\" class=\"layui-input\">\n" +
                     "    </div>\n" +
                     "  </div>" +
                     "  <div class=\"layui-form-item\">\n" +
                     "    <label class=\"layui-form-label\">角色</label>\n" +
-                    "    <select name=\"admin1role\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                    "    <select id=\"add-admin-role\" lay-verify=\"required\" autocomplete=\"off\">\n" +
                     "      <option value=\"\"></option>\n" +
                     "      <option value=\"0\"></option>\n" +
                     "      <option value=\"1\">超级管理员</option>\n" +
@@ -353,11 +368,37 @@ var adminIndexJs = {
                     "</div>\n"
             });
         },
+        subAdmin:function() {
+            layer.close(layer.index);
+            var data = {};
+            data.mobile = $("#add-admin-mobile").val();
+            data.password = $("#add-admin-password").val();
+            data.userName = $("#userName").val();
+            data.role = $("#add-admin-role").val();
+            $.ajax({
+                url: '/admin/register',
+                type: 'post',
+                data: JSON.stringify(data) ,
+                contentType: 'application/json' ,
+                success: function (result) {
+                    if (result.msg == "注册成功"){
+                        layer.msg('添加管理员成功');
+                        adminIndexJs.event.adminList();
+                        return;
+                    }
+                    layer.msg('添加管理员失败');
+                },
+                error: function () {
+                    layer.msg('数据异常');
+                }
+            })
+        },
         show_img:function (t) {
             var t = $(t).find("img");
             //页面层
             layer.open({
                 type: 1,
+                title: '头像',
                 skin: 'layui-layer-rim', //加上边框
                 area: ['80%', '80%'], //宽高
                 shadeClose: true, //开启遮罩关闭

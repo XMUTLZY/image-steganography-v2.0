@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.constants.UserConstant;
@@ -135,6 +136,7 @@ public class AdminController {
     public BaseResponse findUser(@RequestBody User user) {
         BaseResponse response = new BaseResponse();
         response.setMsg("success");
+        response.setCount(userService.findUser(user).size());
         response.setData(userService.findUser(user));
         return response;
     }

@@ -42,24 +42,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void saveAdmin(Admin admin) {
         AdminEntity entity = new AdminEntity();
-        if (StringUtils.hasText(admin.getMobile())) {
-            entity.setMobile(admin.getMobile());
-        }
-        if (StringUtils.hasText(admin.getPassword())) {
-            entity.setPassword(admin.getPassword());
-        }
-        if (StringUtils.hasText(admin.getEmail())) {
-            entity.setEmail(admin.getEmail());
-        }
-        if (StringUtils.hasText(admin.getPortrait())) {
-            entity.setPortrait(admin.getPortrait());
-        }
-        if (StringUtils.hasText(admin.getRealName())) {
-            entity.setRealName(admin.getRealName());
-        }
-        if (StringUtils.hasText(admin.getUserName())) {
-            entity.setUserName(admin.getUserName());
-        }
+        BeanUtils.copyProperties(admin, entity);
         adminRepository.save(entity);
     }
 
