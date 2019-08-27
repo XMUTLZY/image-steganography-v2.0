@@ -2,8 +2,9 @@ package qeeka.jake.imagesteganography.service.admin.AdminServiceImpl;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import qeeka.jake.imagesteganography.domain.admin.AdminEntity;
 import qeeka.jake.imagesteganography.domain.admin.AdminPrivilegeEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
@@ -47,10 +48,21 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public BaseResponse getAllAdmin() {
+    public BaseResponse getAllAdmin(Pageable pageable) {
         BaseResponse response = new BaseResponse();
-        List<Admin> list = convertToAdminList(adminRepository.findAll());
-        response.setData(list);
+        Page<AdminEntity> page = adminRepository.findAll(pageable);
+        List<Admin> adminList = new ArrayList<>();
+        if (page == null && !page.isEmpty())
+            return null;
+        for (AdminEntity adminEntity : page) {
+            Admin admin = new Admin();
+            BeanUtils.copyProperties(adminEntity, admin);
+            String roleName = adminRoleRepository.findAllById(adminEntity.getRoleId()).getName();
+            admin.setRoleName(roleName);
+            adminList.add(admin);
+        }
+        List<Admin> list = convertToAdminList(adminRepository.findAll());//获取全部管理员
+        response.setData(adminList);
         response.setCount(list.size());
         return response;
     }
@@ -70,9 +82,6 @@ public class AdminServiceImpl implements AdminService {
         for (AdminEntity adminEntity : adminEntityList) {
             Admin admin = new Admin();
             BeanUtils.copyProperties(adminEntity, admin);
-            String roleName = adminRoleRepository.findAllById(admin.getRoleId()).getName();
-            if (StringUtils.hasText(roleName))
-                admin.setRoleName(roleName);
             list.add(admin);
         }
         return list;

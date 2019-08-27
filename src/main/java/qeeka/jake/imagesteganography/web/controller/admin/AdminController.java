@@ -14,6 +14,9 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +30,10 @@ import qeeka.jake.imagesteganography.pojo.admin.Admin;
 import qeeka.jake.imagesteganography.pojo.user.User;
 import qeeka.jake.imagesteganography.service.admin.AdminService;
 import qeeka.jake.imagesteganography.service.user.UserService;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/admin")
@@ -38,6 +42,7 @@ public class AdminController {
     AdminService adminService;
     @Autowired
     UserService userService;
+    private Logger logger = Logger.getLogger("");
 
     //登录逻辑 shiro管理
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -79,7 +84,6 @@ public class AdminController {
         return response;
     }
 
-
     //注册
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
@@ -94,11 +98,12 @@ public class AdminController {
         return response;
     }
 
-    //获取所有用户
+    //根据页码和当前页码数据条数 查询用户
     @RequestMapping(value = "/user/getAllUserList", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse getAllUserList(HttpServletRequest request) {
-        return userService.getUserList();
+    public BaseResponse getAllUserList(@RequestParam("limit") Integer limit, @RequestParam("page") Integer page) {
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.Direction.ASC, "id");
+        return userService.getUserList(pageable);
     }
 
     //删除指定用户
@@ -136,8 +141,13 @@ public class AdminController {
     public BaseResponse findUser(@RequestBody User user) {
         BaseResponse response = new BaseResponse();
         response.setMsg("success");
-        response.setCount(userService.findUser(user).size());
-        response.setData(userService.findUser(user));
+        List<User> userList = userService.findUser(user);
+        if (userList != null) {
+            response.setCount(userList.size());
+        } else {
+            response.setCount(0);
+        }
+        response.setData(userList);
         return response;
     }
 
@@ -153,8 +163,9 @@ public class AdminController {
     //获取所有管理员
     @RequestMapping(value = "/allAdminList", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse allAdminList() {
-        return adminService.getAllAdmin();
+    public BaseResponse allAdminList(@RequestParam("limit") Integer limit, @RequestParam("page") Integer page) {
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.Direction.ASC, "id");
+        return adminService.getAllAdmin(pageable);
     }
 
     private User setUser(User user) {

@@ -1,5 +1,6 @@
 package qeeka.jake.imagesteganography.domain.admin;
 
+import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.domain.admin.composite.AdminPrimaryKey;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,7 +39,7 @@ public class AdminEntity implements Serializable {
     @Column(name = "email")
     private String email;
     @Column(name = "portrait")
-    private String portrait;
+    private String portrait = AdminConstant.DEFAULT_PORTRAIT;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
     private Date createTime;

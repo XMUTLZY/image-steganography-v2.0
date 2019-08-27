@@ -1,5 +1,6 @@
 package qeeka.jake.imagesteganography.domain.user;
 
+import qeeka.jake.imagesteganography.constants.UserConstant;
 import qeeka.jake.imagesteganography.domain.user.composite.UserPrimaryKey;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,7 +44,7 @@ public class UserEntity implements Serializable {
     @Column(name = "career")
     private String career;
     @Column(name = "portrait")
-    private String portrait;
+    private String portrait = UserConstant.DEFAULT_PORTRAIT;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
     private Date createTime;

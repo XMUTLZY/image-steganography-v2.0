@@ -4,7 +4,10 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import qeeka.jake.imagesteganography.constants.UserConstant;
 import qeeka.jake.imagesteganography.domain.user.UserEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
@@ -44,8 +47,10 @@ public class UserServiceImpl implements UserService {
         String encodePassword = new SimpleHash(UserConstant.ENCRYPTION_TYPE, user.getPassword(), encrypt, UserConstant.ENCRYPTION_TIMES).toString();
         entity.setPassword(encodePassword);
         entity.setEncrypt(encrypt);
-        entity.setCompany("");
-        entity.setCreateTime(new Date());
+        if (!StringUtils.hasText(user.getCompany()))
+            entity.setCompany("");
+        if (user.getCreateTime() == null)
+            entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
         userRepository.save(entity);
         return response;
@@ -53,10 +58,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BaseResponse getUserList() {
-        List<User> list = convertToUserList(userRepository.findAll());
+    public BaseResponse getUserList(Pageable pageable) {
+        Page<UserEntity> pageList = userRepository.findAll(pageable);
+        List<User> userList = new ArrayList<>();
+        for (UserEntity userEntity : pageList) {
+            User user = new User();
+            BeanUtils.copyProperties(userEntity, user);
+            userList.add(user);
+        }
+        List<User> list = convertToUserList(userRepository.findAll());//所有用户数 用于获取数量
         BaseResponse response = new BaseResponse();
-        response.setData(list);
+        response.setData(userList);
         response.setMsg("SUCCESS");
         response.setCount(list.size());
         return response;
