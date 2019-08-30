@@ -58,7 +58,7 @@ public class UploadController {
             Response response1 = uploadManager.put(imagePath, key, token);
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response1.bodyString(), DefaultPutRet.class);
-            imageUrl = "http://" + DOMAIN_URL + "/" + key + "?" + IMAGE_STYLE;
+            imageUrl = "http://" + DOMAIN_URL + "/" + key;
             response.setMsg(imageUrl);
         } catch (QiniuException e) {
             e.printStackTrace();

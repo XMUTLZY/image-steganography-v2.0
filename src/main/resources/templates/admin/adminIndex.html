@@ -70,15 +70,18 @@
             <div class="layui-form" action="userselect">
                 手机号
                 <div class="layui-inline">
-                    <input class="layui-input" id="search-mobile" autocomplete="off" onkeyup="adminIndexJs.method.userSearch();">
+                    <input class="layui-input" id="search-mobile" autocomplete="off"
+                           onkeyup="adminIndexJs.method.userSearch();">
                 </div>
                 单位
                 <div class="layui-inline">
-                    <input class="layui-input" id="search-company" autocomplete="off" onkeyup="adminIndexJs.method.userSearch();">
+                    <input class="layui-input" id="search-company" autocomplete="off"
+                           onkeyup="adminIndexJs.method.userSearch();">
                 </div>
                 用户名
                 <div class="layui-inline">
-                    <input class="layui-input" id="search-account-name" autocomplete="off" onkeyup="adminIndexJs.method.userSearch();">
+                    <input class="layui-input" id="search-account-name" autocomplete="off"
+                           onkeyup="adminIndexJs.method.userSearch();">
                 </div>
                 <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.userSearch();">搜索</button>
                 <div shiro:hasPermission="添加用户" class="layui-inline">
@@ -170,6 +173,45 @@
         © 图像隐写在线服务平台-后台
     </div>
 </div>
+<div id="add_admin_panel" style="display:none;text-align:center;">
+    <div class='layui-form'>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-inline">
+                <input type="phone" id="add-admin-mobile" required lay-verify="required" placeholder="请输入手机号"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">必填</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input type="phone" id="add-admin-password" required lay-verify="required" placeholder="请输入手密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input type="phone" id="add-admin-userName" required lay-verify="required" placeholder="请输入用户名"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色</label>
+            <div class="layui-input-inline">
+                <select id="add-admin-role" lay-verify="required" autocomplete="off">
+                    <option value=""></option>
+                    <option value="0"></option>
+                    <option value="1">超级管理员</option>
+                    <option value="2">中级管理员</option>
+                    <option value="3">低级管理员</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/layui/layui.all.js"></script>
 <script type="text/javascript" src="/js/admin/adminIndexJs.js"></script>
 </body>

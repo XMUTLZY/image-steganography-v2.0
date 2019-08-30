@@ -326,46 +326,12 @@ var adminIndexJs = {
                 type: 1,
                 title: '添加管理员',
                 shift: 7,
-                area: 'auto',
-                maxWidth: 600,
-                maxHeight: 600,
+                area: ['300px','600px'],
+                closeBtn: 0,
+                maxWidth: 1000,
+                maxHeight: 800,
                 shadeClose: true,
-                content: "<div class='layui-form'>\n" +
-                    "<div class=\"layui-form-item\">\n" +
-                    "       <label class=\"layui-form-label\">手机号</label>\n" +
-                    "       <div class=\"layui-input-inline\">\n" +
-                    "           <input type=\"phone\" id=\"add-admin-mobile\" required lay-verify=\"required\" placeholder=\"请输入手机号\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                    "       </div>\n" +
-                    "       <div class=\"layui-form-mid layui-word-aux\">必填</div>\n" +
-                    "      </div>" +
-                    "  <div class=\"layui-form-item\">\n" +
-                    "    <label class=\"layui-form-label\">密码</label>\n" +
-                    "    <div class=\"layui-input-inline\">\n" +
-                    "      <input type=\"text\" id=\"add-admin-password\" required lay-verify=\"required\" placeholder=\"请输入密码\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                    "    </div>\n" +
-                    "  </div>" +
-                    "  <div class=\"layui-form-item\">\n" +
-                    "    <label class=\"layui-form-label\">用户名</label>\n" +
-                    "    <div class=\"layui-input-inline\">\n" +
-                    "      <input type=\"name\" id=\"add-admin-userName\" required lay-verify=\"required\" placeholder=\"请输入用户名\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                    "    </div>\n" +
-                    "  </div>" +
-                    "  <div class=\"layui-form-item\">\n" +
-                    "    <label class=\"layui-form-label\">角色</label>\n" +
-                    "    <select id=\"add-admin-role\" lay-verify=\"required\" autocomplete=\"off\">\n" +
-                    "      <option value=\"\"></option>\n" +
-                    "      <option value=\"0\"></option>\n" +
-                    "      <option value=\"1\">超级管理员</option>\n" +
-                    "      <option value=\"2\">中级管理员</option>\n" +
-                    "      <option value=\"3\">低级管理员</option>\n" +
-                    "    </div>\n" +
-                    "  </div>" +
-                    "  <div class=\"layui-form-item\">\n" +
-                    "    <div class=\"layui-input-inline\">\n" +
-                    "     <button style='margin-left: 150px;' type='button' class='layui-btn' onclick='adminIndexJs.method.subAdmin()'>提交</button></div>\n" +
-                    "    </div>\n" +
-                    "  </div>\n" +
-                    "</div>\n"
+                content: $("#add_admin_panel")
             });
         },
         subAdmin:function() {
