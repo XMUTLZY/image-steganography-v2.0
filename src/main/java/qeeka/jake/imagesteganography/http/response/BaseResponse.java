@@ -10,9 +10,14 @@ public class BaseResponse<T> {
     public static final String MSG_SUCCESS = "请求成功";
     public static final String MSG_FAILED = "请求失败";
 
-    private Integer code = 0;
+    public BaseResponse() {
+        this.code = SUCCESS_CODE;
+        this.msg = MSG_SUCCESS;
+    }
 
-    private String msg = "未定义";
+    private Integer code;
+
+    private String msg;
 
     private Integer count;
 

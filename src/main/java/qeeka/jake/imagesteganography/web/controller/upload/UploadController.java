@@ -67,7 +67,7 @@ public class UploadController {
     }
 
     private String getImagePathLocal(MultipartFile file) {
-        String localPath = "D:\\virtual-image-file-folder";//本地文件夹
+        String localPath = "F:\\virtual-image-file-folder";//本地文件夹
         File file1 = new File(localPath);
         if (!file1.exists() && !file1.mkdirs()) {
             //创建文件夹
