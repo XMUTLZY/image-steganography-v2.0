@@ -1,13 +1,12 @@
 package qeeka.jake.imagesteganography.domain.order;
 
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Table(name = "user_order")
+@Entity
 public class UserOrderEntity implements Serializable {
     @Id
     @Column(name = "order_number")

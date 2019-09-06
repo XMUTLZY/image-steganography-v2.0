@@ -4,7 +4,7 @@ import java.util.List;
 
 public class BaseResponse<T> {
 
-    public static final Integer SUCCESS_CODE = 200;
+    public static final Integer SUCCESS_CODE = 0;
     public static final Integer FAILED_CODE = 500;
     public static final Integer NOT_FOUND_CODE = 404;
     public static final String MSG_SUCCESS = "请求成功";
