@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 import qeeka.jake.imagesteganography.constants.UserConstant;
 import qeeka.jake.imagesteganography.domain.user.UserEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
-import qeeka.jake.imagesteganography.pojo.user.User;
+import qeeka.jake.imagesteganography.http.vo.user.User;
 import qeeka.jake.imagesteganography.repository.user.UserRepository;
 import qeeka.jake.imagesteganography.service.user.UserService;
 import javax.annotation.Resource;

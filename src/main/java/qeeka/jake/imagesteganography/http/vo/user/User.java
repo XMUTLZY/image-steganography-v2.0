@@ -1,4 +1,4 @@
-package qeeka.jake.imagesteganography.pojo.user;
+package qeeka.jake.imagesteganography.http.vo.user;
 
 import qeeka.jake.imagesteganography.constants.UserConstant;
 

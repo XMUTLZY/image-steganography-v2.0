@@ -1,8 +1,9 @@
-package qeeka.jake.imagesteganography.pojo.order;
+package qeeka.jake.imagesteganography.http.vo.order;
 
 import java.util.Date;
 
 public class Order {
+    private Integer id;
     private Integer orderNumber;
     private Integer userId;
     private String orginalImage;
@@ -11,6 +12,14 @@ public class Order {
     private String resultImage1;
     private String resultImage2;
     private Date date;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getOrderNumber() {
         return orderNumber;

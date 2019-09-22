@@ -9,6 +9,9 @@ import java.util.Date;
 @Entity
 public class UserOrderEntity implements Serializable {
     @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "order_number")
     private Integer orderNumber;
     @Column(name = "user_id")
@@ -26,6 +29,14 @@ public class UserOrderEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "order_time")
     private Date orderTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getOrderNumber() {
         return orderNumber;

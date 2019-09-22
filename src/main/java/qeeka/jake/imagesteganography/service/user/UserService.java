@@ -2,7 +2,7 @@ package qeeka.jake.imagesteganography.service.user;
 
 import org.springframework.data.domain.Pageable;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
-import qeeka.jake.imagesteganography.pojo.user.User;
+import qeeka.jake.imagesteganography.http.vo.user.User;
 import java.util.List;
 
 public interface UserService {

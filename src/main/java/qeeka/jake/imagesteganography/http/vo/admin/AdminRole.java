@@ -1,12 +1,12 @@
-package qeeka.jake.imagesteganography.pojo.admin;
+package qeeka.jake.imagesteganography.http.vo.admin;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class AdminPrivilege implements Serializable {
+public class AdminRole implements Serializable {
     private Integer id;
-    private String privilegeUrl;
-    private String privilege;
+    private String name;
+    private String describtion;
     private Date createTime;
     private Date updateTime;
 
@@ -18,12 +18,20 @@ public class AdminPrivilege implements Serializable {
         this.id = id;
     }
 
-    public String getPrivilege() {
-        return privilege;
+    public String getName() {
+        return name;
     }
 
-    public void setPrivilege(String privilege) {
-        this.privilege = privilege;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescribtion() {
+        return describtion;
+    }
+
+    public void setDescribtion(String describtion) {
+        this.describtion = describtion;
     }
 
     public Date getCreateTime() {
@@ -40,13 +48,5 @@ public class AdminPrivilege implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getPrivilegeUrl() {
-        return privilegeUrl;
-    }
-
-    public void setPrivilegeUrl(String privilegeUrl) {
-        this.privilegeUrl = privilegeUrl;
     }
 }

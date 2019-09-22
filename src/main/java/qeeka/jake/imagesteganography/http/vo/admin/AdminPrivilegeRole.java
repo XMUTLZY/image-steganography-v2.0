@@ -1,4 +1,4 @@
-package qeeka.jake.imagesteganography.pojo.admin;
+package qeeka.jake.imagesteganography.http.vo.admin;
 
 import java.io.Serializable;
 

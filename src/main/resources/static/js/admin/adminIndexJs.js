@@ -15,7 +15,7 @@ var adminIndexJs = {
                 //第一个实例
                 table.render({
                     elem: '#user-list-table'
-                    , height: 600
+                    , height: 485
                     , url: '/admin/user/getAllUserList'
                     , page: true //开启分页
                     , limits: [5,10,20]
@@ -162,7 +162,7 @@ var adminIndexJs = {
                 //第一个实例
                 table.render({
                     elem: '#user-list-table'
-                    , height: 600
+                    , height: 485
                     , where: {
                         mobile: $("#search-mobile").val(),
                         company: $("#search-company").val(),
@@ -265,7 +265,7 @@ var adminIndexJs = {
                 //第一个实例
                 table.render({
                     elem: '#demo3'
-                    , height: 600
+                    , height: 485
                     , url: 'payList' //数据接口
                     , page: true //开启分页
                     , limits: [5,10,20]
@@ -298,7 +298,7 @@ var adminIndexJs = {
                 //第一个实例
                 table.render({
                     elem: '#admin-list-table'
-                    , height: 600
+                    , height: 485
                     , url: '/admin/allAdminList' //数据接口
                     , page: true //开启分页
                     , limits: [5,10,20]
@@ -316,7 +316,7 @@ var adminIndexJs = {
                             }}
                         , {field: 'createTime', title: '创建时间', width: 180, sort: true}
                         , {field: 'updateTime', title: '修改时间', width: 180, sort: true}
-                        , {field: 'operate', title: '操作', width: 147, toolbar: "#admin-list-table-operate",}
+                        , {field: 'operate', title: '操作', width: 147, fixed: 'right', toolbar: "#admin-list-table-operate",}
                     ]]
                 });
             });

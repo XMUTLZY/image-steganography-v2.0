@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qeeka.jake.imagesteganography.constants.UserConstant;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
-import qeeka.jake.imagesteganography.pojo.user.User;
+import qeeka.jake.imagesteganography.http.vo.user.User;
 import qeeka.jake.imagesteganography.service.user.UserService;
 import redis.clients.jedis.Jedis;
 import javax.servlet.http.HttpServletRequest;

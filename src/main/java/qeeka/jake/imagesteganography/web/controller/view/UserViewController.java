@@ -3,7 +3,7 @@ package qeeka.jake.imagesteganography.web.controller.view;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import qeeka.jake.imagesteganography.pojo.user.User;
+import qeeka.jake.imagesteganography.http.vo.user.User;
 
 import javax.servlet.http.HttpServletRequest;
 
