@@ -1,7 +1,7 @@
 package qeeka.jake.imagesteganography.service.order;
 
-import ImageSteganographyPack.EmbeddingInfo;
-import com.mathworks.toolbox.javabuilder.MWException;
+//import ImageSteganographyPack.EmbeddingInfo;
+//import com.mathworks.toolbox.javabuilder.MWException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,17 +21,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public BaseResponse generateImage(Order order) {
-        EmbeddingInfo embeddingInfo = null;
-        try {
-            embeddingInfo = new EmbeddingInfo();
-        } catch (MWException e) {
-            e.printStackTrace();
-        }
-        try {
-            embeddingInfo.start(order.getOrginalImage(), converToUtf(order.getHiddenData()));
-        } catch (MWException e) {
-            e.printStackTrace();
-        }
+//        EmbeddingInfo embeddingInfo = null;
+//        try {
+//            embeddingInfo = new EmbeddingInfo();
+//        } catch (MWException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            embeddingInfo.start(order.getOrginalImage(), converToUtf(order.getHiddenData()));
+//        } catch (MWException e) {
+//            e.printStackTrace();
+//        }
         BaseResponse response = new BaseResponse();
         UserOrderEntity userOrderEntity = new UserOrderEntity();
         BeanUtils.copyProperties(order, userOrderEntity);

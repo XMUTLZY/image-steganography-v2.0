@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.domain.admin.AdminEntity;
 import qeeka.jake.imagesteganography.domain.admin.AdminPrivilegeEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
@@ -73,6 +75,30 @@ public class AdminServiceImpl implements AdminService {
         List<Integer> roleIdList = adminPrivilegeRoleRepository.findPrivilegeIdList(adminEntity.getRoleId());
         List<AdminPrivilege> entityList = convertToAdminPrivilegeList(adminPrivilegeRepository.getPrivilegeList(roleIdList));
         return entityList;
+    }
+
+    @Override
+    public BaseResponse deleteAdmin(Admin admin) {
+        AdminEntity adminEntity = adminRepository.findByMobile(admin.getMobile());
+        adminEntity.setStatus(AdminConstant.ADMIN_STATUS_NOPASS);
+        adminRepository.save(adminEntity);
+        return new BaseResponse();
+    }
+
+    @Override
+    public BaseResponse updateAdmin(Admin admin) {
+        AdminEntity adminEntity = adminRepository.findByMobile(admin.getMobile());
+        if (StringUtils.hasText(admin.getEmail())) {
+            adminEntity.setEmail(admin.getEmail());
+        }
+        if (StringUtils.hasText(admin.getRealName())) {
+            adminEntity.setRealName(admin.getRealName());
+        }
+        if (StringUtils.hasText(admin.getUserName())) {
+            adminEntity.setUserName(admin.getUserName());
+        }
+        adminRepository.save(adminEntity);
+        return new BaseResponse();
     }
 
     private List<Admin> convertToAdminList(List<AdminEntity> adminEntityList) {

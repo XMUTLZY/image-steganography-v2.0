@@ -168,6 +168,27 @@ public class AdminController {
         return adminService.getAllAdmin(pageable);
     }
 
+    //删除管理员
+    @RequestMapping(value = "/deleteAdmin", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse deleteAdmin(@RequestBody Admin admin) {
+        return adminService.deleteAdmin(admin);
+    }
+
+    //获取指定管理员
+    @RequestMapping(value = "/showAdmin", method = RequestMethod.POST)
+    @ResponseBody
+    public String showAdmin(@RequestBody Admin admin) {
+        return JSONObject.toJSONString(adminService.getAdmin(admin));
+    }
+
+    //修改管理员信息
+    @RequestMapping(value = "/updateAdmin", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse updateAdmin(@RequestBody Admin admin) {
+        return adminService.updateAdmin(admin);
+    }
+
     private User setUser(User user) {
         User user1 = userService.getUser(user);
         user1.setAccountName(user.getAccountName());

@@ -12,4 +12,6 @@ public interface AdminService {
     void saveAdmin(Admin admin);
     BaseResponse getAllAdmin(Pageable pageable);
     List<AdminPrivilege> getAllAdminPrivilege(String mobile);
+    BaseResponse deleteAdmin(Admin admin);
+    BaseResponse updateAdmin(Admin admin);
 }
