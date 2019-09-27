@@ -18,23 +18,26 @@ public class ShiroConfig {
     @Autowired
     private AdminPrivilegeRepository adminPrivilegeRepository;
 
+    /*
+    * 资源拦截过滤器
+    * */
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        shiroFilterFactoryBean.setSecurityManager(securityManager);//配置安全管理器
         //拦截器
         Map<String, String> filterMap = new HashMap<>();
         List<AdminPrivilegeEntity> adminPrivilegeEntityList = adminPrivilegeRepository.findAll();//动态设置所有权限
         for (AdminPrivilegeEntity adminPrivilegeEntity : adminPrivilegeEntityList) {
             filterMap.put(adminPrivilegeEntity.getPrivilegeUrl(), "perms[\"" + adminPrivilegeEntity.getPrivilege() + "\"]");
-        }
+        }//配置需要拦截的url和权限，从数据库获取
         //设置值不拦截url
         filterMap.put("/**","anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
     }
 
-    //注入SecurityManager
+    //注入SecurityManager 安全管理器
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
