@@ -29,6 +29,13 @@ public class UploadController {
         return uploadService.uploadImage(getImagePathLocal(file));
     }
 
+    //OSS上传图片
+    @RequestMapping(value = "/imageUrl", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse uploadImageOss(@RequestParam("file") MultipartFile file) {
+        return uploadService.uploadImageOss(file);
+    }
+
     //将上传的图片保存在本地文件夹
     private String getImagePathLocal(MultipartFile file) {
         File file1 = new File(UploadConstant.LOCAL_PATH);
@@ -50,4 +57,5 @@ public class UploadController {
         }
         return null;
     }
+
 }

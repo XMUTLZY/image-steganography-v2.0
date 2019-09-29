@@ -59,14 +59,14 @@
         <div class="layui-col-md5 layui-col-md-offset1">
             <div class="left" style="width: 100%;height: 1000px;background: white;" method="post"
                  enctype="multipart/form-data">
-                <!--<div class="left-btn1" style="width: 100%;height: 10%;border-bottom: 1px solid darkgray;">-->
-                <!--<input type="file" class="layui-btn" name="test1" id="test1" style="margin: 33px auto;">点击上传您需要处理的图片</input>-->
-                <!--</div>-->
                 <button type="button" class="layui-btn left-btn1" id="image-upload">
                     <i class="layui-icon">&#xe67c;</i>点击上传您需要处理的图片
                 </button>
                 <div class="left-show" style="width: 100%;height: 50%;border-bottom: 1px solid darkgray;">
-                    <img id="original-image" class="layui-upload-img" style="width: 80%;height: 80%;margin: 50px;float: left">
+                    <div class="layui-upload-drag" id="original-image" style="width: 70%;height: 70%;margin: 50px;float: left">
+                        <i class="layui-icon"></i>
+                        <p>点击上传，或将文件拖拽到此处</p>
+                    </div>
                 </div>
                 <div class="left-message" style="width: 100%;height: 30%;border-bottom: 1px solid darkgray;">
                     <label class="1" style="font-size: 30px;background: gray;color:darkgray;width: 100%;height: 20%">你希望做什么</label>

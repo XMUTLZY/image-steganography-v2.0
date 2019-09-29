@@ -1,5 +1,6 @@
 package qeeka.jake.imagesteganography.service.upload.Impl;
 
+import com.aliyun.oss.OSSClient;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
@@ -9,6 +10,8 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import qeeka.jake.imagesteganography.constants.OssConstant;
 import qeeka.jake.imagesteganography.constants.UploadConstant;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.service.upload.UploadService;
@@ -44,6 +47,12 @@ public class UploadServiceImpl implements UploadService {
             e.printStackTrace();
         }
         return response;
+    }
+
+    @Override
+    public BaseResponse uploadImageOss(MultipartFile file) {
+        OSSClient ossClient = new OSSClient(OssConstant.ENDPOINT, OssConstant.ACCESS_KEY, OssConstant.ACCESS_SECRET);
+        return null;
     }
 
 }
