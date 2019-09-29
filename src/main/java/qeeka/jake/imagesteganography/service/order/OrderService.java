@@ -1,4 +1,4 @@
-package qeeka.jake.imagesteganography.service.order.Impl;
+package qeeka.jake.imagesteganography.service.order;
 
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.order.Order;
