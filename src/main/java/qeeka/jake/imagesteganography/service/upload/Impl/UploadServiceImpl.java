@@ -8,11 +8,13 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+import org.springframework.stereotype.Service;
 import qeeka.jake.imagesteganography.constants.UploadConstant;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.service.upload.UploadService;
 import java.util.UUID;
 
+@Service
 public class UploadServiceImpl implements UploadService {
     @Override
     public BaseResponse uploadImage(String imagePath) {

@@ -2,6 +2,11 @@ package qeeka.jake.imagesteganography.service.order.Impl;
 
 //import ImageSteganographyPack.EmbeddingInfo;
 //import com.mathworks.toolbox.javabuilder.MWException;
+import org.apache.shiro.codec.Base64;
+import org.apache.shiro.codec.Hex;
+import org.apache.shiro.crypto.AesCipherService;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Key;
 import java.util.UUID;
 
 @Service
