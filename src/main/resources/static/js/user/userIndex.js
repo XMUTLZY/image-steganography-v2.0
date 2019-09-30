@@ -248,6 +248,17 @@ var userIndexJs = {
                     layer.msg('数据异常');
                 }
             })
+        },
+        payAndDownload: function () {
+            if ($("#original-image").attr("src") == undefined) {
+                layer.msg("请先上传图片");
+                return;
+            }
+            if ($("#resultImage1").attr("src") == undefined || $("#resultImage2").attr("src") == undefined) {
+                layer.msg("暂未发现有可支付的订单");
+                return;
+            }
+            window.location.href = "/orderView/details";
         }
     }
 }

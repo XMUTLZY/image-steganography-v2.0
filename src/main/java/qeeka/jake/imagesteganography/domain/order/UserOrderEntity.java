@@ -1,6 +1,6 @@
 package qeeka.jake.imagesteganography.domain.order;
 
-
+import qeeka.jake.imagesteganography.constants.OrderConstant;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -26,6 +26,10 @@ public class UserOrderEntity implements Serializable {
     private String resultImage1;
     @Column(name = "result_image2")
     private String resultImage2;
+    @Column(name = "payment_status")
+    private Integer paymentStatus = OrderConstant.PAYMENT_STATUS_NO;
+    @Column(name = "order_status")
+    private Integer orderStatus = OrderConstant.ORDER_STATUS_EXIT;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "order_time")
     private Date orderTime;
@@ -92,6 +96,22 @@ public class UserOrderEntity implements Serializable {
 
     public void setResultImage2(String resultImage2) {
         this.resultImage2 = resultImage2;
+    }
+
+    public Integer getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(Integer paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public Integer getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public Date getOrderTime() {

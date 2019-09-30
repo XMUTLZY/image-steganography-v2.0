@@ -18,8 +18,7 @@
         <h2 id="tab4" name="tab">退 款 查 询</h2>
         <h2 id="tab5" name="tab">交 易 关 闭</h2>
     </div>
-    <form name=alipayment action=alipay.trade.page.pay.jsp method=post
-          target="_blank">
+    <div name=alipayment target="_blank">
         <div id="body1" class="show" name="divcontent">
             <dl class="content">
                 <dt>商户订单号 ：</dt>
@@ -45,13 +44,13 @@
                 <dt></dt>
                 <dd id="btn-dd">
 						<span class="new-btn-login-sp">
-							<button class="new-btn-login" name="pay" id="pay" type="submit"
+							<button class="new-btn-login" onclick="orderDetails.method.payment();" type="submit"
                                     style="text-align: center;">付 款</button>
 						</span> <span class="note-help">如果您点击“付款”按钮，即表示您同意该次的执行操作。</span>
                 </dd>
             </dl>
         </div>
-    </form>
+    </div>
     <form name=tradequery action=alipay.trade.query.jsp method=post
           target="_blank">
         <div id="body2" class="tab-content" name="divcontent">
@@ -176,6 +175,7 @@
     </div>
 </div>
 </body>
+<script src="/js/user/orderDetails.js"></script>
 <script language="javascript">
     var tabs = document.getElementsByName('tab');
     var contents = document.getElementsByName('divcontent');
@@ -195,21 +195,6 @@
             }
         }
     }
-    function GetDateNow() {
-        var vNow = new Date();
-        var sNow = "";
-        sNow += String(vNow.getFullYear());
-        sNow += String(vNow.getMonth() + 1);
-        sNow += String(vNow.getDate());
-        sNow += String(vNow.getHours());
-        sNow += String(vNow.getMinutes());
-        sNow += String(vNow.getSeconds());
-        sNow += String(vNow.getMilliseconds());
-        document.getElementById("WIDout_trade_no").value =  sNow;
-        document.getElementById("WIDsubject").value = "图像隐写在线服务平台资源	下载支付";
-        document.getElementById("WIDtotal_amount").value = "5.00";
-    }
-    GetDateNow();
 </script>
 </body>
 </html>

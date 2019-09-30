@@ -1,14 +1,20 @@
 package qeeka.jake.imagesteganography.service.order.Impl;
 
 import ImageSteganographyPack.EmbeddingInfo;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.mathworks.toolbox.javabuilder.MWException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import qeeka.jake.imagesteganography.constants.AlipayConstant;
 import qeeka.jake.imagesteganography.constants.OssConstant;
 import qeeka.jake.imagesteganography.domain.order.UserOrderEntity;
+import qeeka.jake.imagesteganography.http.request.OrderDetailsRequest;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.response.ImageResultResponse;
 import qeeka.jake.imagesteganography.http.vo.order.Order;
@@ -39,6 +45,27 @@ public class OrderServiceImpl implements OrderService {
         setResultImagesToResponse(response, imageUrl.substring(imageUrl.lastIndexOf("/") + 1), userOrderEntity);
         orderRepository.save(userOrderEntity);
         return response;
+    }
+
+    @Override
+    public String payment(OrderDetailsRequest request) {
+        String result = null;
+        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConstant.GATEWAR_URL, AlipayConstant.APP_ID, AlipayConstant.MECHART_PRIVATE_KEY,
+                "json", AlipayConstant.CHARSET, AlipayConstant.APLPAY_PUBLIC_KEY, AlipayConstant.SIGN_TYPE);
+        AlipayTradePagePayRequest alipayTradePagePayRequest = new AlipayTradePagePayRequest();
+        alipayTradePagePayRequest.setReturnUrl(AlipayConstant.RETURN_URL);
+        alipayTradePagePayRequest.setNotifyUrl(AlipayConstant.NOTIFY_URL);
+        alipayTradePagePayRequest.setBizContent("{\"out_trade_no\":\""+ request.getOut_trade_no() +"\","
+                + "\"total_amount\":\""+ request.getTotal_amount() +"\","
+                + "\"subject\":\""+ request.getSubject() +"\","
+                + "\"body\":\""+ request.getBody() +"\","
+                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+        try {
+            result = alipayClient.pageExecute(alipayTradePagePayRequest).getBody();
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     private void runMatlab(Order order) {

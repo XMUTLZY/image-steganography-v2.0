@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import qeeka.jake.imagesteganography.http.request.OrderDetailsRequest;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.order.Order;
 import qeeka.jake.imagesteganography.http.vo.user.User;
@@ -25,6 +26,11 @@ public class OrderController {
     public BaseResponse generateImage(@RequestBody Order order, HttpServletRequest request) {
         order.setUserId(((User)request.getSession().getAttribute("user")).getId());
         return orderService.generateImage(order);
+    }
+
+    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    public String payment(@RequestBody OrderDetailsRequest request) {
+        return orderService.payment(request);
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
