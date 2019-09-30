@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import qeeka.jake.imagesteganography.constants.OssConstant;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.service.upload.UploadService;
+
 import java.io.IOException;
 import java.util.UUID;
 
@@ -34,13 +35,13 @@ public class UploadServiceImpl implements UploadService {
 //            resultImageUrl = "http://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.IMAGE_FOLDER + imageName;
 //        } catch (IOException e) {
 //            e.printStackTrace();
-//
+//        }
         response.setMsg("http://image-steganography.oss-cn-hangzhou.aliyuncs.com/image/2c676a93-6e1f-44f0-973a-f9227a88b49a.bmp");//测试图片
 //        response.setMsg(resultImageUrl);
         return response;
     }
 
-    private static String getContentType(String fileName) {
+    private String getContentType(String fileName) {
         String fileExtension = fileName.substring(fileName.lastIndexOf("."));
         if (".bmp".equalsIgnoreCase(fileExtension)) {
             return "image/bmp";
@@ -53,5 +54,4 @@ public class UploadServiceImpl implements UploadService {
         }
         return null;
     }
-
 }

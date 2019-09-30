@@ -1,6 +1,5 @@
 package qeeka.jake.imagesteganography.service.order.Impl;
 
-import ImageSteganographyPack.EmbeddingInfo;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -20,6 +19,7 @@ import qeeka.jake.imagesteganography.http.response.ImageResultResponse;
 import qeeka.jake.imagesteganography.http.vo.order.Order;
 import qeeka.jake.imagesteganography.repository.order.OrderRepository;
 import qeeka.jake.imagesteganography.service.order.OrderService;
+import stegangraphy.embeddingInfo;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -69,9 +69,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void runMatlab(Order order) {
-        EmbeddingInfo embeddingInfo = null;
+        embeddingInfo embeddingInfo = null;
         try {
-            embeddingInfo = new EmbeddingInfo();
+            embeddingInfo = new embeddingInfo();
         } catch (MWException e) {
             e.printStackTrace();
         }
@@ -132,25 +132,25 @@ public class OrderServiceImpl implements OrderService {
 //            inputStream2 = new FileInputStream(localImagePath + resultImageName2);
 //        } catch (FileNotFoundException e) {
 //            e.printStackTrace();
-////        }
-////        ObjectMetadata metadata = new ObjectMetadata();
-////        metadata.setCacheControl("no-cache");
-////        metadata.setHeader("Pragma", "no-cache");
-////        metadata.setContentEncoding("utf-8");
-////        metadata.setContentType(imageName.split("\\.")[1]);
-////        metadata.setContentDisposition("filename/filesize=" + imageName + "/512" + "Byte.");
-////        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName1, inputStream1, metadata);
-////        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName2, inputStream2, metadata);
-////        String resultImageOne = "http://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName1;
-////        String resultImageTwo = "http://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName2;
-////        map.put("97.00", resultImageOne);
-////        map.put("98.00", resultImageTwo);
-////        userOrderEntity.setResultImage1(resultImageOne);
-////        userOrderEntity.setResultImage2(resultImageTwo);
-        map.put("resultImageOne", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp");
-        map.put("resultImageTwo", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp");
-        userOrderEntity.setResultImage1("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp");
-        userOrderEntity.setResultImage2("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp");
-        response.setMap(map);
+//        }
+//        ObjectMetadata metadata = new ObjectMetadata();
+//        metadata.setCacheControl("no-cache");
+//        metadata.setHeader("Pragma", "no-cache");
+//        metadata.setContentEncoding("utf-8");
+//        metadata.setContentType(imageName.split("\\.")[1]);
+//        metadata.setContentDisposition("filename/filesize=" + imageName + "/512" + "Byte.");
+//        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName1, inputStream1, metadata);
+//        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName2, inputStream2, metadata);
+//        String resultImageOne = "https://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName1;
+//        String resultImageTwo = "https://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName2;
+//        map.put("resultImageOne", resultImageOne);
+//        map.put("resultImageTwo", resultImageTwo);
+//        userOrderEntity.setResultImage1(resultImageOne);
+//        userOrderEntity.setResultImage2(resultImageTwo);
+         map.put("resultImageOne", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
+         map.put("resultImageTwo", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
+         userOrderEntity.setResultImage1("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
+         userOrderEntity.setResultImage2("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
+         response.setMap(map);
     }
 }
