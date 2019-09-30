@@ -191,7 +191,7 @@ var userIndexJs = {
                 //普通图片上传
                 upload.render({
                     elem: '#image-upload'
-                    , url: '/upload/imageUrl'
+                    , url: '/upload/imageUrlOss'
                     , accept: 'images'
                     , before: function (obj) {
                         layer.load();

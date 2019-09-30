@@ -44,9 +44,9 @@
 <!-- 条目中可以是任意内容，如：<img src=""> -->
 <div class="layui-carousel" id="banner">
     <div carousel-item>
-        <img src="http://imgmall.tg.com.cn/group2/M00/3B/8B/CgooeFjkt2fhcggaAAFBzSRC03g239.jpg" style="width: 100%;height: 100%">
-        <img src="http://imgmall.tg.com.cn/group2/M00/69/2E/CgooeVlu_HLGT_4kAABi3ubLzTo319.jpg" style="width: 100%;height: 100%">
-        <img src="http://imgmall.tg.com.cn/group2/M00/3B/8B/CgooeFjkt2fhcggaAAFBzSRC03g239.jpg" style="width: 100%;height: 100%">
+        <img src="https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E5%83%8F%E9%9A%90%E5%86%99%EF%BC%8C%E4%B8%96%E7%95%8C%E4%B9%8B%E7%BE%8E%20%281%29.png" style="width: 100%;height: 100%">
+        <img src="https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E5%83%8F%E9%9A%90%E5%86%99%EF%BC%8C%E4%B8%96%E7%95%8C%E4%B9%8B%E7%BE%8E%20%282%29.png" style="width: 100%;height: 100%">
+        <img src="https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E5%83%8F%E9%9A%90%E5%86%99%EF%BC%8C%E4%B8%96%E7%95%8C%E4%B9%8B%E7%BE%8E.png" style="width: 100%;height: 100%">
     </div>
 </div>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -57,28 +57,26 @@
     <!-- 图像隐写 -->
     <div class="layui-row layui-col-space30 layui-show" id="menu1">
         <div class="layui-col-md5 layui-col-md-offset1">
-            <div class="left" style="width: 100%;height: 1000px;background: white;" method="post"
-                 enctype="multipart/form-data">
+            <div class="left" style="width: 100%;height: 1000px;background: white;">
                 <button type="button" class="layui-btn left-btn1" id="image-upload">
                     <i class="layui-icon">&#xe67c;</i>点击上传您需要处理的图片
                 </button>
                 <div class="left-show" style="width: 100%;height: 50%;border-bottom: 1px solid darkgray;">
-                    <div class="layui-upload-drag" id="original-image" style="width: 70%;height: 70%;margin: 50px;float: left">
+                    <div class="layui-upload-drag" style="width: 70%;height: 70%;margin: 50px;float: left">
                         <i class="layui-icon"></i>
-                        <p>点击上传，或将文件拖拽到此处</p>
+                        <img id="original-image" src="http://image-steganography.oss-cn-hangzhou.aliyuncs.com/image/2c676a93-6e1f-44f0-973a-f9227a88b49a.bmp" style="width: 90%;height:90%;">
                     </div>
                 </div>
-                <div class="left-message" style="width: 100%;height: 30%;border-bottom: 1px solid darkgray;">
-                    <label class="1" style="font-size: 30px;background: gray;color:darkgray;width: 100%;height: 20%">你希望做什么</label>
-                    <div class="layui-form-item layui-form-text" style="margin-top: 60px;">
-                        <label class="layui-form-label">藏入信息:</label>
+                <div class="layui-form layui-form-pane" style="width: 100%;height: 25%;margin-top: 60px;">
+                    <div class="layui-form-item layui-form-text" style="width: 70%;margin:0 auto;">
+                        <label class="layui-form-label">信息藏入</label>
                         <div class="layui-input-block">
-                            <textarea placeholder="请输入您要藏入的信息" id="input-info" class="layui-textarea"></textarea>
+                            <textarea placeholder="请输入您要藏入的信息" id="input-info" rows="5" class="layui-textarea"></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="left-bnt2" style="width: 100%;height: 10%;">
-                    <button class="layui-btn" onclick="userIndexJs.method.generateImage();" style="margin: 33px auto;">
+                <div class="left-bnt2" style="width: 100%;height: 25%;">
+                    <button class="layui-btn" onclick="userIndexJs.method.generateImage();" style="margin: 0 auto;">
                         生成藏入信息后的图片
                     </button>
                 </div>
@@ -86,15 +84,17 @@
         </div>
         <div class="layui-col-md5">
             <div class="result" style="height: 1000px;width: 100%;background: white;">
-                <div class="right-result1" style="width: 100%;height: 45%;border-bottom: 1px solid darkgray;">
+                <div class="right-result1" style="width: 70%;height: 40%;margin: 0px auto;">
                     <img id="resultImage1" oncontextmenu="return false;" onselectstart="return false;"
-                         style="width: 80%;height: 88%;margin: 25px 50px;float: left">
+                         style="width: 90%;height: 75%;">
+                    <div class="layui-form-label">PSNR:</div>
                 </div>
-                <div class="right-result2" style="width: 100%;height: 45%;border-bottom: 1px solid darkgray;">
+                <div class="right-result2" style="width: 70%;height: 40%;margin: 0px auto;">
                     <img id="resultImage2" oncontextmenu="return false;" onselectstart="return false;"
-                         style="width: 80%;height: 88%;margin: 25px 50px;float: left">
+                         style="width: 90%;height: 75%;">
+                    <div class="layui-form-label">PSNR:</div>
                 </div>
-                <div class="right-btn2" style="width: 100%;height: 10%;">
+                <div class="right-btn2" style="width: 100%;height: 20%;">
                     <button class="layui-btn layui-btn-normal" name="btn_buy" id="btn_buy" style="margin: 33px auto;">
                         购买并下载
                     </button>
@@ -112,15 +112,6 @@
     </div>
     <!-- 底部 -->
     <div class="layui-footer">
-        <div class="layui-collapse" lay-filter="test">
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">注：PSNR指标</h2>
-                <div class="layui-colla-content">
-                    <p>psnr是“Peak Signal to Noise
-                        Ratio”的缩写，即峰值信噪比，是一种评价图像的客观标准，它具有局限性，一般是用于最大值信号和背景噪音之间的一个工程项目。PSNR是最普遍，最广泛使用的评鉴画质的客观量测法，不过许多实验结果都显示，PSNR的分数无法和人眼看到的视觉品质完全一致，有可能PSNR较高者看起来反而比PSNR较低者差。这是因为人眼的视觉对于误差的敏感度并不是绝对的，其感知结果会受到许多因素的影响而产生变化（例如：人眼对空间频率较低的对比差异敏感度较高，人眼对亮度对比差异的敏感度较色度高，人眼对一个区域的感知结果会受到其周围邻近区域的影响）。</p>
-                </div>
-            </div>
-        </div>
     </div>
     <!-- 隐藏原始图片地址 -->
     <input type="hidden" name="orginalImage" id="orginalImage">

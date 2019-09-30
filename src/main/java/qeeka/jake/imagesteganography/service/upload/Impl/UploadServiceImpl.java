@@ -1,57 +1,56 @@
 package qeeka.jake.imagesteganography.service.upload.Impl;
 
 import com.aliyun.oss.OSSClient;
-import com.google.gson.Gson;
-import com.qiniu.common.QiniuException;
-import com.qiniu.common.Zone;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.util.Auth;
+import com.aliyun.oss.model.ObjectMetadata;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import qeeka.jake.imagesteganography.constants.OssConstant;
-import qeeka.jake.imagesteganography.constants.UploadConstant;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.service.upload.UploadService;
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
 public class UploadServiceImpl implements UploadService {
-    @Override
-    public BaseResponse uploadImage(String imagePath) {
-        //获取图片后缀
-        String imageSuffix = imagePath.substring(imagePath.lastIndexOf(".") + 1);//获取图片后缀
-        BaseResponse response = new BaseResponse();
-        //构造一个带指定Zone对象的构造器
-        Configuration cfg = new Configuration(Zone.zone2());
-        //...其他参数参考类注释
-        UploadManager uploadManager = new UploadManager(cfg);
-        //获取本地图片路径
-        //默认不指定key的情况下，以文件内容的hash值作为文件名
-        String key = UUID.randomUUID().toString() + "." + imageSuffix;
-        //验证七牛云身份是否通过
-        Auth auth = Auth.create(UploadConstant.ACCESS_KEY, UploadConstant.SECRET_KEY);
-        //生成凭证
-        String token = auth.uploadToken(UploadConstant.BUCKET);
-        //返回图片服务器地址
-        String imageUrl = null;
-        try {
-            Response response1 = uploadManager.put(imagePath, key, token);
-            //解析上传成功的结果
-            DefaultPutRet putRet = new Gson().fromJson(response1.bodyString(), DefaultPutRet.class);
-            imageUrl = "http://" + UploadConstant.DOMAIN_URL + "/" + key;
-            response.setMsg(imageUrl);
-        } catch (QiniuException e) {
-            e.printStackTrace();
-        }
-        return response;
-    }
 
     @Override
     public BaseResponse uploadImageOss(MultipartFile file) {
-        OSSClient ossClient = new OSSClient(OssConstant.ENDPOINT, OssConstant.ACCESS_KEY, OssConstant.ACCESS_SECRET);
+        BaseResponse response = new BaseResponse();
+//        OSSClient ossClient = new OSSClient(OssConstant.ENDPOINT, OssConstant.ACCESS_KEY, OssConstant.ACCESS_SECRET);
+//        String resultImageUrl = null;
+//        String fileName = file.getOriginalFilename();
+//        String imageName = UUID.randomUUID().toString() + "." + fileName.substring(fileName.lastIndexOf(".") + 1);
+//        Long fileSize = file.getSize();
+//        ObjectMetadata metadata = new ObjectMetadata();
+//        metadata.setContentLength(fileSize);
+//        metadata.setCacheControl("no-cache");
+//        metadata.setHeader("Pragma", "no-cache");
+//        metadata.setContentEncoding("utf-8");
+//        metadata.setContentType(getContentType(imageName));
+//        metadata.setContentDisposition("filename/filesize=" + imageName + "/" + fileSize + "Byte.");
+//        //上传文件
+//        try {
+//            ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.IMAGE_FOLDER + imageName, file.getInputStream(), metadata);
+//            resultImageUrl = "http://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.IMAGE_FOLDER + imageName;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        response.setMsg("http://image-steganography.oss-cn-hangzhou.aliyuncs.com/image/2c676a93-6e1f-44f0-973a-f9227a88b49a.bmp");//测试图片
+//        response.setMsg(resultImageUrl);
+        return response;
+    }
+
+    private static String getContentType(String fileName) {
+        String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+        if (".bmp".equalsIgnoreCase(fileExtension)) {
+            return "image/bmp";
+        }
+        if (".gif".equalsIgnoreCase(fileExtension)) {
+            return "image/gif";
+        }
+        if (".jpeg".equalsIgnoreCase(fileExtension) || ".jpg".equalsIgnoreCase(fileExtension) || ".png".equalsIgnoreCase(fileExtension)) {
+            return "image/jpeg";
+        }
         return null;
     }
 

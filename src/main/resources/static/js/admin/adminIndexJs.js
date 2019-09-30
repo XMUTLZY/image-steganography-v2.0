@@ -26,7 +26,7 @@ var adminIndexJs = {
                         , {field: 'accountName', title: '用户名', width: 100}
                         , {field: 'realName', title: '姓名', width: 100}
                         , {field: 'city', title: '城市', width: 100}
-                        , {field: 'status', title: '状态', width: 70, sort: true}
+                        , {field: 'status', title: '状态', width: 80, sort: true}
                         , {field: 'email', title: '邮箱', width: 130}
                         , {field: 'company', title: '单位', width: 150}
                         , {field: 'career', title: '职业', width: 110}
@@ -189,7 +189,7 @@ var adminIndexJs = {
                         , {field: 'accountName', title: '用户名', width: 100}
                         , {field: 'realName', title: '姓名', width: 100}
                         , {field: 'city', title: '城市', width: 100}
-                        , {field: 'status', title: '状态', width: 70, sort: true}
+                        , {field: 'status', title: '状态', width: 80, sort: true}
                         , {field: 'email', title: '邮箱', width: 130}
                         , {field: 'company', title: '单位', width: 150}
                         , {field: 'career', title: '职业', width: 110}
@@ -325,7 +325,7 @@ var adminIndexJs = {
                         , {field: 'mobile', title: '手机号', width: 120}
                         , {field: 'realName', title: '姓名', width: 100}
                         , {field: 'roleName', title: '角色', width: 140}
-                        , {field: 'status', title: '状态', width: 70, sort: true}
+                        , {field: 'status', title: '状态', width: 80, sort: true}
                         , {field: 'email', title: '邮箱', width: 130}
                         , {
                             field: 'portrait', title: '头像', width: 100, templet: function (d) {

@@ -1,30 +1,17 @@
 package qeeka.jake.imagesteganography.service.order.Impl;
 
-//import ImageSteganographyPack.EmbeddingInfo;
-//import com.mathworks.toolbox.javabuilder.MWException;
-import org.apache.shiro.codec.Base64;
-import org.apache.shiro.codec.Hex;
-import org.apache.shiro.crypto.AesCipherService;
-import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.crypto.hash.SimpleHash;
+import ImageSteganographyPack.EmbeddingInfo;
+import com.mathworks.toolbox.javabuilder.MWException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
-import qeeka.jake.imagesteganography.constants.UploadConstant;
 import qeeka.jake.imagesteganography.domain.order.UserOrderEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.order.Order;
 import qeeka.jake.imagesteganography.repository.order.OrderRepository;
 import qeeka.jake.imagesteganography.service.order.OrderService;
 import qeeka.jake.imagesteganography.service.upload.UploadService;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.Key;
-import java.util.UUID;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -52,7 +39,6 @@ public class OrderServiceImpl implements OrderService {
         BaseResponse response = new BaseResponse();
         UserOrderEntity userOrderEntity = new UserOrderEntity();
         BeanUtils.copyProperties(order, userOrderEntity);
-        uploadToServer(imageName, userOrderEntity);//将生成的图片上传到服务器
         orderRepository.save(userOrderEntity);
         return response;
     }
@@ -92,18 +78,5 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return bit;
-    }
-
-    private void uploadToServer(String imageName, UserOrderEntity userOrderEntity) {
-        File file1 = new File(UploadConstant.LOCAL_PATH);
-        if (!file1.exists() && !file1.mkdirs()) {
-            //创建文件夹
-        }
-        String resultImageName1 = UploadConstant.LOCAL_PATH + "/" + imageName + "1.bmp";
-        String resultImageName2 = UploadConstant.LOCAL_PATH + "/" + imageName + "2.bmp";
-        BaseResponse response1 = uploadService.uploadImage(resultImageName1);
-        BaseResponse response2 = uploadService.uploadImage(resultImageName2);
-        userOrderEntity.setResultImage1(response1.getMsg());
-        userOrderEntity.setResultImage2(response2.getMsg());
     }
 }
