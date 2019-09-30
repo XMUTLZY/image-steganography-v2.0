@@ -221,6 +221,7 @@ var userIndexJs = {
     },
     method: {
         generateImage: function () {
+            layer.load();
             var data = {};
             data.hiddenData = $("#input-info").val();
             data.orginalImage = $("#original-image").attr("src");
@@ -238,10 +239,13 @@ var userIndexJs = {
                 type: 'post',
                 contentType: 'application/json',
                 success: function (result) {
-                    
+                    layer.closeAll('loading');
+                    layer.msg('信息藏入成功！')
+                    $("#resultImage1").attr("src", result.map["resultImageOne"]);
+                    $("#resultImage2").attr("src", result.map["resultImageTwo"]);
                 },
                 error: function () {
-                    
+                    layer.msg('数据异常');
                 }
             })
         }

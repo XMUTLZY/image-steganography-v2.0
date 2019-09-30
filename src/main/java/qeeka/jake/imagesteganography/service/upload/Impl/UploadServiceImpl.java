@@ -34,7 +34,7 @@ public class UploadServiceImpl implements UploadService {
 //            resultImageUrl = "http://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.IMAGE_FOLDER + imageName;
 //        } catch (IOException e) {
 //            e.printStackTrace();
-//        }
+//
         response.setMsg("http://image-steganography.oss-cn-hangzhou.aliyuncs.com/image/2c676a93-6e1f-44f0-973a-f9227a88b49a.bmp");//测试图片
 //        response.setMsg(resultImageUrl);
         return response;

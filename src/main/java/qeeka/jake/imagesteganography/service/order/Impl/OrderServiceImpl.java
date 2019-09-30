@@ -1,46 +1,58 @@
 package qeeka.jake.imagesteganography.service.order.Impl;
 
 import ImageSteganographyPack.EmbeddingInfo;
+import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.model.ObjectMetadata;
 import com.mathworks.toolbox.javabuilder.MWException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import qeeka.jake.imagesteganography.constants.OssConstant;
 import qeeka.jake.imagesteganography.domain.order.UserOrderEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
+import qeeka.jake.imagesteganography.http.response.ImageResultResponse;
 import qeeka.jake.imagesteganography.http.vo.order.Order;
 import qeeka.jake.imagesteganography.repository.order.OrderRepository;
 import qeeka.jake.imagesteganography.service.order.OrderService;
-import qeeka.jake.imagesteganography.service.upload.UploadService;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
-    @Autowired
-    private UploadService uploadService;
 
     @Override
     public BaseResponse generateImage(Order order) {
-//        EmbeddingInfo embeddingInfo = null;
-//        try {
-//            embeddingInfo = new EmbeddingInfo();
-//        } catch (MWException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            embeddingInfo.start(order.getOrginalImage(), converToUtf(order.getHiddenData()));
-//        } catch (MWException e) {
-//            e.printStackTrace();
-//        }
-        String testUrl = "http://pwm7p4mff.bkt.clouddn.com/6c924d35-761c-4b2c-b45c-11229da73af4.jpg";
-        String imageName = testUrl.split("/|\\.")[6];
-        BaseResponse response = new BaseResponse();
+        ImageResultResponse response = new ImageResultResponse();
+        String imageUrl = order.getOrginalImage();
+//        runMatlab(order);
         UserOrderEntity userOrderEntity = new UserOrderEntity();
         BeanUtils.copyProperties(order, userOrderEntity);
+        userOrderEntity.setOrderTime(new Date());
+        setResultImagesToResponse(response, imageUrl.substring(imageUrl.lastIndexOf("/") + 1), userOrderEntity);
         orderRepository.save(userOrderEntity);
         return response;
+    }
+
+    private void runMatlab(Order order) {
+        EmbeddingInfo embeddingInfo = null;
+        try {
+            embeddingInfo = new EmbeddingInfo();
+        } catch (MWException e) {
+            e.printStackTrace();
+        }
+        try {
+            embeddingInfo.start(order.getOrginalImage(), converToUtf(order.getHiddenData()));
+        } catch (MWException e) {
+            e.printStackTrace();
+        }
     }
 
     private int[] converToUtf(String inputInfo) {
@@ -78,5 +90,40 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return bit;
+    }
+
+    private void setResultImagesToResponse(ImageResultResponse response, String imageName, UserOrderEntity userOrderEntity) {
+        Map<String, String> map = new HashMap<>();
+//        String localImagePath = "C:\\resultImage\\";//该路径存放matlab算法生成的2张结果图  命名("test1.bmp" or "test2.bmp")
+//        String resultImageName1 = imageName.split("\\.")[0] + "One." + imageName.split("\\.")[1];
+//        String resultImageName2 = imageName.split("\\.")[0] + "Two." + imageName.split("\\.")[1];
+//        InputStream inputStream1 = null;
+//        InputStream inputStream2 = null;
+//        OSSClient ossClient = new OSSClient(OssConstant.ENDPOINT, OssConstant.ACCESS_KEY, OssConstant.ACCESS_SECRET);
+//        try {
+//            inputStream1 = new FileInputStream(localImagePath + resultImageName1);
+//            inputStream2 = new FileInputStream(localImagePath + resultImageName2);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+////        }
+////        ObjectMetadata metadata = new ObjectMetadata();
+////        metadata.setCacheControl("no-cache");
+////        metadata.setHeader("Pragma", "no-cache");
+////        metadata.setContentEncoding("utf-8");
+////        metadata.setContentType(imageName.split("\\.")[1]);
+////        metadata.setContentDisposition("filename/filesize=" + imageName + "/512" + "Byte.");
+////        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName1, inputStream1, metadata);
+////        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName2, inputStream2, metadata);
+////        String resultImageOne = "http://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName1;
+////        String resultImageTwo = "http://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName2;
+////        map.put("97.00", resultImageOne);
+////        map.put("98.00", resultImageTwo);
+////        userOrderEntity.setResultImage1(resultImageOne);
+////        userOrderEntity.setResultImage2(resultImageTwo);
+        map.put("resultImageOne", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp");
+        map.put("resultImageTwo", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp");
+        userOrderEntity.setResultImage1("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp");
+        userOrderEntity.setResultImage2("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp");
+        response.setMap(map);
     }
 }
