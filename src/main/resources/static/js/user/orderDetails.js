@@ -35,7 +35,7 @@ var orderDetails = {
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function (result) {
-                    alert(result);
+                    location.href = "/orderView/href";
                 },
                 error: function () {
                     layer.msg('数据异常')
