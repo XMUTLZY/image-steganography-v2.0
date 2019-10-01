@@ -6,11 +6,11 @@ import java.util.Date;
 
 public class Order {
     private Integer id;
-    private Integer orderNumber;
+    private String orderNumber;
     private Integer userId;
     private String orginalImage;
     private String hiddenData;
-    private Double paymentAmount;
+    private String paymentAmount;
     private String resultImage1;
     private String resultImage2;
     private Integer paymentStatus = OrderConstant.PAYMENT_STATUS_NO;
@@ -25,11 +25,11 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getOrderNumber() {
+    public String getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(Integer orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
 
@@ -57,11 +57,11 @@ public class Order {
         this.hiddenData = hiddenData;
     }
 
-    public Double getPaymentAmount() {
+    public String getPaymentAmount() {
         return paymentAmount;
     }
 
-    public void setPaymentAmount(Double paymentAmount) {
+    public void setPaymentAmount(String paymentAmount) {
         this.paymentAmount = paymentAmount;
     }
 

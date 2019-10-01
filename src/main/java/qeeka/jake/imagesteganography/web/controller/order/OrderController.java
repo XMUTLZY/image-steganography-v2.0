@@ -3,6 +3,7 @@ package qeeka.jake.imagesteganography.web.controller.order;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,11 @@ import qeeka.jake.imagesteganography.service.order.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @RequestMapping("/order")
 @Controller
@@ -38,24 +44,7 @@ public class OrderController {
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     @ResponseBody
     public String payment(@RequestBody OrderDetailsRequest request, HttpServletRequest httpServletRequest) {
-        String result = null;
-        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConstant.GATEWAR_URL, AlipayConstant.APP_ID, AlipayConstant.MECHART_PRIVATE_KEY,
-                "json", AlipayConstant.CHARSET, AlipayConstant.APLPAY_PUBLIC_KEY, AlipayConstant.SIGN_TYPE);
-        AlipayTradePagePayRequest alipayTradePagePayRequest = new AlipayTradePagePayRequest();
-        alipayTradePagePayRequest.setReturnUrl(AlipayConstant.RETURN_URL);
-        alipayTradePagePayRequest.setNotifyUrl(AlipayConstant.NOTIFY_URL);
-        alipayTradePagePayRequest.setBizContent("{\"out_trade_no\":\""+ request.getOut_trade_no() +"\","
-                + "\"total_amount\":\""+ request.getTotal_amount() +"\","
-                + "\"subject\":\""+ request.getSubject() +"\","
-                + "\"body\":\""+ request.getBody() +"\","
-                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
-        try {
-            result = alipayClient.pageExecute(alipayTradePagePayRequest).getBody();
-        } catch (AlipayApiException e) {
-            e.printStackTrace();
-        }
-        httpServletRequest.getSession().setAttribute("payIndex", result);
-        return result;
+        return orderService.payment(request, httpServletRequest);
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
@@ -71,9 +60,8 @@ public class OrderController {
         return "success";
     }
 
-    @RequestMapping(value = "alipayReturnNotice", method = RequestMethod.POST)
-    @ResponseBody
-    public String alipayReturnNotice(HttpServletRequest request, HttpServletResponse response) {
-        return "success";
+    @RequestMapping(value = "alipayReturnNotice", method = RequestMethod.GET)
+    public void alipayReturnNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect(orderService.payResult(request));//重定向到主页
     }
 }

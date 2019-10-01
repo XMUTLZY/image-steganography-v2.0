@@ -3,6 +3,7 @@ package qeeka.jake.imagesteganography.service.order.Impl;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
@@ -11,21 +12,26 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qeeka.jake.imagesteganography.constants.AlipayConstant;
+import qeeka.jake.imagesteganography.constants.OrderConstant;
 import qeeka.jake.imagesteganography.constants.OssConstant;
 import qeeka.jake.imagesteganography.domain.order.UserOrderEntity;
 import qeeka.jake.imagesteganography.http.request.OrderDetailsRequest;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.response.ImageResultResponse;
 import qeeka.jake.imagesteganography.http.vo.order.Order;
+import qeeka.jake.imagesteganography.http.vo.user.User;
 import qeeka.jake.imagesteganography.repository.order.OrderRepository;
 import qeeka.jake.imagesteganography.service.order.OrderService;
 import stegangraphy.embeddingInfo;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @Service
@@ -48,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String payment(OrderDetailsRequest request) {
+    public String payment(OrderDetailsRequest request, HttpServletRequest httpServletRequest) {
         String result = null;
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConstant.GATEWAR_URL, AlipayConstant.APP_ID, AlipayConstant.MECHART_PRIVATE_KEY,
                 "json", AlipayConstant.CHARSET, AlipayConstant.APLPAY_PUBLIC_KEY, AlipayConstant.SIGN_TYPE);
@@ -65,8 +71,59 @@ public class OrderServiceImpl implements OrderService {
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
+        httpServletRequest.getSession().setAttribute("payIndex", result);
         return result;
     }
+
+    @Override
+    public String payResult(HttpServletRequest request) {
+        String trade_no = null;
+        String total_amount = null;
+        //获取支付宝GET过来反馈信息
+        Map<String,String> params = new HashMap<>();
+        Map<String,String[]> requestParams = request.getParameterMap();
+        for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+            String name = iter.next();
+            String[] values = requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            //乱码解决，这段代码在出现乱码时使用
+            try {
+                valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            params.put(name, valueStr);
+        }
+        boolean signVerified = false;//验证签名
+        try {
+            signVerified = AlipaySignature.rsaCheckV1(params, AlipayConstant.APLPAY_PUBLIC_KEY,
+                    AlipayConstant.CHARSET, AlipayConstant.SIGN_TYPE);
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        if (signVerified) {
+            try {
+                trade_no = new String(request.getParameter("out_trade_no").
+                        getBytes("ISO-8859-1"), "UTF-8");
+                total_amount = new String(request.getParameter("total_amount").
+                        getBytes("ISO-8859-1"), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            User user = (User) request.getSession().getAttribute("user");
+            UserOrderEntity userOrderEntity = orderRepository.findFirstByOrderByOrderTimeDesc();
+            userOrderEntity.setOrderNumber(trade_no);
+            userOrderEntity.setPaymentAmount(total_amount);
+            userOrderEntity.setPaymentStatus(OrderConstant.PAYMENT_STATUS_YES);
+            orderRepository.save(userOrderEntity);
+        }
+        return "/userView/index";
+    }
+
 
     private void runMatlab(Order order) {
         embeddingInfo embeddingInfo = null;
@@ -149,8 +206,8 @@ public class OrderServiceImpl implements OrderService {
 //        userOrderEntity.setResultImage2(resultImageTwo);
          map.put("resultImageOne", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
          map.put("resultImageTwo", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
-         userOrderEntity.setResultImage1("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
-         userOrderEntity.setResultImage2("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
+         userOrderEntity.setResultImage1("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp");
+         userOrderEntity.setResultImage2("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp");
          response.setMap(map);
     }
 }

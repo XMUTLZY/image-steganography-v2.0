@@ -13,7 +13,7 @@ public class UserOrderEntity implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "order_number")
-    private Integer orderNumber;
+    private String orderNumber;
     @Column(name = "user_id")
     private Integer userId;
     @Column(name = "orginal_image")
@@ -21,7 +21,7 @@ public class UserOrderEntity implements Serializable {
     @Column(name = "hidden_data")
     private String hiddenData;
     @Column(name = "payment_amount")
-    private Double paymentAmount;
+    private String paymentAmount;
     @Column(name = "result_image1")
     private String resultImage1;
     @Column(name = "result_image2")
@@ -42,11 +42,11 @@ public class UserOrderEntity implements Serializable {
         this.id = id;
     }
 
-    public Integer getOrderNumber() {
+    public String getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(Integer orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
 
@@ -74,11 +74,11 @@ public class UserOrderEntity implements Serializable {
         this.hiddenData = hiddenData;
     }
 
-    public Double getPaymentAmount() {
+    public String getPaymentAmount() {
         return paymentAmount;
     }
 
-    public void setPaymentAmount(Double paymentAmount) {
+    public void setPaymentAmount(String paymentAmount) {
         this.paymentAmount = paymentAmount;
     }
 
