@@ -26,6 +26,8 @@ public class UserOrderEntity implements Serializable {
     private String resultImage1;
     @Column(name = "result_image2")
     private String resultImage2;
+    @Column(name = "download_status")
+    private Integer downloadStatus = OrderConstant.DOWNLOAD_NO;
     @Column(name = "payment_status")
     private Integer paymentStatus = OrderConstant.PAYMENT_STATUS_NO;
     @Column(name = "order_status")
@@ -96,6 +98,14 @@ public class UserOrderEntity implements Serializable {
 
     public void setResultImage2(String resultImage2) {
         this.resultImage2 = resultImage2;
+    }
+
+    public Integer getDownloadStatus() {
+        return downloadStatus;
+    }
+
+    public void setDownloadStatus(Integer downloadStatus) {
+        this.downloadStatus = downloadStatus;
     }
 
     public Integer getPaymentStatus() {

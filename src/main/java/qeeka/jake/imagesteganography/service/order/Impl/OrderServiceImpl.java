@@ -29,10 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -114,14 +111,23 @@ public class OrderServiceImpl implements OrderService {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            User user = (User) request.getSession().getAttribute("user");
             UserOrderEntity userOrderEntity = orderRepository.findFirstByOrderByOrderTimeDesc();
             userOrderEntity.setOrderNumber(trade_no);
             userOrderEntity.setPaymentAmount(total_amount);
             userOrderEntity.setPaymentStatus(OrderConstant.PAYMENT_STATUS_YES);
+            request.getSession().setAttribute("order", userOrderEntity);
             orderRepository.save(userOrderEntity);
         }
         return "/userView/index";
+    }
+
+    @Override
+    public BaseResponse isDownloadImage(User user) {
+        List<UserOrderEntity> list = orderRepository.noDownloadOrder(user.getId(), OrderConstant.PAYMENT_STATUS_YES,
+                OrderConstant.ORDER_STATUS_EXIT, OrderConstant.DOWNLOAD_NO);
+        BaseResponse response = new BaseResponse();
+        response.setData(list);
+        return response;
     }
 
 

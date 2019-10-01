@@ -1,7 +1,6 @@
 package qeeka.jake.imagesteganography.http.vo.order;
 
 import qeeka.jake.imagesteganography.constants.OrderConstant;
-
 import java.util.Date;
 
 public class Order {
@@ -13,6 +12,7 @@ public class Order {
     private String paymentAmount;
     private String resultImage1;
     private String resultImage2;
+    private Integer downloadStatus = OrderConstant.DOWNLOAD_NO;
     private Integer paymentStatus = OrderConstant.PAYMENT_STATUS_NO;
     private Integer orderStatus = OrderConstant.ORDER_STATUS_DELETE;
     private Date date;
@@ -79,6 +79,14 @@ public class Order {
 
     public void setResultImage2(String resultImage2) {
         this.resultImage2 = resultImage2;
+    }
+
+    public Integer getDownloadStatus() {
+        return downloadStatus;
+    }
+
+    public void setDownloadStatus(Integer downloadStatus) {
+        this.downloadStatus = downloadStatus;
     }
 
     public Integer getPaymentStatus() {
