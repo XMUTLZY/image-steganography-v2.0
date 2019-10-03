@@ -180,10 +180,57 @@ $(function () {
 });
 var userIndexJs = {
     bindEvent: function () {
+        userIndexJs.event.isToDownloadImage();
         userIndexJs.event.orginalImageUpload();
         userIndexJs.event.initBanner();
     },
     event: {
+        isToDownloadImage: function() {
+            $.ajax({
+                url: '/order/isDownload',
+                type: 'post',
+                data: JSON.stringify({}),
+                contentType: 'application/json',
+                success: function (result) {
+                    if (result) {
+                        layer.open({
+                            type: 1
+                            ,title: false //不显示标题栏
+                            ,closeBtn: false
+                            ,area: '300px;'
+                            ,shade: 0.8
+                            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                            ,btn: ['立即下载', '残忍拒绝']
+                            ,btnAlign: 'c'
+                            ,moveType: 1 //拖拽模式，0或者1
+                            ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; ' +
+                                'color: #fff; font-weight: 300;">亲！<br><br>发现您有已付款但未下载资源的订单哦！' +
+                                '<br><br>建议您优先下载 ^_^</div>'
+                            ,yes: function(index){
+                                layer.close(index);
+                                $.ajax({
+                                    url: '/order/downloadImage',
+                                    type: 'get',
+                                    success: function (result) {
+                                        for (i = 0; i<result.data.length; i++) {
+                                             userIndexJs.method.downloadForCros(result.data[i],  i + ".bmp")
+                                        }
+                                    },
+                                    error: function () {
+                                        layer.msg('数据请求异常');
+                                    }
+                                })
+                            }
+                            ,btn2: function() {
+                            }
+                        });
+                    }
+                },
+                error: function () {
+                    layer.msg('数据请求异常');
+                }
+            })
+        },
         orginalImageUpload: function () {
             layui.use('upload', function () {
                 var $ = layui.jquery
@@ -259,6 +306,19 @@ var userIndexJs = {
                 return;
             }
             window.location.href = "/orderView/details";
+        },
+        downloadForCros: function (imageUrl, imageName) {//跨域请求OSS图片 并下载
+            var x = new XMLHttpRequest();
+            x.open("GET", imageUrl, true);
+            x.responseType = 'blob';
+            x.onload=function(e) {
+                var url = window.URL.createObjectURL(x.response)
+                var a = document.createElement('a');
+                a.href = url
+                a.download = imageName;
+                a.click()
+            }
+            x.send();
         }
     }
 }

@@ -14,7 +14,7 @@ public class Order {
     private String resultImage2;
     private Integer downloadStatus = OrderConstant.DOWNLOAD_NO;
     private Integer paymentStatus = OrderConstant.PAYMENT_STATUS_NO;
-    private Integer orderStatus = OrderConstant.ORDER_STATUS_DELETE;
+    private Integer orderStatus = OrderConstant.ORDER_STATUS_EXIT;
     private Date date;
 
     public Integer getId() {

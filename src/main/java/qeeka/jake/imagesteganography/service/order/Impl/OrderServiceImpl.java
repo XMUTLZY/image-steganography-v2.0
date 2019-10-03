@@ -8,6 +8,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.mathworks.toolbox.javabuilder.MWException;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,13 @@ import qeeka.jake.imagesteganography.repository.order.OrderRepository;
 import qeeka.jake.imagesteganography.service.order.OrderService;
 import stegangraphy.embeddingInfo;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.*;
 
 @Service
@@ -130,6 +133,15 @@ public class OrderServiceImpl implements OrderService {
         return response;
     }
 
+    @Override
+    public void updateDownloadStatus(User user) {
+        List<UserOrderEntity> list = orderRepository.noDownloadOrder(user.getId(), OrderConstant.PAYMENT_STATUS_YES,
+                OrderConstant.ORDER_STATUS_EXIT, OrderConstant.DOWNLOAD_NO);
+        for (UserOrderEntity userOrderEntity : list) {
+            userOrderEntity.setDownloadStatus(OrderConstant.DOWNLOAD_YES);
+            orderRepository.save(userOrderEntity);
+        }
+    }
 
     private void runMatlab(Order order) {
         embeddingInfo embeddingInfo = null;
