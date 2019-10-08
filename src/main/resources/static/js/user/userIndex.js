@@ -93,7 +93,6 @@ var userIndexJs = {
     },
     method: {
         generateImage: function () {
-            layer.load();
             var data = {};
             data.hiddenData = $("#input-info").val();
             data.orginalImage = $("#original-image").attr("src");
@@ -105,6 +104,7 @@ var userIndexJs = {
                 layer.msg("请输入需要藏入的信息");
                 return;
             }
+            layer.load();
             $.ajax({
                 url: '/order/generateImage',
                 data: JSON.stringify(data),
@@ -122,11 +122,16 @@ var userIndexJs = {
             })
         },
         payAndDownload: function () {
-            if ($("#original-image").attr("src") == undefined) {
+            if ($("#original-image").attr("src") == "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%20%281%29.png") {
                 layer.msg("请先上传图片");
                 return;
             }
-            if ($("#resultImage1").attr("src") == undefined || $("#resultImage2").attr("src") == undefined) {
+            if ($("#input-info").val() == "") {
+                layer.msg("请先输入您要藏入的信息");
+                return;
+            }
+            if ($("#resultImage1").attr("src") == "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%20%283%29.png"
+                || $("#resultImage2").attr("src") == "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%20%283%29.png") {
                 layer.msg("暂未发现有可支付的订单");
                 return;
             }
