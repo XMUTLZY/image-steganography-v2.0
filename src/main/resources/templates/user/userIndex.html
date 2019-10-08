@@ -9,7 +9,6 @@
     <script src="/js/jquery.session.js"></script>
     <script src="/js/getUrlParams.js"></script>
     <script src="/js/user/download.js"></script>
-    <script src="template.js-master/template.js-master/template.js"></script>
 </head>
 <body style="text-align: center;">
 <div class="layui-layout layui-layout-admin">
@@ -29,12 +28,13 @@
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right">
+            <span class="" id="personal-select"></span>
             <li class="layui-nav-item">
                 <a th:text="${user.accountName}"></a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
                     <dd><a href="">安全设置</a></dd>
-                    <dd><a href="">我的订单</a></dd>
+                    <dd><a href="">我的订单<span class="" id="my-order"></span></a></dd>
                     <dd><a href="">我的空间</a></dd>
                     <dd><a href="/userView/login">退出登录</a></dd>
                 </dl>
@@ -65,7 +65,7 @@
                 <div class="left-show" style="width: 100%;height: 50%;border-bottom: 1px solid darkgray;">
                     <div class="layui-upload-drag" style="width: 70%;height: 70%;margin: 50px;float: left">
                         <i class="layui-icon"></i>
-                        <img id="original-image" src="http://image-steganography.oss-cn-hangzhou.aliyuncs.com/image/2c676a93-6e1f-44f0-973a-f9227a88b49a.bmp" style="width: 90%;height:90%;">
+                        <img id="original-image" src="https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%20%281%29.png" style="width: 90%;height:90%;">
                     </div>
                 </div>
                 <div class="layui-form layui-form-pane" style="width: 100%;height: 25%;margin-top: 60px;">
@@ -87,11 +87,13 @@
             <div class="result" style="height: 1000px;width: 100%;background: white;">
                 <div class="right-result1" style="width: 70%;height: 40%;margin: 0px auto;">
                     <img id="resultImage1" oncontextmenu="return false;" onselectstart="return false;"
+                         src="https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%20%283%29.png"
                          style="width: 90%;height: 75%;">
                     <div class="layui-form-label">PSNR:</div>
                 </div>
                 <div class="right-result2" style="width: 70%;height: 40%;margin: 0px auto;">
                     <img id="resultImage2" oncontextmenu="return false;" onselectstart="return false;"
+                         src="https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%20%283%29.png"
                          style="width: 90%;height: 75%;">
                     <div class="layui-form-label">PSNR:</div>
                 </div>
