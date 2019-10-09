@@ -11,6 +11,7 @@ import qeeka.jake.imagesteganography.domain.admin.AdminEntity;
 import qeeka.jake.imagesteganography.domain.admin.AdminPrivilegeEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.admin.Admin;
+import qeeka.jake.imagesteganography.http.vo.admin.AdminOperate;
 import qeeka.jake.imagesteganography.http.vo.admin.AdminPrivilege;
 import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRoleRepository;
@@ -99,6 +100,11 @@ public class AdminServiceImpl implements AdminService {
         }
         adminRepository.save(adminEntity);
         return new BaseResponse();
+    }
+
+    @Override
+    public BaseResponse saveAdminOperate(AdminOperate AdminOperate) {
+        return null;
     }
 
     private List<Admin> convertToAdminList(List<AdminEntity> adminEntityList) {
