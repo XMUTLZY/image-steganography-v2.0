@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class ImageSteganographyApplication {
     public static void main(String[] args) {
+        System.setProperty("es.set.netty.runtime.available.processors","false");
         SpringApplication.run(ImageSteganographyApplication.class, args);
     }
 }
