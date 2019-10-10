@@ -7,11 +7,20 @@ import java.util.Date;
 @Document(indexName = "image-steganography", type = "adminOperate", shards = 1, replicas = 0)
 public class AdminOperateEs {
     @Id
+    private Integer id;
     private Integer adminId;
     private String ip;
     private String operate;
-    private Date operateTime;
+    private String operateTime;
     private Integer status;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getAdminId() {
         return adminId;
@@ -37,11 +46,11 @@ public class AdminOperateEs {
         this.operate = operate;
     }
 
-    public Date getOperateTime() {
+    public String getOperateTime() {
         return operateTime;
     }
 
-    public void setOperateTime(Date operateTime) {
+    public void setOperateTime(String operateTime) {
         this.operateTime = operateTime;
     }
 

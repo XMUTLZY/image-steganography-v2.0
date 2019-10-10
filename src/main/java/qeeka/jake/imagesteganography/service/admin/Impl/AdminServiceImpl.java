@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.domain.admin.AdminEntity;
 import qeeka.jake.imagesteganography.domain.admin.AdminPrivilegeEntity;
+import qeeka.jake.imagesteganography.domain.admin.AdminRoleEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.admin.Admin;
 import qeeka.jake.imagesteganography.http.vo.admin.AdminOperate;
@@ -40,6 +41,8 @@ public class AdminServiceImpl implements AdminService {
             return null;
         Admin admin1 = new Admin();
         BeanUtils.copyProperties(adminRepository.findByMobile(admin.getMobile()), admin1);
+        AdminRoleEntity adminRoleEntity = adminRoleRepository.findAllById(admin1.getRoleId());
+        admin1.setRoleName(adminRoleEntity.getName());
         return admin1;
     }
 
