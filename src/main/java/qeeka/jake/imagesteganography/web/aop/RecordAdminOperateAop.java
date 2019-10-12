@@ -5,8 +5,6 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import qeeka.jake.imagesteganography.constants.AdminConstant;
@@ -27,7 +25,6 @@ public class RecordAdminOperateAop {
     private static String ip = null;
     @Autowired
     private AdminOperateEsRepository adminOperateEsRepository;
-    private Logger logger = LoggerFactory.getLogger(RecordAdminOperateAop.class);
     /*
     * 指定切入点
     * */
@@ -41,7 +38,7 @@ public class RecordAdminOperateAop {
     * */
     @Before("webLog()")
     public void doBefore() {
-        logger.info("前置通知");
+
     }
 
     /*

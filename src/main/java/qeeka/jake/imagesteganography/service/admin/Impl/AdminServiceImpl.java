@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.domain.admin.AdminEntity;
+import qeeka.jake.imagesteganography.domain.admin.AdminOperateEs;
 import qeeka.jake.imagesteganography.domain.admin.AdminPrivilegeEntity;
 import qeeka.jake.imagesteganography.domain.admin.AdminRoleEntity;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.admin.Admin;
 import qeeka.jake.imagesteganography.http.vo.admin.AdminOperate;
 import qeeka.jake.imagesteganography.http.vo.admin.AdminPrivilege;
+import qeeka.jake.imagesteganography.repository.admin.AdminOperateEsRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRoleRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminRepository;
@@ -34,6 +36,8 @@ public class AdminServiceImpl implements AdminService {
     private AdminPrivilegeRoleRepository adminPrivilegeRoleRepository;
     @Autowired
     private AdminPrivilegeRepository adminPrivilegeRepository;
+    @Autowired
+    private AdminOperateEsRepository adminOperateEsRepository;
 
     @Override
     public Admin getAdmin(Admin admin) {
@@ -106,8 +110,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public BaseResponse saveAdminOperate(AdminOperate AdminOperate) {
-        return null;
+    public List<AdminOperate> getSystemDynamic() {
+        List<AdminOperate> adminOperateList = new ArrayList<>();
+        Iterable<AdminOperateEs> adminOperateEs = adminOperateEsRepository.findAll();
+        for (AdminOperateEs adminOperateEs1 : adminOperateEs) {
+            AdminOperate adminOperate = new AdminOperate();
+            BeanUtils.copyProperties(adminOperateEs1, adminOperate);
+            adminOperateList.add(adminOperate);
+        }
+        return adminOperateList;
     }
 
     private List<Admin> convertToAdminList(List<AdminEntity> adminEntityList) {

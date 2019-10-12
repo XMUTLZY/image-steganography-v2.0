@@ -1,6 +1,7 @@
 package qeeka.jake.imagesteganography.service.admin;
 
 import org.springframework.data.domain.Pageable;
+import qeeka.jake.imagesteganography.domain.admin.AdminOperateEs;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.admin.Admin;
 import qeeka.jake.imagesteganography.http.vo.admin.AdminOperate;
@@ -14,5 +15,5 @@ public interface AdminService {
     List<AdminPrivilege> getAllAdminPrivilege(String mobile);
     BaseResponse deleteAdmin(Admin admin);
     BaseResponse updateAdmin(Admin admin);
-    BaseResponse saveAdminOperate(AdminOperate AdminOperate);
+    List<AdminOperate> getSystemDynamic();
 }

@@ -12,6 +12,7 @@ var adminIndexJs = {
                 $("#user-list").removeClass('layui-hide');
                 $("#admin-list").addClass('layui-hide');
                 $("#order-list").addClass('layui-hide');
+                $("#system-list").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#user-list-table'
@@ -278,6 +279,7 @@ var adminIndexJs = {
                 $("#order-list").removeClass('layui-hide');
                 $("#admin-list").addClass('layui-hide');
                 $("#user-list").addClass('layui-hide');
+                $("#system-list").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#demo3'
@@ -311,6 +313,7 @@ var adminIndexJs = {
                 $("#admin-list").removeClass('layui-hide');
                 $("#user-list").addClass('layui-hide');
                 $("#order-list").addClass('layui-hide');
+                $("#system-list").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#admin-list-table'
@@ -472,6 +475,12 @@ var adminIndexJs = {
                     adminIndexJs.method.adminList();
                 }
             })
+        },
+        systemDynamicsList: function() {
+            $("#system-list").removeClass('layui-hide');
+            $("#admin-list").addClass('layui-hide');
+            $("#user-list").addClass('layui-hide');
+            $("#order-list").addClass('layui-hide');
         },
         show_img: function (t) {
             var t = $(t).find("img");

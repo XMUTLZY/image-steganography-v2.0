@@ -25,15 +25,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qeeka.jake.imagesteganography.constants.AdminConstant;
 import qeeka.jake.imagesteganography.constants.UserConstant;
+import qeeka.jake.imagesteganography.domain.admin.AdminOperateEs;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.admin.Admin;
+import qeeka.jake.imagesteganography.http.vo.admin.AdminOperate;
 import qeeka.jake.imagesteganography.http.vo.user.User;
 import qeeka.jake.imagesteganography.service.admin.AdminService;
 import qeeka.jake.imagesteganography.service.user.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/admin")
@@ -42,7 +43,6 @@ public class AdminController {
     AdminService adminService;
     @Autowired
     UserService userService;
-    private Logger logger = Logger.getLogger("");
 
     //登录逻辑 shiro管理
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -187,6 +187,13 @@ public class AdminController {
     @ResponseBody
     public BaseResponse updateAdmin(@RequestBody Admin admin) {
         return adminService.updateAdmin(admin);
+    }
+
+    //获取系统动态
+    @RequestMapping(value = "/systemDynamic", method = RequestMethod.POST)
+    @ResponseBody
+    public List<AdminOperate> systemDynamic() {
+        return adminService.getSystemDynamic();
     }
 
     private User setUser(User user) {

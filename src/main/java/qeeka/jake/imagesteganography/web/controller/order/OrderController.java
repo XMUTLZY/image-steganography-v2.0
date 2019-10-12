@@ -6,13 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import qeeka.jake.imagesteganography.domain.admin.AdminOperateEs;
 import qeeka.jake.imagesteganography.domain.order.UserOrderEntity;
 import qeeka.jake.imagesteganography.http.request.OrderDetailsRequest;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.order.Order;
 import qeeka.jake.imagesteganography.http.vo.user.User;
-import qeeka.jake.imagesteganography.repository.admin.AdminOperateEsRepository;
 import qeeka.jake.imagesteganography.service.order.OrderService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +23,6 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private AdminOperateEsRepository adminOperateEsRepository;
 
     @RequestMapping(value = "/generateImage", method = RequestMethod.POST)
     @ResponseBody
@@ -73,17 +69,6 @@ public class OrderController {
         response.setData(convertToString(orderService.isDownloadImage(user).getData()));
         orderService.updateDownloadStatus(user);//修改订单下载状态
         return response;
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    @ResponseBody
-    public String test() {
-        String test = "";
-        Iterable<AdminOperateEs> adminOperateEs = adminOperateEsRepository.findAll();
-        for (AdminOperateEs adminOperateEs1 : adminOperateEs) {
-            test = test + adminOperateEs1.toString();
-        }
-        return test;
     }
 
     private List<String> convertToString(List<UserOrderEntity> userOrderEntityList) {
