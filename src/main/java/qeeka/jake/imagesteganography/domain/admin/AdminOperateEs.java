@@ -3,9 +3,12 @@ package qeeka.jake.imagesteganography.domain.admin;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import javax.persistence.GeneratedValue;
+
 @Document(indexName = "image-steganography", type = "adminOperate", shards = 1, replicas = 0)
 public class AdminOperateEs {
     @Id
+    @GeneratedValue
     private Integer id;
     private Integer adminId;
     private String ip;
