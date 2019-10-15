@@ -2,8 +2,6 @@ package qeeka.jake.imagesteganography.http.vo.admin;
 
 import qeeka.jake.imagesteganography.constants.AdminConstant;
 import java.io.Serializable;
-import java.util.Date;
-
 public class AdminOperate implements Serializable {
     private Integer id;
     private Integer adminId;
