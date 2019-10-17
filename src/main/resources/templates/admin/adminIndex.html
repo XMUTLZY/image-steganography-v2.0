@@ -167,41 +167,8 @@
                 </div>
             </script>
         </div>
-        <!-- 系统动态列表 -->
         <div class="layui-hide layadmin-tabsbody-item" style="padding: 15px;" id="system-list">
-            <div class="layui-fluid">
-                <div class="layadmin-caller">
-                    <form class="layui-form caller-seach" action="">
-                        <i class="layui-icon layui-icon-search caller-seach-icon caller-icon"></i>
-                        <input type="text" name="title" required="" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input caller-pl32">
-                        <i class="layui-icon layui-icon-close caller-dump-icon caller-icon"></i>
-                    </form>
-                    <div class="caller-contar">
-                        <div class="caller-item">
-                            <div class="caller-main caller-fl">
-                                <p><strong>项目动态</strong> <em>2019-10-12 16:04:37</em></p>
-                                <p class="caller-adds">身份：超级管理员,用户名:超级管理员Jake修改了手机号为147258用户的基本资料</p>
-                                <p style="background:#F0F0F0;"><i class="layui-icon layui-icon-location"></i><em>ip:192.168.254.38</em></p>
-                            </div>
-                            <button class="layui-btn layui-btn-sm layui-btn layui-btn-primary caller-fr">
-                                已收藏
-                            </button>
-                        </div>
-                    </div>
-                    <div class="caller-contar">
-                        <div class="caller-item">
-                            <div class="caller-main caller-fl">
-                                <p><strong>项目动态</strong> <em>2019-10-12 16:04:37</em></p>
-                                <p class="caller-adds">身份：超级管理员,用户名:超级管理员Jake修改了手机号为147258用户的基本资料</p>
-                                <p style="background:#F0F0F0;"><i class="layui-icon layui-icon-location"></i><em>ip:192.168.254.38</em></p>
-                            </div>
-                            <button class="layui-btn layui-btn-sm layui-btn layui-btn-primary caller-fr">
-                                已收藏
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     <div class="layui-footer">
@@ -306,8 +273,34 @@
         </div>
     </div>
 </div>
-
+<script src="/layui/lay/modules/laytpl.js"></script>
 <script src="/layui/layui.all.js"></script>
+<!-- 系统动态列表 -->
+<script id="system-dynamic-list" type="text/html">
+    <div class="layui-fluid">
+        <div class="layadmin-caller">
+            <form class="layui-form caller-seach" action="">
+                <i class="layui-icon layui-icon-search caller-seach-icon caller-icon"></i>
+                <input type="text" name="title" required="" lay-verify="required" placeholder="输入管理员用户名" autocomplete="off" class="layui-input caller-pl32">
+                <i class="layui-icon layui-icon-close caller-dump-icon caller-icon"></i>
+            </form>
+            <div class="caller-contar">
+                {{#  layui.each(d, function(index, item){ }}
+                <div class="caller-item">
+                    <div class="caller-main caller-fl">
+                        <p><strong>项目动态</strong> <em>{{item.operateTime}}</em></p>
+                        <p class="caller-adds">{{item.operate}}</p>
+                        <p><i class="layui-icon layui-icon-location"></i><em>ip:{{item.ip}}</em></p>
+                    </div>
+                    <button class="layui-btn layui-btn-sm layui-btn layui-btn-primary caller-fr">
+                        删除记录
+                    </button>
+                </div>
+                {{#  }); }}
+            </div>
+        </div>
+    </div>
+</script>
 <script type="text/javascript" src="/js/admin/adminIndexJs.js"></script>
 </body>
 </html>

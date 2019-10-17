@@ -458,7 +458,7 @@ var adminIndexJs = {
                 }
             })
         },
-        updateAdminBtn: function(){
+        updateAdminBtn: function () {
             layer.close(layer.index);
             var data = {};
             data.mobile = $("#show-admin-mobile").val();
@@ -476,11 +476,28 @@ var adminIndexJs = {
                 }
             })
         },
-        systemDynamicsList: function() {
+        systemDynamicsList: function () {
             $("#system-list").removeClass('layui-hide');
             $("#admin-list").addClass('layui-hide');
             $("#user-list").addClass('layui-hide');
             $("#order-list").addClass('layui-hide');
+            layui.use('laytpl', function () {
+                var laytpl = layui.laytpl;
+                var getTpl = document.getElementById("system-dynamic-list").innerHTML;
+                console.log(getTpl);
+                $.ajax({
+                    url: '/admin/systemDynamic',
+                    type: 'post',
+                    success: function (result) {
+                        laytpl(getTpl).render(result, function (html) {
+                            document.getElementById("system-list").innerHTML = html;
+                        });
+                    },
+                    error: function () {
+                        layer.msg("数据请求异常");
+                    }
+                });
+            })
         },
         show_img: function (t) {
             var t = $(t).find("img");

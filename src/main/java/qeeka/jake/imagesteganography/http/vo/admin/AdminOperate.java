@@ -8,7 +8,7 @@ public class AdminOperate implements Serializable {
     private Integer adminId;
     private String ip;
     private String operate;
-    private Date operateTime;
+    private String operateTime;
     private Integer status = AdminConstant.ADMIN_STATUS_PASS;
 
     public Integer getAdminId() {
@@ -35,11 +35,11 @@ public class AdminOperate implements Serializable {
         this.operate = operate;
     }
 
-    public Date getOperateTime() {
+    public String getOperateTime() {
         return operateTime;
     }
 
-    public void setOperateTime(Date operateTime) {
+    public void setOperateTime(String operateTime) {
         this.operateTime = operateTime;
     }
 
