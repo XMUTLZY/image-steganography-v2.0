@@ -23,7 +23,7 @@ import qeeka.jake.imagesteganography.http.vo.order.Order;
 import qeeka.jake.imagesteganography.http.vo.user.User;
 import qeeka.jake.imagesteganography.repository.order.OrderRepository;
 import qeeka.jake.imagesteganography.service.order.OrderService;
-import stegangraphy.embeddingInfo;
+//import stegangraphy.embeddingInfo;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -143,19 +143,19 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void runMatlab(Order order) {
-        embeddingInfo embeddingInfo = null;
-        try {
-            embeddingInfo = new embeddingInfo();
-        } catch (MWException e) {
-            e.printStackTrace();
-        }
-        try {
-            embeddingInfo.start(order.getOrginalImage(), converToUtf(order.getHiddenData()));
-        } catch (MWException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void runMatlab(Order order) {
+//        embeddingInfo embeddingInfo = null;
+//        try {
+//            embeddingInfo = new embeddingInfo();
+//        } catch (MWException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            embeddingInfo.start(order.getOrginalImage(), converToUtf(order.getHiddenData()));
+//        } catch (MWException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private int[] converToUtf(String inputInfo) {
         //将中文字符转换成bit（中文使用）
