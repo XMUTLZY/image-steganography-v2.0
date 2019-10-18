@@ -1,5 +1,6 @@
 package qeeka.jake.imagesteganography.service.admin.Impl;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,6 @@ import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRoleReposito
 import qeeka.jake.imagesteganography.repository.admin.AdminRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminRoleRepository;
 import qeeka.jake.imagesteganography.service.admin.AdminService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,9 +113,10 @@ public class AdminServiceImpl implements AdminService {
     public List<AdminOperate> getSystemDynamic() {
         List<AdminOperate> adminOperateList = new ArrayList<>();
         Iterable<AdminOperateEs> adminOperateEs = adminOperateEsRepository.findAll();
-        for (AdminOperateEs adminOperateEs1 : adminOperateEs) {
+        List<AdminOperateEs> adminOperateEsList = IteratorUtils.toList(adminOperateEs.iterator());
+        for (int i = adminOperateEsList.size() - 1; i>=0; i--) {
             AdminOperate adminOperate = new AdminOperate();
-            BeanUtils.copyProperties(adminOperateEs1, adminOperate);
+            BeanUtils.copyProperties(adminOperateEsList.get(i), adminOperate);
             adminOperateList.add(adminOperate);
         }
         return adminOperateList;
