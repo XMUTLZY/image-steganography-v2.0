@@ -279,11 +279,11 @@
 <script id="system-dynamic-list" type="text/html">
     <div class="layui-fluid">
         <div class="layadmin-caller">
-            <form class="layui-form caller-seach" action="">
+            <div class="layui-form caller-seach" action="">
                 <i class="layui-icon layui-icon-search caller-seach-icon caller-icon"></i>
-                <input type="text" name="title" required="" lay-verify="required" placeholder="输入管理员用户名" autocomplete="off" class="layui-input caller-pl32">
-                <i class="layui-icon layui-icon-close caller-dump-icon caller-icon"></i>
-            </form>
+                <input type="text" required="" lay-verify="required" placeholder="输入关键字搜索" id="key-search" autocomplete="off" class="layui-input caller-pl32">
+                <button class="layui-btn" data-type="reload" id="input-key-search" onclick="adminIndexJs.method.systemDynamicsSearchBtn();">搜索</button>
+            </div>
             <div class="caller-contar">
                 {{#  layui.each(d, function(index, item){ }}
                 <div class="caller-item">

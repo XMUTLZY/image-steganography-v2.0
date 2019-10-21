@@ -15,4 +15,5 @@ public interface AdminService {
     BaseResponse deleteAdmin(Admin admin);
     BaseResponse updateAdmin(Admin admin);
     List<AdminOperate> getSystemDynamic();
+    List<AdminOperate> searchSystemDynamic(String key);
 }

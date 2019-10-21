@@ -195,6 +195,13 @@ public class AdminController {
         return adminService.getSystemDynamic();
     }
 
+    //查询系统动态
+    @RequestMapping(value = "/systemDynamic/search", method = RequestMethod.POST)
+    @ResponseBody
+    public List<AdminOperate> systemDynamicSearch(@RequestParam String key) {
+        return adminService.searchSystemDynamic(key);
+    }
+
     private User setUser(User user) {
         User user1 = userService.getUser(user);
         user1.setAccountName(user.getAccountName());

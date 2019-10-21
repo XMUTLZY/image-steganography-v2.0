@@ -122,6 +122,20 @@ public class AdminServiceImpl implements AdminService {
         return adminOperateList;
     }
 
+    @Override
+    public List<AdminOperate> searchSystemDynamic(String key) {
+        List<AdminOperateEs> adminOperateEsList = adminOperateEsRepository.findByOperateTimeLikeOrOperateLikeOrIpLike(key, key, key);
+        List<AdminOperate> adminOperateList = new ArrayList<>();
+        if (adminOperateEsList == null || adminOperateEsList.isEmpty())
+            return adminOperateList;
+        for (AdminOperateEs adminOperateEs : adminOperateEsList) {
+            AdminOperate adminOperate = new AdminOperate();
+            BeanUtils.copyProperties(adminOperateEs, adminOperate);
+            adminOperateList.add(adminOperate);
+        }
+        return adminOperateList;
+    }
+
     private List<Admin> convertToAdminList(List<AdminEntity> adminEntityList) {
         List<Admin> list = new ArrayList<>();
         if (adminEntityList == null || adminEntityList.isEmpty())

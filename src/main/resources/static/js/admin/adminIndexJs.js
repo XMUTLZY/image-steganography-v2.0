@@ -484,7 +484,6 @@ var adminIndexJs = {
             layui.use('laytpl', function () {
                 var laytpl = layui.laytpl;
                 var getTpl = document.getElementById("system-dynamic-list").innerHTML;
-                console.log(getTpl);
                 $.ajax({
                     url: '/admin/systemDynamic',
                     type: 'post',
@@ -497,6 +496,29 @@ var adminIndexJs = {
                         layer.msg("数据请求异常");
                     }
                 });
+            })
+        },
+        systemDynamicsSearchBtn: function () {
+            layui.use('laytpl', function () {
+                var laytpl = layui.laytpl;
+                var getTpl = document.getElementById("system-dynamic-list").innerHTML;
+                layer.load();
+                $.ajax({
+                    url: '/admin/systemDynamic/search',
+                    data: {
+                        key: $("#key-search").val()
+                    },
+                    type: 'post',
+                    success: function (result) {
+                        layer.closeAll('loading');
+                        laytpl(getTpl).render(result, function (html) {
+                            document.getElementById("system-list").innerHTML = html;
+                        });
+                    },
+                    error: function () {
+                        layer.msg("数据请求异常");
+                    }
+                })
             })
         },
         show_img: function (t) {
