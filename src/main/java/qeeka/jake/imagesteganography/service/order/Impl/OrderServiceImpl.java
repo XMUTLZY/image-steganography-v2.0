@@ -16,6 +16,7 @@ import qeeka.jake.imagesteganography.constants.AlipayConstant;
 import qeeka.jake.imagesteganography.constants.OrderConstant;
 import qeeka.jake.imagesteganography.constants.OssConstant;
 import qeeka.jake.imagesteganography.domain.order.UserOrderEntity;
+import qeeka.jake.imagesteganography.domain.user.UserEntity;
 import qeeka.jake.imagesteganography.http.request.OrderDetailsRequest;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.response.ImageResultResponse;
@@ -142,6 +143,21 @@ public class OrderServiceImpl implements OrderService {
             orderRepository.save(userOrderEntity);
         }
     }
+
+    @Override
+    public BaseResponse getPersonalOrders(Order order, HttpServletRequest request) {
+        List<UserOrderEntity> userOrderEntityList = orderRepository.getPersonalOrders(order.getUserId(), order.getOrderStatus());
+        List<Order> orderList = new ArrayList<>();
+        for (UserOrderEntity userOrderEntity : userOrderEntityList) {
+            Order order1 = new Order();
+            BeanUtils.copyProperties(userOrderEntity, order1);
+            orderList.add(order1);
+        }
+        BaseResponse response = new BaseResponse();
+        response.setData(orderList);
+        return response;
+    }
+
 
 //    private void runMatlab(Order order) {
 //        embeddingInfo embeddingInfo = null;

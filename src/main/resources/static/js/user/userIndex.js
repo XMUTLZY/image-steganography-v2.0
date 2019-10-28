@@ -149,6 +149,22 @@ var userIndexJs = {
                 a.click()
             }
             x.send();
+        },
+        myOrder: function (orderStatus) {
+            var data = {};
+            data.orderStatus = orderStatus;
+            $.ajax({
+                url: '/order/personalOrders',
+                type: 'post',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (result) {
+                    
+                },
+                error: function () {
+                    layer.msg("404");
+                }
+            })
         }
     }
 }

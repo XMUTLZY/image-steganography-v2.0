@@ -71,6 +71,12 @@ public class OrderController {
         return response;
     }
 
+    @RequestMapping(value = "/personalOrders", method = RequestMethod.POST)
+    public BaseResponse personalOrders(@RequestBody Order order, HttpServletRequest request) {
+        order.setUserId(((User) request.getSession().getAttribute("user")).getId());
+        return orderService.getPersonalOrders(order, request);
+    }
+
     private List<String> convertToString(List<UserOrderEntity> userOrderEntityList) {
         List<String> list = new ArrayList<>();
         for (UserOrderEntity userOrderEntity : userOrderEntityList) {
