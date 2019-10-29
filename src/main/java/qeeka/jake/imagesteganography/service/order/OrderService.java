@@ -12,5 +12,5 @@ public interface OrderService {
     String  payResult(HttpServletRequest request);
     BaseResponse isDownloadImage(User user);
     void updateDownloadStatus(User user);
-    BaseResponse getPersonalOrders(Order order, HttpServletRequest request);
+    BaseResponse getPersonalOrders(Order order);
 }

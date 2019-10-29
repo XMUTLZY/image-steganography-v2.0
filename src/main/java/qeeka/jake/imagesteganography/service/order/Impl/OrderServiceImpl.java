@@ -145,12 +145,27 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public BaseResponse getPersonalOrders(Order order, HttpServletRequest request) {
-        List<UserOrderEntity> userOrderEntityList = orderRepository.getPersonalOrders(order.getUserId(), order.getOrderStatus());
+    public BaseResponse getPersonalOrders(Order order) {
+        List<UserOrderEntity> userOrderEntityList;
+        if (order.getOrderStatus() == null) {
+            userOrderEntityList = orderRepository.findAllByUserId(order.getUserId());
+        } else {
+            userOrderEntityList = orderRepository.getPersonalOrders(order.getUserId(), order.getOrderStatus());
+        }
         List<Order> orderList = new ArrayList<>();
         for (UserOrderEntity userOrderEntity : userOrderEntityList) {
             Order order1 = new Order();
             BeanUtils.copyProperties(userOrderEntity, order1);
+            if (order1.getDownloadStatus() == OrderConstant.PAYMENT_STATUS_YES) {
+                order1.setDownloadStatusString("已下载");
+            } else {
+                order1.setDownloadStatusString("未下载");
+            }
+            if (order1.getPaymentStatus() == OrderConstant.PAYMENT_STATUS_YES) {
+                order1.setPaymentStatusString("已付款");
+            } else {
+                order1.setPaymentStatusString("待支付");
+            }
             orderList.add(order1);
         }
         BaseResponse response = new BaseResponse();

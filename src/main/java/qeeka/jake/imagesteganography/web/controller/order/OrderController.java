@@ -72,9 +72,10 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/personalOrders", method = RequestMethod.POST)
+    @ResponseBody
     public BaseResponse personalOrders(@RequestBody Order order, HttpServletRequest request) {
         order.setUserId(((User) request.getSession().getAttribute("user")).getId());
-        return orderService.getPersonalOrders(order, request);
+        return orderService.getPersonalOrders(order);
     }
 
     private List<String> convertToString(List<UserOrderEntity> userOrderEntityList) {

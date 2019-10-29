@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>个人订单中心</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <link rel="shortcut icon" href="#"/>
+    <script src="/js/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body style="text-align: center;">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">个人订单中心</div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a onclick="show1();">全部</a></li>
+            <li class="layui-nav-item"><a onclick="show2();">待处理</a></li>
+            <li class="layui-nav-item"><a onclick="show3();">已过期</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <span class="" id="personal-select"></span>
+            <li class="layui-nav-item">
+                <a th:text="${user.accountName}"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="layui-body">
+    <!-- 全部订单 -->
+    <div class="layui-hide" style="padding: 15px;" id="order-list">
+        <table id="order-list-table" lay-filter="order-list-table-fit"></table>
+        <script type="text/html" id="order-list-table-operate">
+            <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+        </script>
+    </div>
+    <!-- 待处理订单 -->
+    <div class="layui-hide" style="padding: 15px;" id="order-deal-list">
+        <table id="order-deal-list-table" lay-filter="order-deal-list-table-fit"></table>
+        <script type="text/html" id="order-deal-list-table-operate">
+            <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+        </script>
+    </div>
+    <!-- 已过期订单 -->
+    <div class="layui-hide" style="padding: 15px;" id="order-over-list">
+        <table id="order-over-list-table" lay-filter="order-over-list-table-fit"></table>
+        <script type="text/html" id="order-over-list-table-operate">
+            <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+        </script>
+    </div>
+</div>
+<script src="/layui/layui.all.js"></script>
+<script type="text/javascript" src="/js/order/personalOrders.js"></script>
+</body>
+</html>

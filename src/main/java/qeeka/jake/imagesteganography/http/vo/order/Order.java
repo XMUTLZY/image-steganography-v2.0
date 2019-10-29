@@ -16,6 +16,9 @@ public class Order {
     private Integer paymentStatus = OrderConstant.PAYMENT_STATUS_NO;
     private Integer orderStatus = OrderConstant.ORDER_STATUS_EXIT;
     private Date date;
+    private String downloadStatusString;
+    private String paymentStatusString;
+    private String orderTime;
 
     public Integer getId() {
         return id;
@@ -111,5 +114,29 @@ public class Order {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getDownloadStatusString() {
+        return downloadStatusString;
+    }
+
+    public void setDownloadStatusString(String downloadStatusString) {
+        this.downloadStatusString = downloadStatusString;
+    }
+
+    public String getPaymentStatusString() {
+        return paymentStatusString;
+    }
+
+    public void setPaymentStatusString(String paymentStatusString) {
+        this.paymentStatusString = paymentStatusString;
+    }
+
+    public String getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
     }
 }
