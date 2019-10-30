@@ -1,10 +1,14 @@
 package qeeka.jake.imagesteganography.web.controller.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qeeka.jake.imagesteganography.domain.order.UserOrderEntity;
 import qeeka.jake.imagesteganography.http.request.OrderDetailsRequest;
@@ -73,9 +77,13 @@ public class OrderController {
 
     @RequestMapping(value = "/personalOrders", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse personalOrders(@RequestBody Order order, HttpServletRequest request) {
+    public BaseResponse personalOrders(@RequestParam("limit") Integer limit, @RequestParam("page") Integer page,
+                                       @RequestParam("orderStatus") Integer orderStatus, HttpServletRequest request) {
+        Pageable pageable = PageRequest.of(page-1, limit, Sort.Direction.ASC, "orderNumber");
+        Order order = new Order();
+        order.setOrderStatus(orderStatus);
         order.setUserId(((User) request.getSession().getAttribute("user")).getId());
-        return orderService.getPersonalOrders(order);
+        return orderService.getPersonalOrders(order, pageable);
     }
 
     private List<String> convertToString(List<UserOrderEntity> userOrderEntityList) {

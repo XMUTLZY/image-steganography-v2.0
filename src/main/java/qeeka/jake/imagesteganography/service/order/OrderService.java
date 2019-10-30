@@ -1,5 +1,6 @@
 package qeeka.jake.imagesteganography.service.order;
 
+import org.springframework.data.domain.Pageable;
 import qeeka.jake.imagesteganography.http.request.OrderDetailsRequest;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.order.Order;
@@ -12,5 +13,5 @@ public interface OrderService {
     String  payResult(HttpServletRequest request);
     BaseResponse isDownloadImage(User user);
     void updateDownloadStatus(User user);
-    BaseResponse getPersonalOrders(Order order);
+    BaseResponse getPersonalOrders(Order order, Pageable pageable);
 }

@@ -11,6 +11,8 @@ import com.mathworks.toolbox.javabuilder.MWException;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import qeeka.jake.imagesteganography.constants.AlipayConstant;
 import qeeka.jake.imagesteganography.constants.OrderConstant;
@@ -24,6 +26,7 @@ import qeeka.jake.imagesteganography.http.vo.order.Order;
 import qeeka.jake.imagesteganography.http.vo.user.User;
 import qeeka.jake.imagesteganography.repository.order.OrderRepository;
 import qeeka.jake.imagesteganography.service.order.OrderService;
+import qeeka.jake.imagesteganography.web.config.SystemUtils;
 //import stegangraphy.embeddingInfo;
 
 import javax.servlet.ServletOutputStream;
@@ -145,15 +148,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public BaseResponse getPersonalOrders(Order order) {
-        List<UserOrderEntity> userOrderEntityList;
+    public BaseResponse getPersonalOrders(Order order, Pageable pageable) {
+        Page<UserOrderEntity> userOrderEntityPage;
         if (order.getOrderStatus() == null) {
-            userOrderEntityList = orderRepository.findAllByUserId(order.getUserId());
+            userOrderEntityPage = orderRepository.findAllByUserId(order.getUserId(), pageable);
         } else {
-            userOrderEntityList = orderRepository.getPersonalOrders(order.getUserId(), order.getOrderStatus());
+            userOrderEntityPage = orderRepository.findAllByUserIdAndOrderStatus(order.getUserId(), order.getOrderStatus(), pageable);
         }
         List<Order> orderList = new ArrayList<>();
-        for (UserOrderEntity userOrderEntity : userOrderEntityList) {
+        for (UserOrderEntity userOrderEntity : userOrderEntityPage) {
             Order order1 = new Order();
             BeanUtils.copyProperties(userOrderEntity, order1);
             if (order1.getDownloadStatus() == OrderConstant.PAYMENT_STATUS_YES) {
@@ -166,10 +169,13 @@ public class OrderServiceImpl implements OrderService {
             } else {
                 order1.setPaymentStatusString("待支付");
             }
+            order1.setOrderTime(SystemUtils.dateToFormat(userOrderEntity.getOrderTime()));
             orderList.add(order1);
         }
+        List<UserOrderEntity> userOrderEntityList = orderRepository.findAll();
         BaseResponse response = new BaseResponse();
         response.setData(orderList);
+        response.setCount(userOrderEntityList.size());
         return response;
     }
 

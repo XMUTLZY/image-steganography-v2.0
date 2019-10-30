@@ -12,9 +12,9 @@
     <div class="layui-header">
         <div class="layui-logo">个人订单中心</div>
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a onclick="show1();">全部</a></li>
-            <li class="layui-nav-item"><a onclick="show2();">待处理</a></li>
-            <li class="layui-nav-item"><a onclick="show3();">已过期</a></li>
+            <li class="layui-nav-item layui-this"><a onclick="personalOrders.method.orderList(null, '#order-list-table');">全部</a></li>
+            <li class="layui-nav-item"><a onclick="personalOrders.method.orderList(1, '#order-deal-list-table');">待处理</a></li>
+            <li class="layui-nav-item"><a onclick="personalOrders.method.orderList(-1, '#order-over-list-table');">已过期</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <span class="" id="personal-select"></span>
@@ -24,29 +24,18 @@
         </ul>
     </div>
 </div>
-<div class="layui-body">
-    <!-- 全部订单 -->
-    <div class="layui-hide" style="padding: 15px;" id="order-list">
+<div>
+    <!-- 订单 -->
+    <div class="layui-hide" style="width: 100%;" id="order-list">
         <table id="order-list-table" lay-filter="order-list-table-fit"></table>
         <script type="text/html" id="order-list-table-operate">
-            <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
-        </script>
-    </div>
-    <!-- 待处理订单 -->
-    <div class="layui-hide" style="padding: 15px;" id="order-deal-list">
-        <table id="order-deal-list-table" lay-filter="order-deal-list-table-fit"></table>
-        <script type="text/html" id="order-deal-list-table-operate">
-            <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
-        </script>
-    </div>
-    <!-- 已过期订单 -->
-    <div class="layui-hide" style="padding: 15px;" id="order-over-list">
-        <table id="order-over-list-table" lay-filter="order-over-list-table-fit"></table>
-        <script type="text/html" id="order-over-list-table-operate">
-            <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+            {{# if(d.paymentStatusString == '已付款'){ }}
+            <a class="layui-btn layui-btn-xs" lay-event="info">下载</a>
+            {{#  } }}
+            {{# if(d.paymentStatusString == '待支付'){ }}
+            <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">支付</a>
+            {{#  } }}
+            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
         </script>
     </div>
 </div>
