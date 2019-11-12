@@ -11,7 +11,6 @@ import qeeka.jake.imagesteganography.constants.UserConstant;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.vo.user.User;
 import qeeka.jake.imagesteganography.service.user.UserService;
-import redis.clients.jedis.Jedis;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -46,9 +45,8 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse registerUser(@RequestBody User user, HttpServletRequest request) {
-        Jedis jedis = new Jedis("localhost");
         BaseResponse response = new BaseResponse();
-        if(jedis.get("code").equals(String.valueOf(user.getCode()))) {
+        if(request.getSession().getAttribute("code").equals(String.valueOf(user.getCode()))) {
             response = userService.saveUser(user);
             response.setMsg("SUCCESS");
             return response;

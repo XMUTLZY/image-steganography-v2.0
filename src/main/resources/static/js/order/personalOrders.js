@@ -78,7 +78,7 @@ var personalOrders = {
                     personalOrders.method.downloadForCros(obj.data.resultImage1, obj.data.orderNumber + "_result_1.bmp");
                     personalOrders.method.downloadForCros(obj.data.resultImage2, obj.data.orderNumber + "_result_2.bmp");
                 }
-                if (obj.event = 'edit') {
+                if (obj.event == 'edit') {
                     window.location.href = "/orderView/details";
                 }
             });
