@@ -324,19 +324,19 @@ var adminIndexJs = {
                     , limit: 10
                     , cols: [[ //表头
                         {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
-                        , {field: 'userName', title: '用户名', width: 100}
+                        , {field: 'userName', title: '用户名', width: 120}
                         , {field: 'mobile', title: '手机号', width: 120}
-                        , {field: 'realName', title: '姓名', width: 100}
-                        , {field: 'roleName', title: '角色', width: 140}
-                        , {field: 'status', title: '状态', width: 80, sort: true}
-                        , {field: 'email', title: '邮箱', width: 130}
+                        , {field: 'realName', title: '姓名', width: 90}
+                        , {field: 'roleName', title: '角色', width: 130}
+                        , {field: 'status', title: '状态', width: 70}
+                        , {field: 'email', title: '邮箱', width: 150}
                         , {
-                            field: 'portrait', title: '头像', width: 100, templet: function (d) {
+                            field: 'portrait', title: '头像', width: 90, templet: function (d) {
                                 return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
                             }
                         }
-                        , {field: 'createTime', title: '创建时间', width: 180, sort: true}
-                        , {field: 'updateTime', title: '修改时间', width: 180, sort: true}
+                        , {field: 'createTimeString', title: '创建时间', width: 180, sort: true}
+                        , {field: 'updateTimeString', title: '修改时间', width: 180, sort: true}
                         , {
                             field: 'operate',
                             title: '操作',

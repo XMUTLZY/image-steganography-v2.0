@@ -15,10 +15,12 @@ public class Admin implements Serializable {
     private Integer roleId = AdminConstant.ADMIN_ROLE_LOW_ID;
     private String email;
     private Integer status = AdminConstant.ADMIN_STATUS_PASS;
-    private String portrait;
+    private String portrait = AdminConstant.DEFAULT_PORTRAIT;
     private String roleName;
     private Date createTime;
     private Date updateTime;
+    private String createTimeString;
+    private String updateTimeString;
 
     public Integer getId() {
         return id;
@@ -122,5 +124,21 @@ public class Admin implements Serializable {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public String getCreateTimeString() {
+        return createTimeString;
+    }
+
+    public void setCreateTimeString(String createTimeString) {
+        this.createTimeString = createTimeString;
+    }
+
+    public String getUpdateTimeString() {
+        return updateTimeString;
+    }
+
+    public void setUpdateTimeString(String updateTimeString) {
+        this.updateTimeString = updateTimeString;
     }
 }

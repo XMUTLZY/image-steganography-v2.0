@@ -33,9 +33,9 @@ public class AdminEntity implements Serializable {
     @Column(name = "real_name")
     private String realName;
     @Column(name = "role_id")
-    private Integer roleId;
+    private Integer roleId = AdminConstant.ADMIN_ROLE_LOW_ID;
     @Column(name = "status")
-    private Integer status;
+    private Integer status = AdminConstant.ADMIN_STATUS_PASS;
     @Column(name = "email")
     private String email;
     @Column(name = "portrait")
