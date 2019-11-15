@@ -8,7 +8,6 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.mathworks.toolbox.javabuilder.MWException;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,6 @@ import qeeka.jake.imagesteganography.constants.AlipayConstant;
 import qeeka.jake.imagesteganography.constants.OrderConstant;
 import qeeka.jake.imagesteganography.constants.OssConstant;
 import qeeka.jake.imagesteganography.domain.order.UserOrderEntity;
-import qeeka.jake.imagesteganography.domain.user.UserEntity;
 import qeeka.jake.imagesteganography.http.request.OrderDetailsRequest;
 import qeeka.jake.imagesteganography.http.response.BaseResponse;
 import qeeka.jake.imagesteganography.http.response.ImageResultResponse;
@@ -27,15 +25,9 @@ import qeeka.jake.imagesteganography.http.vo.user.User;
 import qeeka.jake.imagesteganography.repository.order.OrderRepository;
 import qeeka.jake.imagesteganography.service.order.OrderService;
 import qeeka.jake.imagesteganography.web.config.SystemUtils;
-//import stegangraphy.embeddingInfo;
-
-import javax.servlet.ServletOutputStream;
+import stegangraphy.embeddingInfo;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.*;
 
 @Service
@@ -48,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     public BaseResponse generateImage(Order order) {
         ImageResultResponse response = new ImageResultResponse();
         String imageUrl = order.getOrginalImage();
-//        runMatlab(order);
+        runMatlab(order);
         UserOrderEntity userOrderEntity = new UserOrderEntity();
         BeanUtils.copyProperties(order, userOrderEntity);
         userOrderEntity.setOrderTime(new Date());
@@ -174,20 +166,39 @@ public class OrderServiceImpl implements OrderService {
         return response;
     }
 
+    @Override
+    public BaseResponse downloadImageByNumber(String orderNumber) {
+        BaseResponse response = new BaseResponse();
+        List<UserOrderEntity> list = new ArrayList<>();
+        UserOrderEntity userOrderEntity = orderRepository.findByOrderNumber(orderNumber);
+        if (userOrderEntity == null) {
+            response.setCode(BaseResponse.FAILED_CODE);
+            response.setMsg("查询不到该订单");
+            return response;
+        }
+        if (userOrderEntity.getDownloadStatus() == OrderConstant.DOWNLOAD_NO) {
+            userOrderEntity.setDownloadStatus(OrderConstant.DOWNLOAD_YES);//如果订单未下载 则修改订单下载状态
+            orderRepository.save(userOrderEntity);
+        }
+        list.add(userOrderEntity);
+        response.setData(list);
+        response.setCode(BaseResponse.SUCCESS_CODE);
+        return response;
+    }
 
-//    private void runMatlab(Order order) {
-//        embeddingInfo embeddingInfo = null;
-//        try {
-//            embeddingInfo = new embeddingInfo();
-//        } catch (MWException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            embeddingInfo.start(order.getOrginalImage(), converToUtf(order.getHiddenData()));
-//        } catch (MWException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void runMatlab(Order order) {
+        embeddingInfo embeddingInfo = null;
+        try {
+            embeddingInfo = new embeddingInfo();
+        } catch (MWException e) {
+            e.printStackTrace();
+        }
+        try {
+            embeddingInfo.start(order.getOrginalImage(), converToUtf(order.getHiddenData()));
+        } catch (MWException e) {
+            e.printStackTrace();
+        }
+    }
 
     private int[] converToUtf(String inputInfo) {
         //将中文字符转换成bit（中文使用）
@@ -228,36 +239,36 @@ public class OrderServiceImpl implements OrderService {
 
     private void setResultImagesToResponse(ImageResultResponse response, String imageName, UserOrderEntity userOrderEntity) {
         Map<String, String> map = new HashMap<>();
-//        String localImagePath = "C:\\resultImage\\";//该路径存放matlab算法生成的2张结果图  命名("test1.bmp" or "test2.bmp")
-//        String resultImageName1 = imageName.split("\\.")[0] + "One." + imageName.split("\\.")[1];
-//        String resultImageName2 = imageName.split("\\.")[0] + "Two." + imageName.split("\\.")[1];
-//        InputStream inputStream1 = null;
-//        InputStream inputStream2 = null;
-//        OSSClient ossClient = new OSSClient(OssConstant.ENDPOINT, OssConstant.ACCESS_KEY, OssConstant.ACCESS_SECRET);
-//        try {
-//            inputStream1 = new FileInputStream(localImagePath + resultImageName1);
-//            inputStream2 = new FileInputStream(localImagePath + resultImageName2);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        ObjectMetadata metadata = new ObjectMetadata();
-//        metadata.setCacheControl("no-cache");
-//        metadata.setHeader("Pragma", "no-cache");
-//        metadata.setContentEncoding("utf-8");
-//        metadata.setContentType(imageName.split("\\.")[1]);
-//        metadata.setContentDisposition("filename/filesize=" + imageName + "/512" + "Byte.");
-//        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName1, inputStream1, metadata);
-//        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName2, inputStream2, metadata);
-//        String resultImageOne = "https://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName1;
-//        String resultImageTwo = "https://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName2;
-//        map.put("resultImageOne", resultImageOne);
-//        map.put("resultImageTwo", resultImageTwo);
-//        userOrderEntity.setResultImage1(resultImageOne);
-//        userOrderEntity.setResultImage2(resultImageTwo);
-         map.put("resultImageOne", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
-         map.put("resultImageTwo", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
-         userOrderEntity.setResultImage1("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp");
-         userOrderEntity.setResultImage2("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp");
-         response.setMap(map);
+        String localImagePath = "C:\\resultImage\\";//该路径存放matlab算法生成的2张结果图  命名("test1.bmp" or "test2.bmp")
+        String resultImageName1 = imageName.split("\\.")[0] + "One." + imageName.split("\\.")[1];
+        String resultImageName2 = imageName.split("\\.")[0] + "Two." + imageName.split("\\.")[1];
+        InputStream inputStream1 = null;
+        InputStream inputStream2 = null;
+        OSSClient ossClient = new OSSClient(OssConstant.ENDPOINT, OssConstant.ACCESS_KEY, OssConstant.ACCESS_SECRET);
+        try {
+            inputStream1 = new FileInputStream(localImagePath + resultImageName1);
+            inputStream2 = new FileInputStream(localImagePath + resultImageName2);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setCacheControl("no-cache");
+        metadata.setHeader("Pragma", "no-cache");
+        metadata.setContentEncoding("utf-8");
+        metadata.setContentType(imageName.split("\\.")[1]);
+        metadata.setContentDisposition("filename/filesize=" + imageName + "/512" + "Byte.");
+        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName1, inputStream1, metadata);
+        ossClient.putObject(OssConstant.BUCKET_NAME, OssConstant.RESULT_IMAGE_FOLDER + resultImageName2, inputStream2, metadata);
+        String resultImageOne = "https://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName1;
+        String resultImageTwo = "https://" + OssConstant.BUCKET_NAME + "." + OssConstant.ENDPOINT + "/" + OssConstant.RESULT_IMAGE_FOLDER + resultImageName2;
+        map.put("resultImageOne", resultImageOne + "?"  + OssConstant.RESULT_IMAGE_STYLE2);
+        map.put("resultImageTwo", resultImageTwo + "?"  + OssConstant.RESULT_IMAGE_STYLE2);
+        userOrderEntity.setResultImage1(resultImageOne);
+        userOrderEntity.setResultImage2(resultImageTwo);
+//         map.put("resultImageOne", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
+//         map.put("resultImageTwo", "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp?" + OssConstant.RESULT_IMAGE_STYLE2);
+//         userOrderEntity.setResultImage1("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aOne.bmp");
+//         userOrderEntity.setResultImage2("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/2c676a93-6e1f-44f0-973a-f9227a88b49aTwo.bmp");
+        response.setMap(map);
     }
 }

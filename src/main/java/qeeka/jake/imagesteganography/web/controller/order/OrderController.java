@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -64,15 +65,19 @@ public class OrderController {
         return true;
     }
 
-    //下载图片
+    //下载图片 (主页)
     @RequestMapping(value = "/downloadImage", method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse download(HttpServletRequest request, @RequestParam(value = "orderNumber", required = false) String orderNumber) {
         BaseResponse response = new BaseResponse();
         User user = new User();
         user.setId(((User) request.getSession().getAttribute("user")).getId());
-        response.setData(convertToString(orderService.isDownloadImage(user).getData()));
-        orderService.updateDownloadStatus(user);//修改订单下载状态
+        if (StringUtils.hasText(orderNumber)) {
+            orderService.downloadImageByNumber(orderNumber);
+        } else {
+            response.setData(convertToString(orderService.isDownloadImage(user).getData()));
+            orderService.updateDownloadStatus(user);//修改订单下载状态
+        }
         return response;
     }
 

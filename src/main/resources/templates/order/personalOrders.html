@@ -20,6 +20,12 @@
             <span class="" id="personal-select"></span>
             <li class="layui-nav-item">
                 <a th:text="${user.accountName}"></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                    <dd><a href="/userView/index">返回主页</a></dd>
+                    <dd><a href="/userView/login">退出登录</a></dd>
+                </dl>
             </li>
         </ul>
     </div>

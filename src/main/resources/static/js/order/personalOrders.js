@@ -81,9 +81,11 @@ var personalOrders = {
                           orderNumber: obj.data.orderNumber
                         },
                         success: function (result) {
-                            if (result.code == 200) {
+                            if (result.code == 0) {
                                 personalOrders.method.downloadForCros(obj.data.resultImage1, obj.data.orderNumber + "_result_1.bmp");
                                 personalOrders.method.downloadForCros(obj.data.resultImage2, obj.data.orderNumber + "_result_2.bmp");
+                            } else {
+                                layer.msg('查询不到该订单');
                             }
                         },
                         error: function () {

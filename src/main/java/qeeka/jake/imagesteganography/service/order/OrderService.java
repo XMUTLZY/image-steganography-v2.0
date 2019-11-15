@@ -14,4 +14,5 @@ public interface OrderService {
     BaseResponse isDownloadImage(User user);
     void updateDownloadStatus(User user);
     BaseResponse getPersonalOrders(Order order, Pageable pageable);
+    BaseResponse downloadImageByNumber(String orderNumber);
 }
