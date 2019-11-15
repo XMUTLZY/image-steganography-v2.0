@@ -68,18 +68,47 @@ var personalOrders = {
                         }
                     }
                     , {field: 'paymentStatusString', title: '付款状态', width: 100}
-                    , {field: 'downloadStatusString', title: '下载状态', width: 100}
                     , {field: 'orderTime', title: '订单生成时间', width: 175}
                     , {field: 'operate', title: '操作', width: 253, toolbar: "#order-list-table-operate"}
                 ]]
             });
             table.on('tool(order-list-table-fit)', function (obj) {
                 if (obj.event == 'info') {
-                    personalOrders.method.downloadForCros(obj.data.resultImage1, obj.data.orderNumber + "_result_1.bmp");
-                    personalOrders.method.downloadForCros(obj.data.resultImage2, obj.data.orderNumber + "_result_2.bmp");
+                    $.ajax({
+                        url: '/order/downloadImage',
+                        type: 'get',
+                        data: {
+                          orderNumber: obj.data.orderNumber
+                        },
+                        success: function (result) {
+                            if (result.code == 200) {
+                                personalOrders.method.downloadForCros(obj.data.resultImage1, obj.data.orderNumber + "_result_1.bmp");
+                                personalOrders.method.downloadForCros(obj.data.resultImage2, obj.data.orderNumber + "_result_2.bmp");
+                            }
+                        },
+                        error: function () {
+                            layer.msg('数据请求异常');
+                        }
+                    })
                 }
                 if (obj.event == 'edit') {
-                    window.location.href = "/orderView/details";
+                    var data = {};
+                    data.out_trade_no = obj.data.orderNumber;
+                    data.total_amount = "5.00";
+                    data.subject = "图像隐写在线服务平台资源下载支付";
+                    data.body = "在您完成付款之后，平台会自动将生成的图片下载到您本地";
+                    $.ajax({
+                        url: '/order/pay',
+                        type: 'post',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            location.href = "/orderView/href";
+                        },
+                        error: function () {
+                            layer.msg('数据异常')
+                        }
+                    })
                 }
             });
         },

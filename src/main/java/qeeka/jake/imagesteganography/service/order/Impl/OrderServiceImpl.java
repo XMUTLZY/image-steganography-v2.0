@@ -159,11 +159,6 @@ public class OrderServiceImpl implements OrderService {
         for (UserOrderEntity userOrderEntity : userOrderEntityPage) {
             Order order1 = new Order();
             BeanUtils.copyProperties(userOrderEntity, order1);
-            if (order1.getDownloadStatus() == OrderConstant.PAYMENT_STATUS_YES) {
-                order1.setDownloadStatusString("已下载");
-            } else {
-                order1.setDownloadStatusString("未下载");
-            }
             if (order1.getPaymentStatus() == OrderConstant.PAYMENT_STATUS_YES) {
                 order1.setPaymentStatusString("已付款");
             } else {

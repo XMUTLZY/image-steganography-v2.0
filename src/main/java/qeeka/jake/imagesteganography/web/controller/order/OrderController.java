@@ -64,9 +64,10 @@ public class OrderController {
         return true;
     }
 
+    //下载图片
     @RequestMapping(value = "/downloadImage", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse download(HttpServletRequest request) {
+    public BaseResponse download(HttpServletRequest request, @RequestParam(value = "orderNumber", required = false) String orderNumber) {
         BaseResponse response = new BaseResponse();
         User user = new User();
         user.setId(((User) request.getSession().getAttribute("user")).getId());
