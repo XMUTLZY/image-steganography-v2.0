@@ -36,8 +36,8 @@ var adminIndexJs = {
                                 return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
                             }
                         }
-                        , {field: 'createTime', title: '创建时间', width: 180, sort: true}
-                        , {field: 'updateTime', title: '更新时间', width: 180, sort: true}
+                        , {field: 'createTime', title: '创建时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        , {field: 'updateTime', title: '更新时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.updateTime, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
                         , {
                             field: 'operate',
                             title: '操作',
@@ -335,8 +335,8 @@ var adminIndexJs = {
                                 return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
                             }
                         }
-                        , {field: 'createTimeString', title: '创建时间', width: 180, sort: true}
-                        , {field: 'updateTimeString', title: '修改时间', width: 180, sort: true}
+                        , {field: 'createTime', title: '创建时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        , {field: 'updateTime', title: '修改时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.updateTime, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
                         , {
                             field: 'operate',
                             title: '操作',

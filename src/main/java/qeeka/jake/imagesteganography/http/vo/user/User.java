@@ -1,7 +1,6 @@
 package qeeka.jake.imagesteganography.http.vo.user;
 
 import qeeka.jake.imagesteganography.constants.UserConstant;
-
 import java.io.Serializable;
 import java.util.Date;
 

@@ -1,7 +1,6 @@
 package qeeka.jake.imagesteganography.http.vo.admin;
 
 import qeeka.jake.imagesteganography.constants.AdminConstant;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,9 +18,6 @@ public class Admin implements Serializable {
     private String roleName;
     private Date createTime;
     private Date updateTime;
-    private String createTimeString;
-    private String updateTimeString;
-
     public Integer getId() {
         return id;
     }
@@ -126,19 +122,4 @@ public class Admin implements Serializable {
         this.roleName = roleName;
     }
 
-    public String getCreateTimeString() {
-        return createTimeString;
-    }
-
-    public void setCreateTimeString(String createTimeString) {
-        this.createTimeString = createTimeString;
-    }
-
-    public String getUpdateTimeString() {
-        return updateTimeString;
-    }
-
-    public void setUpdateTimeString(String updateTimeString) {
-        this.updateTimeString = updateTimeString;
-    }
 }

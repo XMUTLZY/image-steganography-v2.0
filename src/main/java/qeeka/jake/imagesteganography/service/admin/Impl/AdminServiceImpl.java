@@ -22,8 +22,6 @@ import qeeka.jake.imagesteganography.repository.admin.AdminPrivilegeRoleReposito
 import qeeka.jake.imagesteganography.repository.admin.AdminRepository;
 import qeeka.jake.imagesteganography.repository.admin.AdminRoleRepository;
 import qeeka.jake.imagesteganography.service.admin.AdminService;
-import qeeka.jake.imagesteganography.web.config.SystemUtils;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -75,8 +73,6 @@ public class AdminServiceImpl implements AdminService {
             BeanUtils.copyProperties(adminEntity, admin);
             String roleName = adminRoleRepository.findAllById(adminEntity.getRoleId()).getName();
             admin.setRoleName(roleName);
-            admin.setUpdateTimeString(SystemUtils.dateToFormat(adminEntity.getUpdateTime()));
-            admin.setCreateTimeString(SystemUtils.dateToFormat(adminEntity.getCreateTime()));
             adminList.add(admin);
         }
         List<Admin> list = convertToAdminList(adminRepository.findAll());//获取全部管理员
